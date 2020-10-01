@@ -37,7 +37,7 @@ public class login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, SQLException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
@@ -47,18 +47,34 @@ public class login extends HttpServlet {
             out.println("<title>Servlet login</title>");        
             out.println("</head>");
             out.println("<body>");
+            
             Connection cn = null;
-            Class.forName("org.apache.derby.jdbc.ClentDriver");
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
             cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            String user = request.getParameter("id_usuario");
+            String user = request.getParameter("usuario");
             String password =request.getParameter("password");
-            out.println(user + " " + password);
+            String query = "select * from usuarios where id_usuario='" + user + "' and password='" + password + "'";
+            System.out.println(query);
+            PreparedStatement st = cn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            /*out.println(user + " " + password);
             out.println("<h1>Servlet login at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            out.println("</html>");
+            out.println("</html>");*/
+            
+            if(!rs.next()) out.println("<html>Usuario o contrasenya mal introducidos</html>");
+            else {
+                out.println ("<html>Hola </html>" + user);
+                response.sendRedirect(request.getContextPath() + "/menu.jsp");
+            }                
+            } catch(SQLException e) {
+                e.printStackTrace();
+            } catch(ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            
             
         }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -72,13 +88,7 @@ public class login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -92,13 +102,7 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
             processRequest(request, response);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
