@@ -1,0 +1,138 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import static java.lang.Class.forName;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author admin
+ */
+@WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
+public class eliminarImagen extends HttpServlet {
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet eliminarImagen</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+            System.out.println("Arriba fins aquí");
+            Connection cn = null;
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            out.println("<html>Connectat<br></html>");
+            
+            HttpSession s = request.getSession();
+            String user_aux = (String) s.getAttribute("user");
+            //out.println("<html>" + user_aux + "</html>");
+            
+            
+            String query;
+            PreparedStatement statement;
+            int id_aux = Integer.parseInt(request.getParameter("id"));
+            query = "select filename from image where id = " + id_aux;
+            
+            statement = cn.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+            String nom_aux = null;
+            while(rs.next())
+            {
+                nom_aux = rs.getString(1);                           
+            }
+            
+            String query2 = "delete from image where id = " + id_aux;
+            statement = cn.prepareStatement(query2);
+            statement.executeUpdate();
+            out.println("<html>Imatge eliminada amb exit</html>");            
+            File f = new File("../" + nom_aux);
+            if(f.delete())
+            {
+                out.println("<html>La imatge s'ha eliminat correctament</html>");
+                out.println("<html>Vols tornar al menu?</html>");                
+            }
+            else {
+                response.sendRedirect("/menu.jsp");
+            }
+            
+            
+        }catch(SQLException e) {
+            e.printStackTrace();            
+        } catch(ClassNotFoundException e) {
+            System.out.println("<html>No s'ha trobat la classe</html>");
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
+}
