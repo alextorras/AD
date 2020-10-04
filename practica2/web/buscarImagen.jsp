@@ -16,7 +16,7 @@
         <form action="buscarImagen.jsp" method="POST">
   <div class="form-group">
     <label for="titol">Títol</label>
-    <input type="text" class="form-control" class ="form-control" id="titol"  placeholder="Introdueix el títol">
+    <input type="text" class="form-control" class ="form-control" id="titol" name="titol"  placeholder="Introdueix el títol">
     
   </div>
            </div><div class="container p-5">
@@ -29,17 +29,24 @@
                     <div class ="card-body" >          
   <div class="form-group">
     <label for="descripcio">Descripció</label>
-    <input type="text" class="form-control" class ="form-control" id="exampleInputPassword1" placeholder="Descripció">
+    <input type="text" class="form-control" class ="form-control" id="exampleInputPassword1" name="descripcio" placeholder="Descripció">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Keywords</label>
-    <input type="text" class="form-control"class ="form-control" id="Keywords" placeholder="Keywords">
+    <label for="Keywords">Keywords</label>
+    <input type="text" class="form-control"class ="form-control" id="Keywords" name="keywords" placeholder="Keywords">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1"></label>
-    <input type="text" class="form-control" class ="form-control" id="exampleInputPassword1" placeholder="Password">
+    <label for="Autor">Autor</label>
+    <input type="text" class="form-control" class ="form-control" id="Autor" name="autor" placeholder="Autor">
   </div>          
-  
+  <div class="form-group">
+    <label for="DataCreation">Data de creació</label>
+    <input type="text" class="form-control" class ="form-control" id="datacreacio" name="datacreation" placeholder="Autor">
+  </div>  
+ <div class="form-group">
+    <label for="DataSubida">Data de upload</label>
+    <input type="text" class="form-control" class ="form-control" id="datasubida" name="dataSubida" placeholder="Autor">
+  </div>          
   <button type="submit" class="btn btn-primary">Submit</button>
             </div>
 </form>
