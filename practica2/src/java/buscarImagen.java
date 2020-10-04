@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,14 +38,19 @@ public class buscarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           String titol = request.getParameter("titol");
+            List<imagenData> resultados = new ArrayList<imagenData>();
+            String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
             String datas = request.getParameter("datasubida");
             ConsultaBase mibase = new ConsultaBase(titol,descripcio,keywords,autor,datac,datas);
-            
+            resultados = mibase.getImageData();
+            for(imagenData i:resultados)
+            {
+                
+            }
         }catch(Exception e){
             
         }

@@ -41,12 +41,16 @@
   </div>          
   <div class="form-group">
     <label for="DataCreation">Data de creació</label>
-    <input type="text" class="form-control" class ="form-control" id="datacreacio" name="datacreation" placeholder="Autor">
+    <input type="date" class="form-control" class ="form-control" id="datacreacio" name="datacreation" placeholder="Data Creacío">
   </div>  
  <div class="form-group">
     <label for="DataSubida">Data de upload</label>
-    <input type="text" class="form-control" class ="form-control" id="datasubida" name="dataSubida" placeholder="Autor">
-  </div>          
+    <input type="date" class="form-control" class ="form-control" id="datasubida" name="dataSubida" placeholder="Data Upload">
+  </div>   
+ <div class="form-group">
+    <label for="filename">Nom de l'arxiu</label>
+    <input type="text" class="form-control" class ="form-control" id="filename" name="filename" placeholder="Nom Arxiu">
+  </div>  
   <button type="submit" class="btn btn-primary">Submit</button>
             </div>
 </form>
