@@ -47,9 +47,34 @@ public class buscarImagen extends HttpServlet {
             String datas = request.getParameter("datasubida");
             ConsultaBase mibase = new ConsultaBase(titol,descripcio,keywords,autor,datac,datas);
             resultados = mibase.getImageData();
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            
+            out.println("<title> Resultat </title>");
+            out.println("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<H1>Resultat de la cerca</H1></br>"); 
+            out.println("<table>");
+            out.println("<thead>");
+            
+            out.println("<tr>");
+            out.println("<th scope=\"col\">id</th>");
+            out.println ("<th scope=\"col\">title</th>");
+            out.println("<th scope=\"col\">description</th>");
+            out.println("<th scope=\"col\">keywords</th>");
+            out.println("<th scope=\"col\">author</th>");
+            out.println("<th scope=\"col\">creation_date</th>");
+            out.println("<th scope=\"col\">storage_date</th>");
+            out.println("</tr>");
+            out.println("</thead>");
+            out.println("<tbody>");
             for(imagenData i:resultados)
             {
-                
+                out.println("<tr>");
+                PrintImageData(i,response);
+                out.println("</tr>");
             }
         }catch(Exception e){
             
@@ -94,5 +119,15 @@ public class buscarImagen extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+ private void PrintImageData(imagenData im,HttpServletResponse response)
+{
+    response.setContentType("text/html;charset=UTF-8");
+     try(PrintWriter out = response.getWriter()){
+      out.println("<th scope=\"row\">"+im.getId()+"</th>");
+      out.println("<td>");
+      out.println("<td>Mark</td>");
+      out.println("<td>Otto</td>");
+      <td>@mdo</td>
+              }
+}
 }

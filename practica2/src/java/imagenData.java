@@ -16,6 +16,7 @@ public class imagenData {
             String datac ;
             String datas;
             String filename;
+            int id;
     
     public String getTitol(){
     return titol;  
@@ -39,6 +40,9 @@ public class imagenData {
 
     public String getDatas() {
         return datas;
+    }
+    public int getId(){
+        return id;
     }
 
     public void setTitol(String titol) {
@@ -66,5 +70,8 @@ public class imagenData {
     }
     public void setFilename(String filename){
         this.filename = filename;
+    }
+    public void setId(int id){
+        this.id = id;
     }
 }

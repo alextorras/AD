@@ -60,10 +60,11 @@ public List<imagenData> getImageData() throws SQLException
     rs = statement.executeQuery();   
          while (rs.next()) {
             imagenData biler = new imagenData();
-            biler.setTitol(rs.getString("titol"));
-            biler.setDescripcio(rs.getString("descripcio"));
+            biler.setId(rs.getInt("id"));
+            biler.setTitol(rs.getString("title"));
+            biler.setDescripcio(rs.getString("description"));
             biler.setKeywords(rs.getString("keywords"));
-            biler.setAutor(rs.getString("autor"));
+            biler.setAutor(rs.getString("author"));
             biler.setDatac(rs.getString("creation_date"));
             biler.setDatas(rs.getString("storage_date"));
             biler.setFilename(rs.getString("filename"));
