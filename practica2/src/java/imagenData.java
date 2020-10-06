@@ -6,7 +6,7 @@
 
 /**
  *
- * @author pellax
+ * @author Alejandro 
  */
 public class imagenData {
             String titol;

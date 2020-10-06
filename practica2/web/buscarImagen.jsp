@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="buscarImagen.jsp" method="GET">
+        <form action="buscarImagen" method="GET">
   <div class="form-group">
     <label for="titol">Título</label>
     <input type="text" class="form-control" class ="form-control" id="titol" name="titol"  placeholder="Introduce el título">
