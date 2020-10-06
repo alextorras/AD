@@ -18,7 +18,7 @@
   <div class="card-body">
     <h5 class="card-title">ERROR</h5>
     <p class="card-text">Upps,ha habido un error</p>
-    <a href="#" class="btn btn-primary">Back</a>
+    <a href="javascript:history.back(1)" class="btn btn-primary">Back</a>
   </div>
 </div>
     </body>
