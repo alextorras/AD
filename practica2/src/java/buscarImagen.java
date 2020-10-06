@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -67,6 +70,8 @@ public class buscarImagen extends HttpServlet {
             out.println("<th scope=\"col\">author</th>");
             out.println("<th scope=\"col\">creation_date</th>");
             out.println("<th scope=\"col\">storage_date</th>");
+            out.println("<th scope=\"col\">filename</th>");
+            out.println("<th scope=\"col\">propietari</th>");   
             out.println("</tr>");
             out.println("</thead>");
             out.println("<tbody>");
@@ -76,10 +81,28 @@ public class buscarImagen extends HttpServlet {
                 PrintImageData(i,response);
                 out.println("</tr>");
             }
+               out.println("</tbody>");
+               out.println("</table>");
+               out.println("</body>");
+               out.println("</html>");   
         }catch(Exception e){
             
+             try { 
+                 URL my_url= new URL("http://www.viralpatel.net/blogs/"); 
+             
+             BufferedReader br = new BufferedReader(new InputStreamReader(my_url.openStream())); 
+             String strTemp =""; 
+             while(null != (strTemp = br.readLine()))
+             { 
+                 System.out.println(strTemp);
+             } }catch (Exception ex) 
+             { 
+                 ex.printStackTrace(); 
+             } 
+        } 
+            
         }
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -124,10 +147,22 @@ public class buscarImagen extends HttpServlet {
     response.setContentType("text/html;charset=UTF-8");
      try(PrintWriter out = response.getWriter()){
       out.println("<th scope=\"row\">"+im.getId()+"</th>");
-      out.println("<td>");
-      out.println("<td>Mark</td>");
-      out.println("<td>Otto</td>");
-      <td>@mdo</td>
-              }
+       out.println("<td>"+im.getTitol()+"</td>");
+       out.println("<td>"+im.getDescripcio()+"</td>");
+       out.println("<td>"+im.getKeywords()+"</td>");
+       out.println("<td>"+im.getAutor()+"</td>");
+      out.println("<td>"+im.getDatac()+"</td>");
+      out.println("<td>"+im.getDatas()+"</td>");
+     out.println("<td>"+im.getFilename()+"</td>");
+     
+       
+              }catch(Exception ex)
+                  
+{
+    
+}
+
+
+
 }
 }

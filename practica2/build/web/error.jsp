@@ -1,7 +1,7 @@
 <%-- 
     Document   : error.jsp
     Created on : 04-oct-2020, 4:05:30
-    Author     : pellax
+    Author     : Alejandro Capella
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

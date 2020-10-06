@@ -44,6 +44,10 @@ public class imagenData {
     public int getId(){
         return id;
     }
+    public String getFilename()
+    {
+        return filename;
+    }
 
     public void setTitol(String titol) {
         this.titol = titol;
