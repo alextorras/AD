@@ -87,18 +87,7 @@ public class buscarImagen extends HttpServlet {
                out.println("</html>");   
         }catch(Exception e){
             
-             try { 
-                 URL my_url= new URL("http://www.viralpatel.net/blogs/"); 
-             
-             BufferedReader br = new BufferedReader(new InputStreamReader(my_url.openStream())); 
-             String strTemp =""; 
-             while(null != (strTemp = br.readLine()))
-             { 
-                 System.out.println(strTemp);
-             } }catch (Exception ex) 
-             { 
-                 ex.printStackTrace(); 
-             } 
+             response.sendRedirect("error.jsp");
         } 
             
         }
@@ -113,35 +102,7 @@ public class buscarImagen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+   
  private void PrintImageData(imagenData im,HttpServletResponse response)
 {
     response.setContentType("text/html;charset=UTF-8");
