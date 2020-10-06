@@ -17,8 +17,8 @@
   <img class="card-img-top" src="..." alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">ERROR</h5>
-    <p class="card-text">Upps, hi ha hagut un error</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <p class="card-text">Upps,ha habido un error</p>
+    <a href="#" class="btn btn-primary">Back</a>
   </div>
 </div>
     </body>

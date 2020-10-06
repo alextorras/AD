@@ -15,21 +15,21 @@
     <body>
         <form action="buscarImagen.jsp" method="GET">
   <div class="form-group">
-    <label for="titol">Títol</label>
-    <input type="text" class="form-control" class ="form-control" id="titol" name="titol"  placeholder="Introdueix el títol">
+    <label for="titol">Título</label>
+    <input type="text" class="form-control" class ="form-control" id="titol" name="titol"  placeholder="Introduce el título">
     
   </div>
            </div><div class="container p-5">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
                     <div class="card-header bg-dark text-white text-center">
-                        <h3>Cerca Imatge</h3>
+                        <h3>Buscar Imagen</h3>
                     </div>
                     
                     <div class ="card-body" >          
   <div class="form-group">
-    <label for="descripcio">Descripció</label>
-    <input type="text" class="form-control" class ="form-control" id="exampleInputPassword1" name="descripcio" placeholder="Descripció">
+    <label for="descripcio">Descripción</label>
+    <input type="text" class="form-control" class ="form-control" id="exampleInputPassword1" name="descripcio" placeholder="Descripción">
   </div>
   <div class="form-group">
     <label for="Keywords">Keywords</label>
@@ -40,16 +40,16 @@
     <input type="text" class="form-control" class ="form-control" id="Autor" name="autor" placeholder="Autor">
   </div>          
   <div class="form-group">
-    <label for="DataCreation">Data de creació</label>
-    <input type="date" class="form-control" class ="form-control" id="datacreacio" name="datacreation" placeholder="Data Creacío">
+    <label for="DataCreation">Data de creación</label>
+    <input type="date" class="form-control" class ="form-control" id="datacreacio" name="datacreation" placeholder="Data Creacíon">
   </div>  
  <div class="form-group">
     <label for="DataSubida">Data de upload</label>
     <input type="date" class="form-control" class ="form-control" id="datasubida" name="dataSubida" placeholder="Data Upload">
   </div>   
  <div class="form-group">
-    <label for="filename">Nom de l'arxiu</label>
-    <input type="text" class="form-control" class ="form-control" id="filename" name="filename" placeholder="Nom Arxiu">
+    <label for="filename">Nombre del archivo</label>
+    <input type="text" class="form-control" class ="form-control" id="filename" name="filename" placeholder="Nombre archivo">
   </div>  
   <button type="submit" class="btn btn-primary">Submit</button>
             </div>
