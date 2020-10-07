@@ -4,8 +4,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -51,5 +51,28 @@ public class callsSQL {
             uploader.setString(7,"");
             uploader.setString(8,nom);
             uploader.executeUpdate();
+    }
+    
+    public List<imagenData> listarImagenes() throws SQLException {
+        List<imagenData> data = new ArrayList<imagenData>();
+        PreparedStatement getImages = cn.prepareStatement("SELECT * FROM image ORDER BY creation_date DESC");
+        ResultSet rs = getImages.executeQuery();  
+        while (rs.next()) {
+            imagenData imagen = new imagenData();
+            imagen.setId(rs.getInt("id"));
+            imagen.setTitol(rs.getString("title"));
+            imagen.setDescripcio(rs.getString("description"));
+            imagen.setKeywords(rs.getString("keywords"));
+            imagen.setAutor(rs.getString("author"));
+            imagen.setDatac(rs.getString("creation_date"));
+            imagen.setDatas(rs.getString("storage_date"));
+            imagen.setFilename(rs.getString("filename"));
+            data.add(imagen);
+        }
+        return data;
+    }
+    
+    public void cerrarConexion() throws SQLException {
+        cn.close();
     }
 }

@@ -34,6 +34,7 @@ import javax.swing.JFileChooser;
 @WebServlet(name="registrarImagen", urlPatterns = {"/registrarImagen"})
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
+    callsSQL database = null;
        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             {
         response.setContentType("text/html;charset=UTF-8");
@@ -51,7 +52,7 @@ public class registrarImagen extends HttpServlet {
             String nom = getName(filePart);
             int punt = nom.lastIndexOf('.');
             String extensio = nom.substring(punt);
-            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int id = database.getID();
             
             database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
@@ -60,9 +61,17 @@ public class registrarImagen extends HttpServlet {
         catch (Exception e) {
             if(e.equals("Extension")) {
                 System.out.println("La imatge no te extensio JPEG");
-            } else e.printStackTrace();
+            } else {
+                e.printStackTrace();
+            }
+        }  
+        finally {
+            try {
+                database.cerrarConexion();
+            } catch (SQLException ex) {
+                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        
           /* try {
                response.sendRedirect(request.getContextPath() + "/menu.jsp");
            } catch (IOException ex) {
