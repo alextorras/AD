@@ -8,9 +8,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -26,54 +30,45 @@ import javax.swing.JFileChooser;
  *
  * @author Àlex
  */
-@WebServlet(name="registrarImagen", urlPatterns = {"/registrarImagen.jsp"})
-public class registrarImagen {
+
+@WebServlet(name="registrarImagen", urlPatterns = {"/registrarImagen"})
+@MultipartConfig
+public class registrarImagen extends HttpServlet {
        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            {
         response.setContentType("text/html;charset=UTF-8");
        
             /* TODO output your page here. You may use following sample code. */
-        try {
-            final Part filePart = request.getPart("imatge");
-            String nom = getName(filePart);
-            int punt = nom.lastIndexOf('.');
-            String extensio = nom.substring(punt);
-            if(!extensio.equals("jpg")) {
-                throw new Exception("Extension");
-            }
+        try (PrintWriter out = response.getWriter()) {
+
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
-            String datas = request.getParameter("datasubida");
-            Connection cn = null;
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            PreparedStatement getid = cn.prepareStatement("SELECT MAX(id) FROM imatges");
-            int id;
-            ResultSet rs = getid.executeQuery();
-            if(rs.next()) id = rs.getInt(1)+1;
-            else id=0;
-            PreparedStatement uploader = cn.prepareStatement("insert into image (id, title,description, keywords, author, creation_date, storage_date, filename)"
-                    + " VALUES(" + id + ',' + titol + ',' + descripcio + ',' + keywords + ',' + autor + ',' + datac + ',' + datas + ',' + nom + ")");
             
-            uploader.executeQuery();
+            final Part filePart = request.getPart("imatge");
+            String nom = getName(filePart);
+            int punt = nom.lastIndexOf('.');
+            String extensio = nom.substring(punt);
+            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            int id = database.getID();
+            
+            database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
         }
-        
-        
         
         catch (Exception e) {
             if(e.equals("Extension")) {
                 System.out.println("La imatge no te extensio JPEG");
-            }   
+            } else e.printStackTrace();
         }
-         
-         
-         
-         
-         
-         
+        
+          /* try {
+               response.sendRedirect(request.getContextPath() + "/menu.jsp");
+           } catch (IOException ex) {
+               Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+           }*/
+        
         }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -86,8 +81,9 @@ public class registrarImagen {
      * @throws IOException if an I/O error occurs
      */
    
+       @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+             {
         processRequest(request, response);
     }
 
@@ -101,7 +97,7 @@ public class registrarImagen {
      */
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, Exception {
+            {
             processRequest(request, response);
     }
 
@@ -117,14 +113,14 @@ public class registrarImagen {
 
     private String getName(Part filePart) {
         final String partHeader = filePart.getHeader("content-disposition");
-    LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
-    for (String content : filePart.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
+        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+        for (String content : filePart.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
         }
-    }
-    return null;
+        return null;
     }
 }
 

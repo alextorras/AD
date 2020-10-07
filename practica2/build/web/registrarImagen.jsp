@@ -12,16 +12,15 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form action="registrarImagen.jsp" method="POST">
+        <form action="registrarImagen" method="POST" enctype="multipart/form-data">
        
             <input type="file" id="imatge" name="imatge" required autofocus> <br>
             <input type="text" name="titol" placeholder="Títol" required><br>
             <input   type="text" name="descripcio" placeholder="Descripció" required><br>
             <input  type="text" name="keywords" placeholder="Keywords" required><br>
             <input   type="text" name="autor" placeholder="Autor" required><br>
-            <input   type="date" name="datacreation" required><br>
-            <input   type="date" name="datasubida" required><br>
-            <button style="margin-top: 10px;" type="submit">Puja</button>
+            <input   type="text" name="datacreation" placeholder="aaaa/mm/dd" required><br>
+            <button style="margin-top: 10px;" type="submit">Submit</button>
         </form>
     </body>
 </html>
