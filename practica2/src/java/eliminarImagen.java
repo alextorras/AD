@@ -40,6 +40,7 @@ public class eliminarImagen extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -50,17 +51,17 @@ public class eliminarImagen extends HttpServlet {
             out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            System.out.println("Arriba fins aquí");
-            Connection cn = null;
+            /*Connection cn = null;
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");*/
             out.println("<html>Connectat<br></html>");
             
             HttpSession s = request.getSession();
             String user_aux = (String) s.getAttribute("user");
             out.println("<html>" + user_aux + "</html>");
+            Integer id_aux = (Integer) s.getAttribute("idImage");
             
-            
+            /*
             String query;
             PreparedStatement statement;
             int id_aux = Integer.parseInt(request.getParameter("id"));
@@ -72,11 +73,27 @@ public class eliminarImagen extends HttpServlet {
             while(rs.next())
             {
                 nom_aux = rs.getString(1);                           
-            }
+            }*/
             
-            String query2 = "delete from image where id = " + id_aux;
+            //int id_aux = Integer.parseInt(request.getParameter("id"));
+            String nom_aux = database.nom_eliminar_imagen(id_aux);
+            
+            if(nom_aux == null) throws Exception;
+            else 
+            
+
+            
+            boolean eliminar = database.eliminar_imagen(id_aux);
+            
+            
+            
+            
+            
+            //ELIMINIAR IMAGEN CON HTTP SESSION el parametro será idImage
+            
+            /*String query2 = "delete from image where id = " + id_aux;
             statement = cn.prepareStatement(query2);
-            statement.executeUpdate();
+            statement.executeUpdate();*/
             out.println("<html>Imatge eliminada amb exit</html>");            
             File f = new File("../" + nom_aux);
             if(f.delete())

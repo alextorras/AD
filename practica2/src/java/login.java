@@ -40,8 +40,9 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");        
         try (PrintWriter out = response.getWriter()) {
+            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -49,26 +50,33 @@ public class login extends HttpServlet {
             out.println("<title>Servlet login</title>");        
             out.println("</head>");
             out.println("<body>");
+            //callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             
-            Connection cn = null;
+            /*Connection cn = null;
             Class.forName("org.apache.derby.jdbc.ClientDriver");
-            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");*/
+            
             String user = request.getParameter("usuario");
             String password =request.getParameter("password");
-            String query = "select * from usuarios where id_usuario='" + user + "' and password='" + password + "'";
+            boolean comprova = database.login(user, password);
+            
+            
+            /*String query = "select * from usuarios where id_usuario='" + user + "' and password='" + password + "'";            
             System.out.println(query);
             PreparedStatement st = cn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
+            ResultSet rs = st.executeQuery(); */
+            
             
             HttpSession s = request.getSession();
             s.setAttribute("user", user);
             Cookie c = new Cookie("user", user);
+            c.setMaxAge(600);
             response.addCookie(c);
             
             
 
             
-            if(!rs.next()) out.println("<html>Usuario o contrasenya mal introducidos</html>");
+            if(!comprova) out.println("<html>Usuario o contrasenya mal introducidos</html>");
             else {
                 out.println ("<html>Hola </html>" + user);
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
