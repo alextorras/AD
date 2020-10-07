@@ -58,7 +58,7 @@ public class eliminarImagen extends HttpServlet {
             
             HttpSession s = request.getSession();
             String user_aux = (String) s.getAttribute("user");
-            //out.println("<html>" + user_aux + "</html>");
+            out.println("<html>" + user_aux + "</html>");
             
             
             String query;

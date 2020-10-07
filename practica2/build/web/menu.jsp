@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Menu</h1>
-        <a href="login.jsp">Login</a>
+        <% /*<a href="login.jsp">Login</a> */ %>
         <form>
         <input type="BUTTON" value="Login" onclick="window.location.href='login.jsp'">
         <br>
@@ -22,6 +22,8 @@
         <input type="BUTTON" value="Listar Imagenes" onclick="window.localtion.href='listImg.jsp'">
         <br>
         <input type="BUTTON" value="Buscar Imagen" onclick="window.localtion.href='buscarImagen.jsp'">;
+        <br>
+        <input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'">;
         </form>
     </body>
 </html>

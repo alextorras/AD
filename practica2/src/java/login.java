@@ -16,9 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -57,10 +59,14 @@ public class login extends HttpServlet {
             System.out.println(query);
             PreparedStatement st = cn.prepareStatement(query);
             ResultSet rs = st.executeQuery();
-            /*out.println(user + " " + password);
-            out.println("<h1>Servlet login at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");*/
+            
+            HttpSession s = request.getSession();
+            s.setAttribute("user", user);
+            Cookie c = new Cookie("user", user);
+            response.addCookie(c);
+            
+            
+
             
             if(!rs.next()) out.println("<html>Usuario o contrasenya mal introducidos</html>");
             else {
