@@ -17,6 +17,17 @@ public class imagenData {
             String datas;
             String filename;
             int id;
+ public imagenData()
+ {
+     titol = null;
+     descripcio = null;
+     keywords = null;
+     autor = null;
+     datac = null;
+     datas = null;
+     filename = null;
+     id = -1;
+ }
     
     public String getTitol(){
     return titol;  
