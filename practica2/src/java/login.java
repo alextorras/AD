@@ -78,7 +78,6 @@ public class login extends HttpServlet {
             
             if(!comprova) out.println("<html>Usuario o contrasenya mal introducidos</html>");
             else {
-                out.println ("<html>Hola </html>" + user);
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
             }                
             } catch(SQLException e) {

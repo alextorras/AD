@@ -77,17 +77,13 @@ public class eliminarImagen extends HttpServlet {
             
             //int id_aux = Integer.parseInt(request.getParameter("id"));
             String nom_aux = database.nom_eliminar_imagen(id_aux);
-            
-            if(nom_aux == null) throws Exception;
-            else 
+            boolean resultat = false;
+            if(nom_aux.equals(null)) out.println("<html>La base de dades no existeix</html>");
+            else {
+                resultat = database.eliminar_imagen(id_aux);
+            }
             
 
-            
-            boolean eliminar = database.eliminar_imagen(id_aux);
-            
-            
-            
-            
             
             //ELIMINIAR IMAGEN CON HTTP SESSION el parametro será idImage
             
