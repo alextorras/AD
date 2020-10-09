@@ -84,6 +84,11 @@ public class callsSQL {
         else return true;
     }
     
+    public void cerrar_conexion() throws SQLException {
+        cn.close();
+    }
+   
+    
     
     
     

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.JButton;
 
 /**
  *
@@ -41,8 +42,9 @@ public class eliminarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            out.println("<html>Connectat<br></html>");
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            /*out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
             out.println("<title>Servlet eliminarImagen</title>");            
@@ -50,16 +52,13 @@ public class eliminarImagen extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            out.println("</html>");
-            /*Connection cn = null;
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");*/
-            out.println("<html>Connectat<br></html>");
+            out.println("</html>");*/ 
+           
             
             HttpSession s = request.getSession();
             String user_aux = (String) s.getAttribute("user");
-            out.println("<html>" + user_aux + "</html>");
             Integer id_aux = (Integer) s.getAttribute("idImage");
+            
             
             /*
             String query;
@@ -95,11 +94,17 @@ public class eliminarImagen extends HttpServlet {
             if(f.delete())
             {
                 out.println("<html>La imatge s'ha eliminat correctament</html>");
-                out.println("<html>Vols tornar al menu?</html>");                
+                out.println("<html>Vols tornar al menu?</html>");   
+                //FALTA IMPLEMENTAR BOTÓN PARA VOLVER AL MENÚ PRINCIPAL.
+                /*JButton boto = new JButton();
+                boto.setText("Si");
+                boto.setAction(response.sendRedirect("menu.jsp"));*/
             }
             else {
-                response.sendRedirect("/menu.jsp");
+                response.sendRedirect("menu.jsp");
             }
+            
+            database.cerrar_conexion();
             
             
         }catch(SQLException e) {
@@ -108,7 +113,7 @@ public class eliminarImagen extends HttpServlet {
             System.out.println("<html>No s'ha trobat la classe</html>");
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

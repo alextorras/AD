@@ -74,8 +74,8 @@ public class login extends HttpServlet {
             response.addCookie(c);
             
             
-
             
+            database.cerrar_conexion();            
             if(!comprova) out.println("<html>Usuario o contrasenya mal introducidos</html>");
             else {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
