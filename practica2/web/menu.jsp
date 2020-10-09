@@ -14,18 +14,23 @@
     </head>
     <body>
         <h1>Menu</h1>
-        <% /*<a href="login.jsp">Login</a> */ %>
+    <CENTER>
         <form>
         <br>
         <input type="BUTTON" value="Login" onclick="window.location.href='login.jsp'">
         <br>
+        <br>
         <input type="BUTTON" value="Registrar Imagen" onclick="window.localtion.href='registrarImagen.jsp'">
+        <br>
         <br>
         <input type="BUTTON" value="Listar Imagenes" onclick="window.localtion.href='listImg.jsp'">
         <br>
+        <br>
         <input type="BUTTON" value="Buscar Imagen" onclick="window.localtion.href='buscarImagen.jsp'">
+        <br>
         <br>
         <input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'">
         </form>
+    </CENTER>
     </body>
 </html>

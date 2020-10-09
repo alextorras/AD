@@ -1,6 +1,6 @@
 <%-- 
-    Document   : eliminarImagen
-    Created on : 03-oct-2020, 11:33:43
+    Document   : opcions
+    Created on : 09-oct-2020, 18:19:02
     Author     : admin
 --%>
 
@@ -13,11 +13,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Eliminar Imagen</h1>
-        <text>Estas seguro que quieres eliminar la imagen?</text>
-        <form action="eliminarImagen" method="POST">
-            <input type="button" name="boto_si" value="Si" onclick="window.location.href='eliminarImagen'"><br>
-            <input type="button" name="boto_no" value="No" onclick="window.location.href='eliminarImagen'">
-        </form>
+    <CENTER>
+        <br>
+        <h1> La imatge s'ha eliminat correctament </h1>
+        <br>
+        <br>
+        <text> Vols tornar al menu principal?</text>
+        <input type="BUTTON" value="Si" style="height: '250'" onclick="window.location.href='menu.jsp'">
+    </center>
     </body>
 </html>

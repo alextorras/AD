@@ -56,15 +56,13 @@ public class login extends HttpServlet {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");*/
             
-            String user = request.getParameter("usuario");
-            String password =request.getParameter("password");
+            String user = (String) request.getParameter("usuario");
+            String password = (String) request.getParameter("password");
+            if(user.equals(null) || password.equals(null)) out.println("<html>Hola</html>");
             boolean comprova = database.login(user, password);
             
             
-            /*String query = "select * from usuarios where id_usuario='" + user + "' and password='" + password + "'";            
-            System.out.println(query);
-            PreparedStatement st = cn.prepareStatement(query);
-            ResultSet rs = st.executeQuery(); */
+            
             
             
             HttpSession s = request.getSession();

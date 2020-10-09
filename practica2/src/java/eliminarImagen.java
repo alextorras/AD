@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,6 +44,7 @@ public class eliminarImagen extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             out.println("<html>Connectat<br></html>");
+            response.sendRedirect("opcions.jsp");
             /* TODO output your page here. You may use following sample code. */
             /*out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -59,22 +61,11 @@ public class eliminarImagen extends HttpServlet {
             String user_aux = (String) s.getAttribute("user");
             Integer id_aux = (Integer) s.getAttribute("idImage");
             
+            if(id_aux == null) out.println("<html>No existeix tal imatge</html>");
+            if(user_aux.equals(null)) out.println("<html>La sessió s'ha tancat</html>");
+            //LANZAR EXCEPCIONES PARA ESTOS DOS CASOS
             
-            /*
-            String query;
-            PreparedStatement statement;
-            int id_aux = Integer.parseInt(request.getParameter("id"));
-            query = "select filename from image where id = " + id_aux;
             
-            statement = cn.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
-            String nom_aux = null;
-            while(rs.next())
-            {
-                nom_aux = rs.getString(1);                           
-            }*/
-            
-            //int id_aux = Integer.parseInt(request.getParameter("id"));
             String nom_aux = database.nom_eliminar_imagen(id_aux);
             boolean resultat = false;
             if(nom_aux.equals(null)) out.println("<html>La base de dades no existeix</html>");
@@ -84,24 +75,18 @@ public class eliminarImagen extends HttpServlet {
             
 
             
-            //ELIMINIAR IMAGEN CON HTTP SESSION el parametro será idImage
             
-            /*String query2 = "delete from image where id = " + id_aux;
-            statement = cn.prepareStatement(query2);
-            statement.executeUpdate();*/
             out.println("<html>Imatge eliminada amb exit</html>");            
             File f = new File("../" + nom_aux);
             if(f.delete())
             {
+                response.sendRedirect("/opcions.jsp");
                 out.println("<html>La imatge s'ha eliminat correctament</html>");
                 out.println("<html>Vols tornar al menu?</html>");   
                 //FALTA IMPLEMENTAR BOTÓN PARA VOLVER AL MENÚ PRINCIPAL.
-                /*JButton boto = new JButton();
-                boto.setText("Si");
-                boto.setAction(response.sendRedirect("menu.jsp"));*/
             }
             else {
-                response.sendRedirect("menu.jsp");
+                response.sendRedirect("/menu.jsp");
             }
             
             database.cerrar_conexion();

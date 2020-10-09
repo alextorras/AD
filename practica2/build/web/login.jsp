@@ -15,14 +15,16 @@
     <body>
         <h1>Practica 2!</h1>
         <br>
+    <CENTER>
         <form action="login" method="POST">
-            <label>Usuario: </label>
-            <input type="text" name="usuario">
+            <input type="text" placeholder="Usuario" name="usuario" required>
             <br>
-            <label>Contraseña: </label>
-            <input type="password" name="password">
+            <br>
+            <input type="password" placeholder="Contraseña" name="password" required>
+            <br>
             <br>
             <input type="submit" value="Enviar">
         </form>
+    </CENTER>
     </body>
 </html>
