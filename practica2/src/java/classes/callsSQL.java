@@ -1,8 +1,11 @@
+package classes;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,15 +77,47 @@ public class callsSQL {
         return aux;
     }
     
+    public List<imagenData> listarImagenes() throws SQLException {
+        List<imagenData> data = new ArrayList<imagenData>();
+        PreparedStatement getImages = cn.prepareStatement("SELECT * FROM image ORDER BY creation_date DESC");
+        ResultSet rs = getImages.executeQuery();  
+        while (rs.next()) {
+            imagenData imagen = new imagenData();
+            imagen.setId(rs.getInt("id"));
+            imagen.setTitol(rs.getString("title"));
+            imagen.setDescripcio(rs.getString("description"));
+            imagen.setKeywords(rs.getString("keywords"));
+            imagen.setAutor(rs.getString("author"));
+            imagen.setDatac(rs.getString("creation_date"));
+            imagen.setDatas(rs.getString("storage_date"));
+            imagen.setFilename(rs.getString("filename"));
+            data.add(imagen);
+        }
+        return data;
+    }
+    
+    
     public boolean eliminar_imagen(Integer aux) throws SQLException
     {
         if(aux == null) return false;
-        String query = "delete from image where id = '" + aux + "'";
+        String query = "delete from image where id = " + aux;
         PreparedStatement st = cn.prepareStatement(query);
         int num = st.executeUpdate();
         if(num == 0) return false;
         else return true;
     }
+    
+    public void updateImage( String titol, String descripcio, String keywords, String autor, String datac) throws SQLException {
+            PreparedStatement uploader = cn.prepareStatement("UPDATE Imatges SET titol = ?, descripcio = ?,  keywords = ?,  autor = ?, datac = ? WHERE id = ?");            
+            uploader.setString(1,titol);
+            uploader.setString(2,descripcio);
+            uploader.setString(3,keywords);
+            uploader.setString(4,autor);
+            uploader.setString(5,datac);
+
+            uploader.executeUpdate();
+    }
+    
     
     public void cerrarConexion() throws SQLException {
         cn.close();

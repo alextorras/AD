@@ -15,7 +15,8 @@
     <body>
         <h1>Eliminar Imagen</h1>
         <text>Estas seguro que quieres eliminar la imagen?</text>
-        <form action="eliminarImagen" method="POST">
+        <form action="eliminarImagen" method="POST" enctype="multipart/form-data">
+            <input type="file" id="imagen" name="imagen"><br>
             <input type="button" name="boto_si" value="Si" onclick="window.location.href='eliminarImagen'"><br>
             <input type="button" name="boto_no" value="No" onclick="window.location.href='eliminarImagen'">
         </form>

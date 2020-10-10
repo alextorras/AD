@@ -1,3 +1,4 @@
+package classes;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -44,7 +45,7 @@ public class eliminarImagen extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             out.println("<html>Connectat<br></html>");
-            response.sendRedirect("opcions.jsp");
+            //response.sendRedirect("opcions.jsp");
             /* TODO output your page here. You may use following sample code. */
             /*out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -61,8 +62,10 @@ public class eliminarImagen extends HttpServlet {
             String user_aux = (String) s.getAttribute("user");
             Integer id_aux = (Integer) s.getAttribute("idImage");
             
+            out.println("<html>" + id_aux + "</html>");
+            
             if(id_aux == null) out.println("<html>No existeix tal imatge</html>");
-            if(user_aux.equals(null)) out.println("<html>La sessió s'ha tancat</html>");
+            //if(user_aux.equals(null)) out.println("<html>La sessió s'ha tancat</html>");
             //LANZAR EXCEPCIONES PARA ESTOS DOS CASOS
             
             
@@ -77,16 +80,16 @@ public class eliminarImagen extends HttpServlet {
             
             
             out.println("<html>Imatge eliminada amb exit</html>");            
-            File f = new File("../" + nom_aux);
-            if(f.delete())
+            File f = new File("C:\\Users\\admin\\Pictures\\" + nom_aux);
+            if(f.delete() == true)
             {
+                
                 response.sendRedirect("/opcions.jsp");
-                out.println("<html>La imatge s'ha eliminat correctament</html>");
-                out.println("<html>Vols tornar al menu?</html>");   
                 //FALTA IMPLEMENTAR BOTÓN PARA VOLVER AL MENÚ PRINCIPAL.
             }
             else {
-                response.sendRedirect("/menu.jsp");
+                out.println("<html>No, entro aqui</html>");
+                //response.sendRedirect("/menu.jsp");
             }
             
             database.cerrarConexion();

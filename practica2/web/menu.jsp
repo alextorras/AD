@@ -17,10 +17,10 @@
     <CENTER>
         <form>
         <br>
-        <input type="BUTTON" value="Registrar Imagen" onclick="window.localtion.href='registrarImagen.jsp'">
+        <input type="BUTTON" value="Registrar Imagen" onclick="window.location.href='registrarImagen.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Listar Imagenes" onclick="window.localtion.href='listImg.jsp'">
+        <input type="BUTTON" value="Listar Imagenes" onclick="window.location.href='listImg.jsp'">
         <br>
         <br>
         <input type="BUTTON" value="Buscar Imagen" onclick="window.localtion.href='buscarImagen.jsp'">
