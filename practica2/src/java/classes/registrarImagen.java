@@ -1,14 +1,15 @@
+package classes;
 
+import classes.callsSQL;
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import static java.lang.System.out;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import javax.swing.JFileChooser;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,6 +39,7 @@ public class registrarImagen extends HttpServlet {
        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             {
         response.setContentType("text/html;charset=UTF-8");
+        final String path = ("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\web\\imagenes");
        
             /* TODO output your page here. You may use following sample code. */
         try (PrintWriter out = response.getWriter()) {
@@ -56,6 +58,21 @@ public class registrarImagen extends HttpServlet {
             int id = database.getID();
             
             database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
+             OutputStream escritura = null;
+        try {
+            escritura = new FileOutputStream(new File(path + File.separator
+                    + nom));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        InputStream filecontent = filePart.getInputStream();
+
+        int read = 0;
+        final byte[] bytes = new byte[1024];
+
+        while ((read = filecontent.read(bytes)) != -1) {
+            escritura.write(bytes, 0, read);
+            }
         }
         
         catch (Exception e) {
@@ -66,12 +83,26 @@ public class registrarImagen extends HttpServlet {
             }
         }  
         finally {
-            try {
+            try (PrintWriter send = response.getWriter()) {
                 database.cerrarConexion();
+                send.println("<!DOCTYPE html>");
+                send.println("<html>");
+                send.println("<head>");
+                send.println("<title>Imagen registrada con exito</title>");        
+                send.println("</head>");
+                send.println("<body>");
+                Thread.sleep(5000);
+                response.sendRedirect(request.getContextPath() + "/menu.jsp");
             } catch (SQLException ex) {
+                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+       
           /* try {
                response.sendRedirect(request.getContextPath() + "/menu.jsp");
            } catch (IOException ex) {
