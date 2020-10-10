@@ -34,7 +34,7 @@
             <img class="card-img-top" src="..." alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">ERROR</h5>
-                <%out.println(mensaje);%>
+                <%= mensaje %>
                 <a href="javascript:history.back(1)" class="btn btn-primary">Back</a>
             </div>
         </div>

@@ -50,12 +50,12 @@ public class ConsultaBase {
         //try {
             boolean ok;
 
-            String consulta = "SELECT * from image where title like ? {escape '!'}"
-                    + " OR description like ? {escape '!'}"
-                    + " OR keywords like ? {escape '!'}"
-                    + " OR author like ? {escape '!'}"
-                    + " OR creation_date like ? {escape '!'}"
-                    + " OR storage_date like ? {escape '!'}"
+            String consulta = "SELECT * from image where title like ?"
+                    + " OR description like ?"
+                    + " OR keywords like ?"
+                    + " OR author like ?"
+                    + " OR creation_date like ?"
+                    + " OR storage_date like ?"
                     + " OR filename like ? {escape '!'}";
 
             titol = titol

@@ -14,22 +14,18 @@
     </head>
     <body>
         
-        <% 
-            HttpSession lasesion = request.getSession(false);
-       
-            if(lasesion == null)
-                //no hay sesión
-                
+
+        <%/*
+            HttpSession lasesion = request.getSession();
+
+            if (lasesion.getAttribute(username) == null) //no hay sesión
             {
-             response.sendRedirect("login.jsp");   
+                response.sendRedirect("login.jsp");
             }
+*/
         %>
         <form action="buscarImagen" method="GET">
-            <div class="form-group">
-                <label for="titol">Título</label>
-                <input type="text" class="form-control" class ="form-control" id="titol" name="titol"  placeholder="Introduce el título">
 
-            </div>
         </div><div class="container p-5">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
@@ -37,7 +33,13 @@
                         <h3>Buscar Imagen</h3>
                     </div>
 
-                    <div class ="card-body" >          
+                    <div class ="card-body" > 
+
+                        <div class="form-group">
+                            <label for="titol">Título</label>
+                            <input type="text" class="form-control" class ="form-control" id="titol" name="titol"  placeholder="Introduce el título">
+
+                        </div>
                         <div class="form-group">
                             <label for="descripcio">Descripción</label>
                             <input type="text" class="form-control" class ="form-control" id="exampleInputPassword1" name="descripcio" placeholder="Descripción">

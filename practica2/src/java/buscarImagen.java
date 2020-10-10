@@ -45,9 +45,10 @@ public class buscarImagen extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
            /*
-            lasesion = request.getSession(false);
+            
+            lasesion = request.getSession();
        
-            if(lasesion == null)
+            if(lasesion.getAtribute(username)== null)
                 //no hay sesión
                 
             {
@@ -55,6 +56,7 @@ public class buscarImagen extends HttpServlet {
             }
             else
             {
+            
             */
             //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             List<imagenData> resultados;
