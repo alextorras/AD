@@ -8,10 +8,10 @@
 
 <%
 
-      /*  String user = null;
+        String user = null;
         if(session.getAttribute("username") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("username");  */      
+        }else user = (String) session.getAttribute("username");        
       
     %>  
 
@@ -35,11 +35,12 @@
         String filename = request.getParameter("filename");
     %>
       <div>
+          <img src="<%="imagenes\\" + request.getParameter("filename")%>" width="200" height="200">
             <form action="modificarImagen" method="POST" >
                 
                 <input type="text" name="titol" placeholder="Títol" value="<%= titol %>" required>
                 <input type="text" name="descripcio" placeholder="Descripció" value="<%= descrip %>" required>
-                <input type="text" name="tags" placeholder="Tags separats amb ';'  Exemple: (naturalesa;animals;maincra) " value="<%= tag %>" required>
+                <input type="text" name="keywords" placeholder="keywords" value="<%= tag %>" required>
                 <input type="text" name="autor" placeholder="Autor" value="<%= autor %>" required>
                 <input type="text" name="datac" value="<%= data %>" required>                
                 <input type="hidden" name="id" value="<%= id %>"  >

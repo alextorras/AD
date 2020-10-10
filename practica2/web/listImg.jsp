@@ -4,6 +4,7 @@
     Author     : Àlex
 --%>
 
+<%@page import="classes.imagenData"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
 <%@page import="java.sql.SQLException"%>
@@ -12,13 +13,16 @@
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
+<%@page import="classes.callsSQL"%>
+
+
 
 <%
     callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-      /*  String user = null;
+        String user = null;
         if(session.getAttribute("username") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("username");  */      
+        }else user = (String) session.getAttribute("username");        
     %>  
     
 <!DOCTYPE html>
@@ -46,6 +50,7 @@
         </div>
         <div>
             <ul>
+            <img src="<%="imagenes\\" + imagen.getFilename()%>" width="200" height="200">
             <li>Títol: <%= imagen.getTitol() %></li>
             <li>Data creació: <%= imagen.getDatac() %></li>
             <li>Descripció: <%= imagen.getDescripcio() %></li>
@@ -54,9 +59,10 @@
             
           </ul>
         <%
-                      // if (rs.getString("autor").equals(user)){ 
+                      if (imagen.getAutor().equals(user)){ 
                        %>
                         <form action="modificarImagen.jsp" method="POST">
+                            
                             <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
                             <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
                             <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
@@ -85,7 +91,7 @@
         
 
                         <%
-                        //}
+                        }
                      %>
         </div><!-- /.col-sm-4 -->
       </div>
