@@ -1,7 +1,7 @@
 <%-- 
     Document   : menu
     Created on : 01-oct-2020, 7:45:34
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,9 +16,6 @@
         <h1>Menu</h1>
     <CENTER>
         <form>
-        <br>
-        <input type="BUTTON" value="Login" onclick="window.location.href='login.jsp'">
-        <br>
         <br>
         <input type="BUTTON" value="Registrar Imagen" onclick="window.localtion.href='registrarImagen.jsp'">
         <br>

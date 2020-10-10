@@ -89,7 +89,7 @@ public class eliminarImagen extends HttpServlet {
                 response.sendRedirect("/menu.jsp");
             }
             
-            database.cerrar_conexion();
+            database.cerrarConexion();
             
             
         }catch(SQLException e) {

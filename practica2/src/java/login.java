@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author Dani
  */
 @WebServlet(name="login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
@@ -73,7 +73,7 @@ public class login extends HttpServlet {
             
             
             
-            database.cerrar_conexion();            
+            database.cerrarConexion();            
             if(!comprova) out.println("<html>Usuario o contrasenya mal introducidos</html>");
             else {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
