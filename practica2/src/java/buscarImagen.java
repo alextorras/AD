@@ -43,6 +43,7 @@ public class buscarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
+           /*
             lasesion = request.getSession(false);
        
             if(lasesion == null)
@@ -53,17 +54,20 @@ public class buscarImagen extends HttpServlet {
             }
             else
             {
-            List<imagenData> resultados = new ArrayList<>();
+            */
+            List<imagenData> resultados;
+            resultados = null;
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
             String datas = request.getParameter("datasubida");
-            ConsultaBase mibase = new ConsultaBase(titol, descripcio, keywords, autor, datac, datas);
+            String filename = request.getParameter("filename");
+            ConsultaBase mibase = new ConsultaBase(titol, descripcio, keywords, autor, datac, datas,filename);
             resultados = mibase.getImageData();
             sendResponse(resultados,out);
-            }
+            //}
             } catch (SQLException e) {
 
             response.sendRedirect("error.jsp?/codigo=1");
@@ -109,7 +113,7 @@ public class buscarImagen extends HttpServlet {
 
     private void PrintImageData(imagenData im, PrintWriter out) {
             
-            String user_aux = lasesion.getAttribute("user").toString();
+            //String user_aux = lasesion.getAttribute("user").toString();
             
             out.println("<th scope=\"row\">" + im.getId() + "</th>");
             out.println("<td>" + im.getTitol() + "</td>");
@@ -119,6 +123,7 @@ public class buscarImagen extends HttpServlet {
             out.println("<td>" + im.getDatac() + "</td>");
             out.println("<td>" + im.getDatas() + "</td>");
             out.println("<td>" + im.getFilename() + "</td>");
+            /*
             if(im.getAutor().equals(user_aux))
             {
                 out.println("<td><a href=\"modificarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" +
@@ -129,7 +134,7 @@ public class buscarImagen extends HttpServlet {
               out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" +
 "</td>");
             }
-            
+*/            
             
 
       
@@ -139,7 +144,7 @@ public class buscarImagen extends HttpServlet {
 
     
     private void sendResponse(List<imagenData> resultados,PrintWriter out)
-    {
+    {    
          out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -148,7 +153,7 @@ public class buscarImagen extends HttpServlet {
             out.println("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">");
             out.println("</head>");
             out.println("<body>");
-            out.println("<H1>Resultat de la cerca</H1></br>");
+            out.println("<H1>Resultado de la búsqueda</H1></br>");
             out.println("<table>");
             out.println("<thead>");
 

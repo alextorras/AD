@@ -25,15 +25,17 @@ public class ConsultaBase {
     String autor;
     String datac;
     String datas;
+    String filename;
     Connection cn = null;
 
-    public ConsultaBase(String titol, String descripcio, String keywords, String autor, String datac, String datas) throws ClassNotFoundException, SQLException {
+    public ConsultaBase(String titol, String descripcio, String keywords, String autor, String datac, String datas,String filename) throws ClassNotFoundException, SQLException {
         this.titol = titol;
         this.descripcio = descripcio;
         this.keywords = keywords;
         this.autor = autor;
         this.datac = datac;
         this.datas = datas;
+        this.filename = filename;
         Class.forName("org.apache.derby.jdbc.ClientDriver");
         cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
         formatData();
@@ -44,16 +46,17 @@ public class ConsultaBase {
         bilers = new ArrayList<>();
         ResultSet rs = null;
         PreparedStatement statement = null;
-        try {
+        
+        //try {
             boolean ok;
 
-            String consulta = "SELECT * from imatges where titol like %" + titol + "%"
-                    + " OR descripcio like %" + descripcio + "%"
+            String consulta = "SELECT * from images where title like %" + titol + "%"
+                    + " OR description like %" + descripcio + "%"
                     + " OR keywords like %" + keywords + "%"
-                    + " OR autor like %" + autor + "%"
-                    + " OR datac like %" + datac + "%"
-                    + " OR datas like %" + autor + "%"
-                    + " OR datac like %" + datac + "%";
+                    + " OR author like %" + autor + "%"
+                    + " OR creation_date like %" + datac + "%"
+                    + " OR storage_date like %" + datas + "%"
+                    + " OR filename like %" + filename + "%";
 
             statement = cn.prepareStatement(consulta);
             rs = statement.executeQuery();
@@ -68,33 +71,42 @@ public class ConsultaBase {
                 biler.setDatas(rs.getString("storage_date"));
                 biler.setFilename(rs.getString("filename"));
                 ok = bilers.add(biler);
+                biler.printData();
             }
-        } catch (SQLException e) {
+            return bilers;
+        }
+    
+   /* catch (SQLException e) 
+    {      
             throw new SQLException();
-        } finally {
+    }
+  
+    
+        finally {
             if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException ignore) {
-                }
-            }
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ignore) {
-                }
-            }
-            if (cn != null) {
-                try {
-                    cn.close();
-                } catch (SQLException ignore) {
-                }
+            try {
+                rs.close();
+            } catch (SQLException ignore) {
             }
         }
-        return bilers;
-    }
-
-    private void formatData() {
+        if (statement != null) {
+            try {
+                statement.close();
+            } 
+            catch (SQLException ignore) {
+            }
+        }
+        if (cn != null) {
+            try {
+                cn.close();
+            } catch (SQLException ignore) {
+            }
+        }
+    
+        }
+    }*/
+    private void formatData() 
+    {
         if (titol.equals("")) {
             titol = "#";
         }
@@ -112,6 +124,9 @@ public class ConsultaBase {
         }
         if (datas.equals("")) {
             datac = "#";
+        }
+         if (filename.equals("")) {
+            filename = "#";
         }
     }
 }
