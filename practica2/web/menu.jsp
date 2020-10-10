@@ -17,6 +17,7 @@
     <CENTER>
         <form>
         <br>
+<<<<<<< HEAD
         <input type="BUTTON" value="Registrar Imagen" onclick="window.location.href='registrarImagen.jsp'">
         <br>
         <br>
@@ -27,6 +28,13 @@
         <br>
         <br>
         <input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'">
+=======
+        <input type="BUTTON" value="Registrar Imagen" onclick="window.location.href='registrarImagen.jsp'">;
+        <br>
+        <input type="BUTTON" value="Listar Imagenes" onclick="window.location.href='listImg.jsp'">
+        <br>
+        <input type="BUTTON" value="Buscar Imagen" onclick="window.location.href='buscarImagen.jsp'">;
+>>>>>>> master
         </form>
     </CENTER>
     </body>
