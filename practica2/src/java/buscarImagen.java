@@ -28,6 +28,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(urlPatterns = {"/buscarImagen"})
 public class buscarImagen extends HttpServlet {
      private HttpSession lasesion;
+     //callsSQL database = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,11 +51,12 @@ public class buscarImagen extends HttpServlet {
                 //no hay sesión
                 
             {
-             response.sendRedirect("login.jsp");   
+             response.sendRedirect(request.getContextPath() +"login.jsp");   
             }
             else
             {
             */
+            //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             List<imagenData> resultados;
             resultados = null;
             String titol = request.getParameter("titol");
@@ -65,16 +67,19 @@ public class buscarImagen extends HttpServlet {
             String datas = request.getParameter("datasubida");
             String filename = request.getParameter("filename");
             ConsultaBase mibase = new ConsultaBase(titol, descripcio, keywords, autor, datac, datas,filename);
+            //resultados = database.ConsultaImagen(titol, descripcio, keywords, autor, datac, datas,filename);
             resultados = mibase.getImageData();
             sendResponse(resultados,out);
             //}
             } catch (SQLException e) {
 
-            response.sendRedirect("error.jsp?/codigo=1");
+            response.sendRedirect(request.getContextPath() + "error.jsp?/codigo=1");
+            
         }
         catch (Exception e) {
 
-            response.sendRedirect("error.jsp?/codigo=3");
+            response.sendRedirect(request.getContextPath() + "error.jsp?/codigo=3");
+
         }
         finally
         {

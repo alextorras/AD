@@ -50,15 +50,59 @@ public class ConsultaBase {
         //try {
             boolean ok;
 
-            String consulta = "SELECT * from images where title like %" + titol + "%"
-                    + " OR description like %" + descripcio + "%"
-                    + " OR keywords like %" + keywords + "%"
-                    + " OR author like %" + autor + "%"
-                    + " OR creation_date like %" + datac + "%"
-                    + " OR storage_date like %" + datas + "%"
-                    + " OR filename like %" + filename + "%";
+            String consulta = "SELECT * from image where title like ? {escape '!'}"
+                    + " OR description like ? {escape '!'}"
+                    + " OR keywords like ? {escape '!'}"
+                    + " OR author like ? {escape '!'}"
+                    + " OR creation_date like ? {escape '!'}"
+                    + " OR storage_date like ? {escape '!'}"
+                    + " OR filename like ? {escape '!'}";
 
+            titol = titol
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            descripcio = descripcio
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            keywords = keywords
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            autor = autor
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            datac = datac
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            datas = datas
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            filename = filename
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            
             statement = cn.prepareStatement(consulta);
+            statement.setString(1, titol + "%");
+            statement.setString(2, descripcio+"%");
+            statement.setString(3, keywords +"%");
+            statement.setString(4, autor +"%");
+            statement.setString(5,datac + "%");
+            statement.setString(6, datas + "%");
+            statement.setString(7, filename + "%");
+            
             rs = statement.executeQuery();
             while (rs.next()) {
                 imagenData biler = new imagenData();
