@@ -167,25 +167,25 @@ public class ConsultaBase {
     private void formatData() 
     {
         if (titol.equals("")) {
-            titol = "#";
+            titol = "'#'";
         }
         if (descripcio.equals("")) {
-            descripcio = "#";
+            descripcio = "'#'";
         }
         if (keywords.equals("")) {
-            keywords = "#";
+            keywords = "'#'";
         }
         if (autor.equals("")) {
-            autor = "#";
+            autor = "'#'";
         }
         if (datac.equals("")) {
-            datac = "#";
+            datac = "'#'";
         }
         if (datas.equals("")) {
-            datac = "#";
+            datac = "'#'";
         }
          if (filename.equals("")) {
-            filename = "#";
+            filename = "'#'";
         }
     }
 }
