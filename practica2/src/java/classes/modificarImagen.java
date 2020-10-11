@@ -38,14 +38,17 @@ public class modificarImagen extends HttpServlet{
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
-            String datac = request.getParameter("datacreation");
-            
+            String datac = request.getParameter("datac");
+            Integer id = Integer.parseInt(request.getParameter("id"));
             
             database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            int id = database.getID();
             
-            database.updateImage(titol, descripcio, keywords, autor, datac);
+            
+            
+            database.updateImage(titol, descripcio, keywords, autor, datac, id);
+            
             response.sendRedirect(request.getContextPath() + "/menu.jsp");
+            
         } catch (IOException ex) {
             Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

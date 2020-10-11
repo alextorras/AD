@@ -73,8 +73,10 @@ public class registrarImagen extends HttpServlet {
         while ((read = filecontent.read(bytes)) != -1) {
             escritura.write(bytes, 0, read);
             }
+                response.sendRedirect(request.getContextPath() + "/opcions.jsp");
         }
-        
+            
+
         catch (Exception e) {
             if(e.equals("Extension")) {
                 System.out.println("La imatge no te extensio JPEG");
@@ -83,21 +85,9 @@ public class registrarImagen extends HttpServlet {
             }
         }  
         finally {
-            try (PrintWriter send = response.getWriter()) {
+            try{
                 database.cerrarConexion();
-                send.println("<!DOCTYPE html>");
-                send.println("<html>");
-                send.println("<head>");
-                send.println("<title>Imagen registrada con exito</title>");        
-                send.println("</head>");
-                send.println("<body>");
-                Thread.sleep(5000);
-                response.sendRedirect(request.getContextPath() + "/menu.jsp");
             } catch (SQLException ex) {
-                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

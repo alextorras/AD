@@ -38,12 +38,10 @@ public class callsSQL {
             PreparedStatement getid = cn.prepareStatement("SELECT MAX(id) FROM image");
             ResultSet rs = getid.executeQuery();
             int id;
-            if(rs.next()) {
-                System.out.println("fins aqui arriba al if");
+            if(rs.next()) {                
                 id = rs.getInt(1)+1;
             }
             else {
-                System.out.println("fins aqui arriba al else");
                 id=0;
             }
             return id;
@@ -212,13 +210,14 @@ public class callsSQL {
         else return true;
     }
     
-    public void updateImage(String titol, String descripcio, String keywords, String autor, String datac) throws SQLException {
-            PreparedStatement uploader = cn.prepareStatement("UPDATE Imatges SET titol = ?, descripcio = ?,  keywords = ?,  autor = ?, datac = ? WHERE id = ?");            
+    public void updateImage(String titol, String descripcio, String keywords, String autor, String datac, int id) throws SQLException {
+            PreparedStatement uploader = cn.prepareStatement("UPDATE IMAGE SET title = ?, description = ?,  keywords = ?,  author = ?, creation_date = ? WHERE id = ?");            
             uploader.setString(1,titol);
             uploader.setString(2,descripcio);
             uploader.setString(3,keywords);
             uploader.setString(4,autor);
             uploader.setString(5,datac);
+            uploader.setInt(6, id);
 
             uploader.executeUpdate();
     }

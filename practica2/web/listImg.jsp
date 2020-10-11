@@ -81,8 +81,9 @@
                             </p>
                 
                         </form> 
-                        <% request.setAttribute("idImage", imagen.getId()); %>
-                        <form action="eliminarImagen" method="POST">
+                        <% session.setAttribute("idImage",imagen.getId());%>
+                        <% session.setAttribute("name", imagen.getFilename()); %>
+                        
                             <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
                             <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
                             <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
@@ -93,7 +94,7 @@
                             <p>
                                 <button type="submit" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
                             </p>
-                        </form>
+                        
                             
         
 

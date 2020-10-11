@@ -15,11 +15,14 @@
     </head>
     <body>
         <h1>Eliminar Imagen</h1>
-        <text>Estas seguro que quieres eliminar la imagen <%=request.getAttribute("nom_foto")%>?</text>
+        <text>Estas seguro que quieres eliminar la imagen <%=session.getAttribute("name")%>?</text>
         <form action="eliminarImagen" method="POST" enctype="multipart/form-data">
+            
         <br>
-            <input type="button" name="boto_si" value="Si" id="si" onclick="window.location.href='eliminarImagen'"><br>
-            <input type="button" name="boto_no" value="No" id="no" onclick="window.location.href='listImg.jsp'">
+            <input type="hidden" name="id" value="<%=session.getAttribute("idImage")%>">
+            <input type="submit" name="boto_si" value="Si"><br>
+            
         </form>
+            <input type="button" name="boto_no" value="No" id="no" onclick="window.location.href='listImg.jsp'">
     </body>
 </html>

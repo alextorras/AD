@@ -29,7 +29,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
 public class eliminarImagen extends HttpServlet {
-    Integer id_aux = 0;
+   int id_aux = 0;
     String nom_aux = null;
 
     /**
@@ -43,22 +43,16 @@ public class eliminarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            String url = request.getHeader("referer");
+             id_aux = (int) session.getAttribute("idImage");
             
-            //Si vienes de listar imagen, vete al JSP primero
-            if(url.equals("http://localhost:8080/practica2/listImg.jsp")) {
-                id_aux = Integer.parseInt(request.getParameter("id"));
-                nom_aux = database.nom_eliminar_imagen(id_aux);
-                request.setAttribute("nom_foto", nom_aux);
-                request.getRequestDispatcher("eliminarImagen.jsp").forward(request, response);
-                response.sendRedirect(request.getContextPath() + "/eliminarImagen.jsp");
-            }
+            nom_aux = database.nom_eliminar_imagen(id_aux);
                                     
             out.println("<html>" + id_aux + "</html>");
-            if(id_aux == null) out.println("<html><br>No existeix tal imatge <br></html>");
+            if(id_aux == 0) out.println("<html><br>No existeix tal imatge <br></html>");
             //LANZAR EXCEPCIÓN PARA ESTE CASO
             
             out.println("<html><br>" + nom_aux + "<br></html>");
@@ -72,13 +66,13 @@ public class eliminarImagen extends HttpServlet {
             out.println("\n");
             
             out.println("<html>Imatge eliminada amb exit<br></html>");            
-            File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
-            if(f.delete() == true)
+            File f = new File("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\web\\imagenes\\" + nom_aux);
+            if(f.delete())
             {
                 response.sendRedirect(request.getContextPath() + "/opcions.jsp");
             }
             else {
-                response.sendRedirect("/menu.jsp");
+                response.sendRedirect(request.getContextPath() + "/menu.jsp");
             }
             database.cerrarConexion();
             

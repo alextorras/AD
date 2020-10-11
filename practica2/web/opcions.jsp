@@ -17,10 +17,7 @@
         <br>
         <h1> La imatge s'ha eliminat correctament </h1>
         <br>
-        <br>
-        <text> Vols tornar al menu principal?</text>
-        <br>
-        <input type="BUTTON" value="Si" style="height: '250'" onclick="window.location.href='menu.jsp'">
+        <input type="BUTTON" value="Torna al menu" style="height: '250'" onclick="window.location.href='menu.jsp'">
     </center>
     </body>
 </html>
