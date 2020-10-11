@@ -27,6 +27,7 @@
                 break;
             case "4":
                 mensaje = "<p class=\"card-text\">No hay resultados</p>";
+                break;
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 break;
