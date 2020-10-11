@@ -36,14 +36,15 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
     callsSQL database = null;
-       protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+       protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws InterruptedException
             {
         response.setContentType("text/html;charset=UTF-8");
-        final String path = ("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\web\\imagenes");
        
             /* TODO output your page here. You may use following sample code. */
         try (PrintWriter out = response.getWriter()) {
-
+            String arrel = request.getContextPath();
+            final String path = ("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes");
+            
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
@@ -58,23 +59,27 @@ public class registrarImagen extends HttpServlet {
             int id = database.getID();
             
             database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
-             OutputStream escritura = null;
-        try {
-            escritura = new FileOutputStream(new File(path + File.separator
-                    + nom));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        InputStream filecontent = filePart.getInputStream();
-
-        int read = 0;
-        final byte[] bytes = new byte[1024];
-
-        while ((read = filecontent.read(bytes)) != -1) {
-            escritura.write(bytes, 0, read);
+            OutputStream escritura = null;
+            
+            
+                        
+            
+            try {
+                escritura = new FileOutputStream(new File(path + File.separator + nom));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
+            InputStream filecontent = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                escritura.write(bytes, 0, read);
+            }
+            
+            //response.sendRedirect(request.getContextPath() + "/menu.jsp");
+            
+        }      
         catch (Exception e) {
             if(e.equals("Extension")) {
                 System.out.println("La imatge no te extensio JPEG");
@@ -83,7 +88,7 @@ public class registrarImagen extends HttpServlet {
             }
         }  
         finally {
-            try (PrintWriter send = response.getWriter()) {
+            try (PrintWriter send = response.getWriter()) {                
                 database.cerrarConexion();
                 send.println("<!DOCTYPE html>");
                 send.println("<html>");
@@ -97,9 +102,9 @@ public class registrarImagen extends HttpServlet {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
+            } /*catch (InterruptedException ex) {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         }
         
        
@@ -124,7 +129,11 @@ public class registrarImagen extends HttpServlet {
        @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
              {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -138,7 +147,11 @@ public class registrarImagen extends HttpServlet {
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             {
+        try {
             processRequest(request, response);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

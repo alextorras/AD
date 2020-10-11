@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,11 +15,11 @@
     </head>
     <body>
         <h1>Eliminar Imagen</h1>
-        <text>Estas seguro que quieres eliminar la imagen?</text>
+        <text>Estas seguro que quieres eliminar la imagen <%=request.getAttribute("nom_foto")%>?</text>
         <form action="eliminarImagen" method="POST" enctype="multipart/form-data">
-            <input type="file" id="imagen" name="imagen"><br>
-            <input type="button" name="boto_si" value="Si" onclick="window.location.href='eliminarImagen'"><br>
-            <input type="button" name="boto_no" value="No" onclick="window.location.href='eliminarImagen'">
+        <br>
+            <input type="button" name="boto_si" value="Si" id="si" onclick="window.location.href='eliminarImagen'"><br>
+            <input type="button" name="boto_no" value="No" id="no" onclick="window.location.href='listImg.jsp'">
         </form>
     </body>
 </html>
