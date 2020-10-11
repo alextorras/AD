@@ -45,7 +45,6 @@ public class modificarImagen extends HttpServlet{
             int id = database.getID();
             
             database.updateImage(titol, descripcio, keywords, autor, datac);
-            out.println("<html>Imatge actualitzada</html>");
         } catch (IOException ex) {
             Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {

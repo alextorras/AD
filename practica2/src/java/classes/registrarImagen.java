@@ -36,7 +36,7 @@ import javax.servlet.http.Part;
 @MultipartConfig
 public class registrarImagen extends HttpServlet {
     callsSQL database = null;
-       protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws InterruptedException
+       protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             {
         response.setContentType("text/html;charset=UTF-8");
        
@@ -61,9 +61,6 @@ public class registrarImagen extends HttpServlet {
             database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
             OutputStream escritura = null;
             
-            
-                        
-            
             try {
                 escritura = new FileOutputStream(new File(path + File.separator + nom));
             } catch (FileNotFoundException ex) {
@@ -87,9 +84,11 @@ public class registrarImagen extends HttpServlet {
                 e.printStackTrace();
             }
         }  
-        finally {
-            try (PrintWriter send = response.getWriter()) {                
+        finally {         
+            try (PrintWriter send = response.getWriter()) {    
+                System.out.println("Entro al try este");
                 database.cerrarConexion();
+                System.out.println("La BD se ha cerrado");
                 send.println("<!DOCTYPE html>");
                 send.println("<html>");
                 send.println("<head>");
@@ -102,9 +101,9 @@ public class registrarImagen extends HttpServlet {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            } /*catch (InterruptedException ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
+            }
         }
         
        
@@ -128,12 +127,8 @@ public class registrarImagen extends HttpServlet {
    
        @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-             {
-        try {
-            processRequest(request, response);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    {
+    processRequest(request, response);
     }
 
     /**
@@ -146,12 +141,8 @@ public class registrarImagen extends HttpServlet {
      */
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            {
-        try {
-            processRequest(request, response);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    {
+        processRequest(request, response);
     }
 
     /**
