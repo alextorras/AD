@@ -88,6 +88,100 @@ public class callsSQL {
         return aux;
     }
     
+     public List<imagenData> buscarImagen(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename) throws SQLException {
+        List<imagenData> bilers;
+        bilers = new ArrayList<>();
+        ResultSet rs = null;
+        PreparedStatement statement = null;
+        
+        //try {
+            boolean ok;
+            /*String consulta = "SELECT * from IMAGE where title like CONCAT('%',?,'%')"
+                    + " OR description like CONCAT('%',?,'%')"
+                    + " OR keywords like CONCAT('%',?,'%')"
+                    + " OR author like CONCAT('%',?,'%')"
+                    + " OR creation_date like CONCAT('%',?,'%')"
+                    + " OR storage_date like CONCAT('%',?,'%')"
+                    + " OR filename like CONCAT('%',?,'%')";*/
+
+            String consulta = "SELECT * from IMAGE where title like ?"
+                    + " OR description like ?"
+                    + " OR keywords like ?"
+                    + " OR author like ?"
+                    + " OR creation_date like' ?"
+                    + " OR storage_date like ?"
+                    + " OR filename like  ? {escape '!'}";
+
+           /* titol = titol
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            descripcio = descripcio
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            keywords = keywords
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            autor = autor
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            datac = datac
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            datas = datas
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");
+            filename = filename
+                .replace("!", "!!")
+                .replace("%", "!%")
+                .replace("_", "!_")
+                .replace("[", "![");*/
+            
+            statement = cn.prepareStatement(consulta);
+            statement.setString(1,"%" + titol + "%");
+            statement.setString(2,"%" + descripcio+"%");
+            statement.setString(3, "%" +keywords +"%");
+            statement.setString(4,"%" + autor +"%");
+            statement.setString(5,"%" +datac + "%");
+            statement.setString(6,"%" + datas + "%");
+            statement.setString(7,"%" + filename + "%");
+            
+         /*   statement = cn.prepareStatement(consulta);
+            statement.setString(1,titol);
+            statement.setString(2, descripcio);
+            statement.setString(3,keywords);
+            statement.setString(4,autor);
+            statement.setString(5,datac);
+            statement.setString(6,datas);
+            statement.setString(7,filename);*/
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                imagenData biler = new imagenData();
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                ok = bilers.add(biler);
+                biler.printData();
+            }
+            return bilers;
+        }
+    
     public List<imagenData> listarImagenes() throws SQLException {
         List<imagenData> data = new ArrayList<imagenData>();
         PreparedStatement getImages = cn.prepareStatement("SELECT * FROM image ORDER BY creation_date DESC");
@@ -118,7 +212,7 @@ public class callsSQL {
         else return true;
     }
     
-    public void updateImage( String titol, String descripcio, String keywords, String autor, String datac) throws SQLException {
+    public void updateImage(String titol, String descripcio, String keywords, String autor, String datac) throws SQLException {
             PreparedStatement uploader = cn.prepareStatement("UPDATE Imatges SET titol = ?, descripcio = ?,  keywords = ?,  autor = ?, datac = ? WHERE id = ?");            
             uploader.setString(1,titol);
             uploader.setString(2,descripcio);

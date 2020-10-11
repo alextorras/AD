@@ -14,15 +14,21 @@
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="classes.callsSQL"%>
+<%@page import="javax.servlet.http.HttpSession"%>
+<%@page import="javax.servlet.http.Cookie"%>
+<%@page import="javax.servlet.http.HttpServlet"%>
+<%@page import="javax.servlet.http.HttpServletRequest"%>
+<%@page import="javax.servlet.http.HttpServletResponse"%>
+<%@page import="javax.servlet.http.HttpSession"%>
 
 
 
 <%
     callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
         String user = null;
-        if(session.getAttribute("username") == null){
+        if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("username");        
+        }else user = (String) session.getAttribute("user");        
     %>  
     
 <!DOCTYPE html>
@@ -75,6 +81,7 @@
                             </p>
                 
                         </form> 
+                        <% request.setAttribute("idImage", imagen.getId()); %>
                         <form action="eliminarImagen" method="POST">
                             <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
                             <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
@@ -84,10 +91,10 @@
                             <input type="hidden" name="id" value="<%= imagen.getId()%>">
                             <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                             <p>
-                                <button type="submit" >Eliminar</button>
+                                <button type="submit" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
                             </p>
-                
-                        </form> 
+                        </form>
+                            
         
 
                         <%

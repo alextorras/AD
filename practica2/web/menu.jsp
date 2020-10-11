@@ -17,24 +17,16 @@
     <CENTER>
         <form>
         <br>
-<<<<<<< HEAD
         <input type="BUTTON" value="Registrar Imagen" onclick="window.location.href='registrarImagen.jsp'">
         <br>
         <br>
         <input type="BUTTON" value="Listar Imagenes" onclick="window.location.href='listImg.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Buscar Imagen" onclick="window.localtion.href='buscarImagen.jsp'">
+        <input type="BUTTON" value="Buscar Imagen" onclick="window.location.href='buscarImagen.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'">
-=======
-        <input type="BUTTON" value="Registrar Imagen" onclick="window.location.href='registrarImagen.jsp'">;
-        <br>
-        <input type="BUTTON" value="Listar Imagenes" onclick="window.location.href='listImg.jsp'">
-        <br>
-        <input type="BUTTON" value="Buscar Imagen" onclick="window.location.href='buscarImagen.jsp'">;
->>>>>>> master
+        <% /*<input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'"> */ %>
         </form>
     </CENTER>
     </body>

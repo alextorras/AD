@@ -9,9 +9,9 @@
 <%
 
         String user = null;
-        if(session.getAttribute("username") == null){
+        if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("username");        
+        }else user = (String) session.getAttribute("user");        
       
     %>  
 

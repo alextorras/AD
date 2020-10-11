@@ -15,13 +15,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JButton;
 
 /**
  *
@@ -29,6 +29,8 @@ import javax.swing.JButton;
  */
 @WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
 public class eliminarImagen extends HttpServlet {
+    Integer id_aux = 0;
+    String nom_aux = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,54 +46,40 @@ public class eliminarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            out.println("<html>Connectat<br></html>");
-            //response.sendRedirect("opcions.jsp");
-            /* TODO output your page here. You may use following sample code. */
-            /*out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet eliminarImagen</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");*/ 
-           
+            String url = request.getHeader("referer");
             
-            HttpSession s = request.getSession();
-            String user_aux = (String) s.getAttribute("user");
-            Integer id_aux = (Integer) s.getAttribute("idImage");
-            
+            //Si vienes de listar imagen, vete al JSP primero
+            if(url.equals("http://localhost:8080/practica2/listImg.jsp")) {
+                id_aux = Integer.parseInt(request.getParameter("id"));
+                nom_aux = database.nom_eliminar_imagen(id_aux);
+                request.setAttribute("nom_foto", nom_aux);
+                request.getRequestDispatcher("eliminarImagen.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/eliminarImagen.jsp");
+            }
+                                    
             out.println("<html>" + id_aux + "</html>");
+            if(id_aux == null) out.println("<html><br>No existeix tal imatge <br></html>");
+            //LANZAR EXCEPCIÓN PARA ESTE CASO
             
-            if(id_aux == null) out.println("<html>No existeix tal imatge</html>");
-            //if(user_aux.equals(null)) out.println("<html>La sessió s'ha tancat</html>");
-            //LANZAR EXCEPCIONES PARA ESTOS DOS CASOS
-            
-            
-            String nom_aux = database.nom_eliminar_imagen(id_aux);
+            out.println("<html><br>" + nom_aux + "<br></html>");
             boolean resultat = false;
-            if(nom_aux.equals(null)) out.println("<html>La base de dades no existeix</html>");
+            if(nom_aux.equals(null)) out.println("<html>La imagen " + nom_aux + " no existeix.</html>");
             else {
                 resultat = database.eliminar_imagen(id_aux);
             }
             
-
+            out.println(nom_aux);
+            out.println("\n");
             
-            
-            out.println("<html>Imatge eliminada amb exit</html>");            
-            File f = new File("C:\\Users\\admin\\Pictures\\" + nom_aux);
+            out.println("<html>Imatge eliminada amb exit<br></html>");            
+            File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
             if(f.delete() == true)
             {
-                
-                response.sendRedirect("/opcions.jsp");
-                //FALTA IMPLEMENTAR BOTÓN PARA VOLVER AL MENÚ PRINCIPAL.
+                response.sendRedirect(request.getContextPath() + "/opcions.jsp");
             }
             else {
-                out.println("<html>No, entro aqui</html>");
-                //response.sendRedirect("/menu.jsp");
+                response.sendRedirect("/menu.jsp");
             }
-            
             database.cerrarConexion();
             
             
@@ -111,7 +99,6 @@ public class eliminarImagen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);

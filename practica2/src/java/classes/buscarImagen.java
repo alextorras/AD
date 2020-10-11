@@ -1,3 +1,5 @@
+package classes;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -58,7 +60,7 @@ public class buscarImagen extends HttpServlet {
             {
             
             */
-            //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             List<imagenData> resultados;
             resultados = null;
             String titol = request.getParameter("titol");
@@ -68,9 +70,8 @@ public class buscarImagen extends HttpServlet {
             String datac = request.getParameter("datacreation");
             String datas = request.getParameter("datasubida");
             String filename = request.getParameter("filename");
-            ConsultaBase mibase = new ConsultaBase(titol, descripcio, keywords, autor, datac, datas,filename);
             //resultados = database.ConsultaImagen(titol, descripcio, keywords, autor, datac, datas,filename);
-            resultados = mibase.getImageData();
+            resultados = database.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
             if (resultados != null)
             {
             sendResponse(resultados,out);
@@ -78,16 +79,16 @@ public class buscarImagen extends HttpServlet {
       //      }
     //}
             else{
-                response.sendRedirect(request.getContextPath()+"error.jsp?/codigo = 4");
+                response.sendRedirect(request.getContextPath()+"/error.jsp?/codigo=4");
             }
             } catch (SQLException e) {
 
-            response.sendRedirect(request.getContextPath() + "error.jsp?/codigo=1");
+            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
             
         }
         catch (Exception e) {
 
-            response.sendRedirect(request.getContextPath() + "error.jsp?/codigo=3");
+            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=3");
 
         }
         finally
@@ -127,7 +128,7 @@ public class buscarImagen extends HttpServlet {
 
     private void PrintImageData(imagenData im, PrintWriter out) {
             
-            //String user_aux = lasesion.getAttribute("user").toString();
+            String user_aux = lasesion.getAttribute("user").toString();
             
             out.println("<th scope=\"row\">" + im.getId() + "</th>");
             out.println("<td>" + im.getTitol() + "</td>");
@@ -137,22 +138,17 @@ public class buscarImagen extends HttpServlet {
             out.println("<td>" + im.getDatac() + "</td>");
             out.println("<td>" + im.getDatas() + "</td>");
             out.println("<td>" + im.getFilename() + "</td>");
-            /*
+            
             if(im.getAutor().equals(user_aux))
             {
                 out.println("<td><a href=\"modificarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" +
-"</td>");
+                    "</td>");
             }
             else 
             {
               out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" +
-"</td>");
-            }
-*/            
-            
-
-      
-            
+                    "</td>");
+            }          
 
         }
 

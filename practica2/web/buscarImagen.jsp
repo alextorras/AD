@@ -15,18 +15,18 @@
     <body>
         
 
-        <%/*
-            HttpSession lasesion = request.getSession();
+        <%
+            
 
-            if (lasesion.getAttribute(username) == null) //no hay sesión
+            if (session.getAttribute("user") == null) //no hay sesión
             {
                 response.sendRedirect("login.jsp");
             }
-*/
+
         %>
         <form action="buscarImagen" method="GET">
 
-        </div><div class="container p-5">
+        <div class="container p-5">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
                     <div class="card-header bg-dark text-white text-center">
@@ -66,7 +66,10 @@
                         </div>  
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                    </form>
                 </div>
-                </body>
-                </html>
+            </div>
+        </div>
+       </form>
+                
+    </body>
+    </html>

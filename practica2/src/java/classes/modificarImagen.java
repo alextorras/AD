@@ -45,6 +45,7 @@ public class modificarImagen extends HttpServlet{
             int id = database.getID();
             
             database.updateImage(titol, descripcio, keywords, autor, datac);
+            response.sendRedirect(request.getContextPath() + "/menu.jsp");
         } catch (IOException ex) {
             Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -55,11 +56,8 @@ public class modificarImagen extends HttpServlet{
         
         finally{
             try {
-                database.cerrarConexion();
-                response.sendRedirect(request.getContextPath() + "menu.jsp");
+                database.cerrarConexion();                
             } catch (SQLException ex) {
-                Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
                 Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
