@@ -71,8 +71,15 @@ public class buscarImagen extends HttpServlet {
             ConsultaBase mibase = new ConsultaBase(titol, descripcio, keywords, autor, datac, datas,filename);
             //resultados = database.ConsultaImagen(titol, descripcio, keywords, autor, datac, datas,filename);
             resultados = mibase.getImageData();
+            if (resultados != null)
+            {
             sendResponse(resultados,out);
-            //}
+            }
+      //      }
+    //}
+            else{
+                response.sendRedirect(request.getContextPath()+"error.jsp?/codigo = 4");
+            }
             } catch (SQLException e) {
 
             response.sendRedirect(request.getContextPath() + "error.jsp?/codigo=1");

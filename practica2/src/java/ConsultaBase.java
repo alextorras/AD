@@ -56,7 +56,7 @@ public class ConsultaBase {
                     + " OR author like ?"
                     + " OR creation_date like ?"
                     + " OR storage_date like ?"
-                    + " OR filename like ? {escape '!'}";
+                    + " OR filename like ? escape '!'";
 
             titol = titol
                 .replace("!", "!!")
