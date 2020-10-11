@@ -39,11 +39,12 @@ public class registrarImagen extends HttpServlet {
        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             {
         response.setContentType("text/html;charset=UTF-8");
-        final String path = ("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\web\\imagenes");
        
             /* TODO output your page here. You may use following sample code. */
         try (PrintWriter out = response.getWriter()) {
-
+            String arrel = request.getContextPath();
+            final String path = ("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes");
+            
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
@@ -58,23 +59,24 @@ public class registrarImagen extends HttpServlet {
             int id = database.getID();
             
             database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
-             OutputStream escritura = null;
-        try {
-            escritura = new FileOutputStream(new File(path + File.separator
-                    + nom));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        InputStream filecontent = filePart.getInputStream();
-
-        int read = 0;
-        final byte[] bytes = new byte[1024];
-
-        while ((read = filecontent.read(bytes)) != -1) {
-            escritura.write(bytes, 0, read);
+            OutputStream escritura = null;
+            
+            try {
+                escritura = new FileOutputStream(new File(path + File.separator + nom));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
+            InputStream filecontent = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+
+            while ((read = filecontent.read(bytes)) != -1) {
+                escritura.write(bytes, 0, read);
+            }
+            
+            //response.sendRedirect(request.getContextPath() + "/menu.jsp");
+            
+        }      
         catch (Exception e) {
             if(e.equals("Extension")) {
                 System.out.println("La imatge no te extensio JPEG");
@@ -82,9 +84,11 @@ public class registrarImagen extends HttpServlet {
                 e.printStackTrace();
             }
         }  
-        finally {
-            try (PrintWriter send = response.getWriter()) {
+        finally {         
+            try (PrintWriter send = response.getWriter()) {    
+                System.out.println("Entro al try este");
                 database.cerrarConexion();
+                System.out.println("La BD se ha cerrado");
                 send.println("<!DOCTYPE html>");
                 send.println("<html>");
                 send.println("<head>");
@@ -123,8 +127,8 @@ public class registrarImagen extends HttpServlet {
    
        @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-             {
-        processRequest(request, response);
+    {
+    processRequest(request, response);
     }
 
     /**
@@ -137,8 +141,8 @@ public class registrarImagen extends HttpServlet {
      */
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            {
-            processRequest(request, response);
+    {
+        processRequest(request, response);
     }
 
     /**
