@@ -49,14 +49,21 @@ public class ConsultaBase {
         
         //try {
             boolean ok;
+            String consulta = "SELECT * from IMAGE where title like CONCAT('%',?,'%')"
+                    + " OR description like CONCAT('%',?,'%')"
+                    + " OR keywords like CONCAT('%',?,'%')"
+                    + " OR author like CONCAT('%',?,'%')"
+                    + " OR creation_date like CONCAT('%',?,'%')"
+                    + " OR storage_date like CONCAT('%',?,'%')"
+                    + " OR filename like CONCAT('%',?,'%')";
 
-            String consulta = "SELECT * from image where title like ?"
+           /* String consulta = "SELECT * from IMAGE where title like ?"
                     + " OR description like ?"
                     + " OR keywords like ?"
                     + " OR author like ?"
-                    + " OR creation_date like ?"
+                    + " OR creation_date like' ?"
                     + " OR storage_date like ?"
-                    + " OR filename like ? escape '!'";
+                    + " OR filename like  ? {escape '!'}";
 
             titol = titol
                 .replace("!", "!!")
@@ -102,7 +109,15 @@ public class ConsultaBase {
             statement.setString(5,"%" +datac + "%");
             statement.setString(6,"%" + datas + "%");
             statement.setString(7,"%" + filename + "%");
-            
+            */
+            statement = cn.prepareStatement(consulta);
+            statement.setString(1,titol);
+            statement.setString(2, descripcio);
+            statement.setString(3,keywords);
+            statement.setString(4,autor);
+            statement.setString(5,datac);
+            statement.setString(6,datas);
+            statement.setString(7,filename);
             rs = statement.executeQuery();
             while (rs.next()) {
                 imagenData biler = new imagenData();
