@@ -1,31 +1,34 @@
+package classes;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
+import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Class.forName;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.swing.JButton;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name="login", urlPatterns = {"/login"})
-public class login extends HttpServlet {
+@WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
+public class eliminarImagen extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,42 +43,65 @@ public class login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            out.println("<html>Connectat<br></html>");
+            //response.sendRedirect("opcions.jsp");
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
+            /*out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet login</title>");        
+            out.println("<title>Servlet eliminarImagen</title>");            
             out.println("</head>");
             out.println("<body>");
-            
-            Connection cn = null;
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            String user = request.getParameter("usuario");
-            String password =request.getParameter("password");
-            String query = "select * from usuarios where id_usuario='" + user + "' and password='" + password + "'";
-            System.out.println(query);
-            PreparedStatement st = cn.prepareStatement(query);
-            ResultSet rs = st.executeQuery();
-            /*out.println(user + " " + password);
-            out.println("<h1>Servlet login at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
             out.println("</body>");
-            out.println("</html>");*/
+            out.println("</html>");*/ 
+           
             
-            if(!rs.next()) out.println("<html>Usuario o contrasenya mal introducidos</html>");
+            HttpSession s = request.getSession();
+            String user_aux = (String) s.getAttribute("user");
+            Integer id_aux = (Integer) s.getAttribute("idImage");
+            
+            out.println("<html>" + id_aux + "</html>");
+            
+            if(id_aux == null) out.println("<html>No existeix tal imatge</html>");
+            //if(user_aux.equals(null)) out.println("<html>La sessió s'ha tancat</html>");
+            //LANZAR EXCEPCIONES PARA ESTOS DOS CASOS
+            
+            
+            String nom_aux = database.nom_eliminar_imagen(id_aux);
+            boolean resultat = false;
+            if(nom_aux.equals(null)) out.println("<html>La base de dades no existeix</html>");
             else {
-                out.println ("<html>Hola </html>" + user);
-                response.sendRedirect(request.getContextPath() + "/menu.jsp");
-            }                
-            } catch(SQLException e) {
-                e.printStackTrace();
-            } catch(ClassNotFoundException e) {
-                e.printStackTrace();
+                resultat = database.eliminar_imagen(id_aux);
             }
             
-            
-        }
 
+            
+            
+            out.println("<html>Imatge eliminada amb exit</html>");            
+            File f = new File("C:\\Users\\admin\\Pictures\\" + nom_aux);
+            if(f.delete() == true)
+            {
+                
+                response.sendRedirect("/opcions.jsp");
+                //FALTA IMPLEMENTAR BOTÓN PARA VOLVER AL MENÚ PRINCIPAL.
+            }
+            else {
+                out.println("<html>No, entro aqui</html>");
+                //response.sendRedirect("/menu.jsp");
+            }
+            
+            database.cerrarConexion();
+            
+            
+        }catch(SQLException e) {
+            e.printStackTrace();            
+        } catch(ClassNotFoundException e) {
+            System.out.println("<html>No s'ha trobat la classe</html>");
+        }
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -102,7 +128,7 @@ public class login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**

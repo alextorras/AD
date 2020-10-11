@@ -1,7 +1,7 @@
 <%-- 
-    Document   : login
-    Created on : 30-sep-2020, 10:30:31
-    Author     : Dani
+    Document   : opcions
+    Created on : 09-oct-2020, 18:19:02
+    Author     : admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,18 +13,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Practica 2!</h1>
-        <br>
     <CENTER>
-        <form action="login" method="POST">
-            <input type="text" placeholder="Usuario" name="usuario" required>
-            <br>
-            <br>
-            <input type="password" placeholder="Contraseña" name="password" required>
-            <br>
-            <br>
-            <input type="submit" value="Enviar">
-        </form>
-    </CENTER>
+        <br>
+        <h1> La imatge s'ha eliminat correctament </h1>
+        <br>
+        <br>
+        <text> Vols tornar al menu principal?</text>
+        <input type="BUTTON" value="Si" style="height: '250'" onclick="window.location.href='menu.jsp'">
+    </center>
     </body>
 </html>
