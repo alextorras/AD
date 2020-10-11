@@ -1,4 +1,3 @@
-package classes;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,20 +6,32 @@ package classes;
 
 /**
  *
- * @author Àlex
+ * @author Alejandro
  */
 public class imagenData {
-            String titol;
-            String descripcio;
-            String keywords;
-            String autor ;
-            String datac ;
-            String datas;
-            String filename;
-            int id;
-    
-    public String getTitol(){
-    return titol;  
+
+    String titol;
+    String descripcio;
+    String keywords;
+    String autor;
+    String datac;
+    String datas;
+    String filename;
+    int id;
+
+    public imagenData() {
+        titol = null;
+        descripcio = null;
+        keywords = null;
+        autor = null;
+        datac = null;
+        datas = null;
+        filename = null;
+        id = -1;
+    }
+
+    public String getTitol() {
+        return titol;
     }
 
     public String getDescripcio() {
@@ -42,11 +53,12 @@ public class imagenData {
     public String getDatas() {
         return datas;
     }
-    public int getId(){
+
+    public int getId() {
         return id;
     }
-    public String getFilename()
-    {
+
+    public String getFilename() {
         return filename;
     }
 
@@ -73,10 +85,23 @@ public class imagenData {
     public void setDatas(String datas) {
         this.datas = datas;
     }
-    public void setFilename(String filename){
+
+    public void setFilename(String filename) {
         this.filename = filename;
     }
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public void printData() {
+        System.out.println("Primer elemento" + titol);
+        System.out.println("Primer elemento" + descripcio);
+        System.out.println("Primer elemento" + autor);
+        System.out.println("Primer elemento" + keywords);
+        System.out.println("Primer elemento" + datac);
+        System.out.println("Primer elemento" + datas);
+        System.out.println("Primer elemento" + filename);
+
     }
 }
