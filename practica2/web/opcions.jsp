@@ -19,6 +19,7 @@
         <br>
         <br>
         <text> Vols tornar al menu principal?</text>
+        <br>
         <input type="BUTTON" value="Si" style="height: '250'" onclick="window.location.href='menu.jsp'">
     </center>
     </body>

@@ -29,7 +29,7 @@ public class modificarImagen extends HttpServlet{
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             {
         response.setContentType("text/html;charset=UTF-8");
-        final String path = ("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\imagenes");
+        //final String path = ("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\");
        
             /* TODO output your page here. You may use following sample code. */
         try (PrintWriter out = response.getWriter()) {
@@ -56,7 +56,7 @@ public class modificarImagen extends HttpServlet{
         finally{
             try {
                 database.cerrarConexion();
-                response.sendRedirect(request.getContextPath() + "menu.jsp");
+                response.sendRedirect(request.getContextPath() + "/menu.jsp");
             } catch (SQLException ex) {
                 Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
