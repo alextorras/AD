@@ -15,21 +15,30 @@
     <body>
         <%
         String mensaje;
+        String boton;
         String localcodigo;
         localcodigo = request.getParameter("codigo");
         switch(localcodigo)
         {
             case "1":
                 mensaje = "<p class=\"card-text\">Error de SQL</p>" ;
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
                 break;
             case "2":
                 mensaje = "<p class=\"card-text\">No se ha encontrado la clase</p>" ;
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
                 break;
             case "4":
                 mensaje = "<p class=\"card-text\">No hay resultados</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case "5":
+                mensaje = "<p class=\"card-text\">Usuario o contraseña incorrectos</p>";
+                boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
                 break;
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
+                boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
                 break;
         }
         
@@ -39,7 +48,7 @@
             <div class="card-body">
                 <h5 class="card-title">ERROR</h5>
                 <%= mensaje %>
-                <a href="javascript:history.back(1)" class="btn btn-primary">Back</a>
+                <%= boton %>
             </div>
         </div>
     </body>
