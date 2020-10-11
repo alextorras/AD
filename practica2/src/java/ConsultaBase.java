@@ -95,13 +95,13 @@ public class ConsultaBase {
                 .replace("[", "![");
             
             statement = cn.prepareStatement(consulta);
-            statement.setString(1, titol + "%");
-            statement.setString(2, descripcio+"%");
-            statement.setString(3, keywords +"%");
-            statement.setString(4, autor +"%");
-            statement.setString(5,datac + "%");
-            statement.setString(6, datas + "%");
-            statement.setString(7, filename + "%");
+            statement.setString(1,"%" + titol + "%");
+            statement.setString(2,"%" + descripcio+"%");
+            statement.setString(3, "%" +keywords +"%");
+            statement.setString(4,"%" + autor +"%");
+            statement.setString(5,"%" +datac + "%");
+            statement.setString(6,"%" + datas + "%");
+            statement.setString(7,"%" + filename + "%");
             
             rs = statement.executeQuery();
             while (rs.next()) {
