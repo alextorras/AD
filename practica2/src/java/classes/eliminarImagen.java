@@ -15,6 +15,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,10 +44,12 @@ public class eliminarImagen extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
              id_aux = (int) session.getAttribute("idImage");
             
@@ -75,9 +79,28 @@ public class eliminarImagen extends HttpServlet {
             
             
         }catch(SQLException e) {
-            e.printStackTrace();            
+            try {
+                session.setAttribute("codigo", "1");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
         } catch(ClassNotFoundException e) {
-            System.out.println("<html>No s'ha trobat la classe</html>");
+            session.setAttribute("codigo", "2");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch(IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+            //System.out.println("<html>No s'ha trobat la classe</html>");
+        } catch(IOException e) {
+            session.setAttribute("codigo", "5");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");                
+            }
+                      
         }
     }
     

@@ -30,7 +30,6 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name="login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
     callsSQL database = null;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,7 +41,8 @@ public class login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");        
+        response.setContentType("text/html;charset=UTF-8"); 
+        HttpSession s = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             /* TODO output your page here. You may use following sample code. */
@@ -62,12 +62,7 @@ public class login extends HttpServlet {
             String password = (String) request.getParameter("password");
             if(user.equals(null) || password.equals(null)) out.println("<html>Hola</html>");
             boolean comprova = database.login(user, password);
-            
-            
-            
-            
-            
-            HttpSession s = request.getSession();
+
             s.setAttribute("user", user);
             Cookie c = new Cookie("user", user);
             c.setMaxAge(600);
@@ -77,16 +72,17 @@ public class login extends HttpServlet {
             
             //database.cerrarConexion();            
             if(!comprova) {
-                //response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
-                out.println("<html>Usuario o contrasenya mal introducidos</html>");
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
             }
             else {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
             }                
         } catch(SQLException e) {
-            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
-            e.printStackTrace();
+            s.setAttribute("codigo", "1");
+            response.sendRedirect(request.getContextPath() + "/error.jsp");
         } catch(ClassNotFoundException e) {
+            s.setAttribute("codigo", "2");
             response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=2");
             e.printStackTrace();
         }
@@ -94,7 +90,8 @@ public class login extends HttpServlet {
             try {
                 database.cerrarConexion();
             } catch(SQLException e) {
-                e.printStackTrace();
+                s.setAttribute("codigo", "1");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
             }
         }
         

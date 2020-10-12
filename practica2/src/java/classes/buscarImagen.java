@@ -16,6 +16,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +33,7 @@ import javax.servlet.http.HttpSession;
 public class buscarImagen extends HttpServlet {
      private HttpSession lasesion;
      String user_aux;
-     //callsSQL database = null;
+     callsSQL database = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,6 +47,7 @@ public class buscarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException  {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession s = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             lasesion = request.getSession();
@@ -70,17 +73,23 @@ public class buscarImagen extends HttpServlet {
             sendResponse(resultados,out);
             }
             else{
-                response.sendRedirect(request.getContextPath()+"/error.jsp?/codigo=4");
+                s.setAttribute("codigo", "3");
+                response.sendRedirect(request.getContextPath()+ "/error.jsp");
             }
         } catch (SQLException e) {
-            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
+            s.setAttribute("codigo", "1");
+            response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
         catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=3");
+            response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
         finally
         {
-            
+            try {
+                database.cerrarConexion();
+            } catch (SQLException ex) {
+                s.setAttribute("codigo", "1");
+            }
         }
 
     }
