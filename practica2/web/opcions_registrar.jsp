@@ -1,6 +1,6 @@
 <%-- 
-    Document   : opcions
-    Created on : 09-oct-2020, 18:19:02
+    Document   : opcions_registrar
+    Created on : 12-oct-2020, 15:36:24
     Author     : admin
 --%>
 
@@ -15,9 +15,9 @@
     <body>
     <CENTER>
         <br>
-        <h1> La imatge s'ha eliminat correctament </h1>
+        <h1>La imatge s'ha registrat correctament </h1>
         <br>
-        <input type="BUTTON" value="Torna al menu" style="height: '250'" onclick="window.location.href='menu.jsp'">
+        <input type="BUTTON" value="Torna al menu" onclick="window.location.href='menu.jsp'">
         <br>
         <br>
         <input type="BUTTON" value="Tanca la sessió" onclick="window.location.href='logout.jsp'">

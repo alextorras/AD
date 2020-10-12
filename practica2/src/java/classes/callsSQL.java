@@ -86,7 +86,7 @@ public class callsSQL {
         return aux;
     }
     
-     public List<imagenData> buscarImagen(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename) throws SQLException {
+    public List<imagenData> buscarImagen(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename) throws SQLException {
         List<imagenData> bilers;
         bilers = new ArrayList<>();
         ResultSet rs = null;
@@ -94,23 +94,23 @@ public class callsSQL {
         
         //try {
             boolean ok;
-            /*String consulta = "SELECT * from IMAGE where title like CONCAT('%',?,'%')"
-                    + " OR description like CONCAT('%',?,'%')"
-                    + " OR keywords like CONCAT('%',?,'%')"
-                    + " OR author like CONCAT('%',?,'%')"
-                    + " OR creation_date like CONCAT('%',?,'%')"
-                    + " OR storage_date like CONCAT('%',?,'%')"
-                    + " OR filename like CONCAT('%',?,'%')";*/
+            String consulta = "SELECT * from IMAGE where (title like '%'||?||'%')"
+                    + " OR (description like '%'||?||'%')"
+                    + " OR (keywords like '%'||?||'%')"
+                    + " OR (author like '%'||?||'%')"
+                    + " OR (creation_date like '%'||?||'%')"
+                    + " OR (storage_date like '%'||?||'%')"
+                    + " OR (filename like '%'||?||'%')";
 
-            String consulta = "SELECT * from IMAGE where title like ?"
+            /*String consulta = "SELECT * from IMAGE where (title like ?)"
                     + " OR description like ?"
                     + " OR keywords like ?"
                     + " OR author like ?"
                     + " OR creation_date like' ?"
                     + " OR storage_date like ?"
-                    + " OR filename like  ? {escape '!'}";
-
-           /* titol = titol
+                    + " OR filename like  ?";
+            
+            titol = titol
                 .replace("!", "!!")
                 .replace("%", "!%")
                 .replace("_", "!_")
@@ -144,8 +144,9 @@ public class callsSQL {
                 .replace("!", "!!")
                 .replace("%", "!%")
                 .replace("_", "!_")
-                .replace("[", "![");*/
-            
+                .replace("[", "![");
+            */
+            /*
             statement = cn.prepareStatement(consulta);
             statement.setString(1,"%" + titol + "%");
             statement.setString(2,"%" + descripcio+"%");
@@ -154,15 +155,15 @@ public class callsSQL {
             statement.setString(5,"%" +datac + "%");
             statement.setString(6,"%" + datas + "%");
             statement.setString(7,"%" + filename + "%");
-            
-         /*   statement = cn.prepareStatement(consulta);
+            */
+           statement = cn.prepareStatement(consulta);
             statement.setString(1,titol);
             statement.setString(2, descripcio);
             statement.setString(3,keywords);
             statement.setString(4,autor);
             statement.setString(5,datac);
             statement.setString(6,datas);
-            statement.setString(7,filename);*/
+            statement.setString(7,filename);
             rs = statement.executeQuery();
             while (rs.next()) {
                 imagenData biler = new imagenData();
@@ -175,10 +176,12 @@ public class callsSQL {
                 biler.setDatas(rs.getString("storage_date"));
                 biler.setFilename(rs.getString("filename"));
                 ok = bilers.add(biler);
-                biler.printData();
+                //
             }
             return bilers;
         }
+    
+
     
     public List<imagenData> listarImagenes() throws SQLException {
         List<imagenData> data = new ArrayList<imagenData>();

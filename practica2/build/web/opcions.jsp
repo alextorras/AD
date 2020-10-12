@@ -18,6 +18,9 @@
         <h1> La imatge s'ha eliminat correctament </h1>
         <br>
         <input type="BUTTON" value="Torna al menu" style="height: '250'" onclick="window.location.href='menu.jsp'">
-    </center>
+        <br>
+        <br>
+        <input type="BUTTON" value="Tanca la sessió" onclick="window.location.href='logout.jsp'">
+    </CENTER>
     </body>
 </html>

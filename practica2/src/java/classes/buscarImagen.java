@@ -30,6 +30,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet(urlPatterns = {"/buscarImagen"})
 public class buscarImagen extends HttpServlet {
      private HttpSession lasesion;
+     String user_aux;
      //callsSQL database = null;
 
     /**
@@ -46,20 +47,13 @@ public class buscarImagen extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           /*
-            
             lasesion = request.getSession();
-       
-            if(lasesion.getAtribute(username)== null)
-                //no hay sesión
-                
-            {
-             response.sendRedirect(request.getContextPath() +"login.jsp");   
+            user_aux = (String) lasesion.getAttribute("user");
+            //out.println(user_aux);
+            if(user_aux.equals(null)) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
             }
-            else
-            {
-            
-            */
+
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             List<imagenData> resultados;
             resultados = null;
@@ -70,26 +64,19 @@ public class buscarImagen extends HttpServlet {
             String datac = request.getParameter("datacreation");
             String datas = request.getParameter("datasubida");
             String filename = request.getParameter("filename");
-            //resultados = database.ConsultaImagen(titol, descripcio, keywords, autor, datac, datas,filename);
             resultados = database.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
             if (resultados != null)
             {
             sendResponse(resultados,out);
             }
-      //      }
-    //}
             else{
                 response.sendRedirect(request.getContextPath()+"/error.jsp?/codigo=4");
             }
-            } catch (SQLException e) {
-
+        } catch (SQLException e) {
             response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
-            
         }
         catch (Exception e) {
-
             response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=3");
-
         }
         finally
         {
@@ -126,29 +113,26 @@ public class buscarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void PrintImageData(imagenData im, PrintWriter out) {
-            
-            String user_aux = lasesion.getAttribute("user").toString();
-            
-            out.println("<th scope=\"row\">" + im.getId() + "</th>");
-            out.println("<td>" + im.getTitol() + "</td>");
-            out.println("<td>" + im.getDescripcio() + "</td>");
-            out.println("<td>" + im.getKeywords() + "</td>");
-            out.println("<td>" + im.getAutor() + "</td>");
-            out.println("<td>" + im.getDatac() + "</td>");
-            out.println("<td>" + im.getDatas() + "</td>");
-            out.println("<td>" + im.getFilename() + "</td>");
-            
-            if(im.getAutor().equals(user_aux))
-            {
-                out.println("<td><a href=\"modificarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" +
-                    "</td>");
-            }
-            else 
-            {
-              out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" +
-                    "</td>");
-            }          
+    private void PrintImageData(imagenData im, PrintWriter out) {            
+        out.println("<th scope=\"row\">" + im.getId() + "</th>");
+        out.println("<td>" + im.getTitol() + "</td>");
+        out.println("<td>" + im.getDescripcio() + "</td>");
+        out.println("<td>" + im.getKeywords() + "</td>");
+        out.println("<td>" + im.getAutor() + "</td>");
+        out.println("<td>" + im.getDatac() + "</td>");
+        out.println("<td>" + im.getDatas() + "</td>");
+        out.println("<td>" + im.getFilename() + "</td>");
+
+        if(im.getAutor().equals(user_aux))
+        {
+            out.println("<td><a href=\"modificarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
+            out.println("<td><a href=\"eliminarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+        }
+        else 
+        {
+          out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
+          out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+        }          
 
         }
 
@@ -177,6 +161,7 @@ public class buscarImagen extends HttpServlet {
             out.println("<th scope=\"col\">storage_date</th>");
             out.println("<th scope=\"col\">filename</th>");
             out.println("<th scope=\"col\">Modificar</th>");
+            out.println("<th scope=\"col\">Eliminar</th>");
             out.println("</tr>");
             out.println("</thead>");
             out.println("<tbody>");
