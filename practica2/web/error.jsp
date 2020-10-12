@@ -47,7 +47,12 @@
             case 7:
                 mensaje = "<p class=\"card-text\">Error del Servlet</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
-
+            case 8:
+                mensaje = "<p class=\"card-text\">ID de la imagen NULL</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 9:
+                mensaje = "<p class=\"card-text\">No se ha eliminado la base de datos.</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";

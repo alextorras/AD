@@ -54,21 +54,19 @@ public class eliminarImagen extends HttpServlet {
              id_aux = (int) session.getAttribute("idImage");
             
             nom_aux = database.nom_eliminar_imagen(id_aux);
-                                    
-            //out.println("<html>" + id_aux + "</html>");
-            if(id_aux == 0) out.println("<html><br>No existeix tal imatge <br></html>");
-            //LANZAR EXCEPCIÓN PARA ESTE CASO
-            
-            out.println("<html><br>" + nom_aux + "<br></html>");
-            boolean resultat = false;
-            if(nom_aux.equals(null)) out.println("<html>La imagen " + nom_aux + " no existeix.</html>");
-            else {
-                resultat = database.eliminar_imagen(id_aux);
+            if(id_aux == 0){
+                session.setAttribute("codigo", "8");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }
+            boolean resultat;
+            resultat = database.eliminar_imagen(id_aux);
+            if(!resultat) {
+                session.setAttribute("codigo", "9");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");                
             }
             
-            out.println("<html>Imatge eliminada amb exit<br></html>");            
-            //File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
-            File f = new File(request.getContextPath() + "/web/images/" + nom_aux);
+            File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
+            //File f = new File(request.getContextPath() + "/web/images/" + nom_aux);
             if(f.delete())
             {
                 response.sendRedirect(request.getContextPath() + "/opcions.jsp");

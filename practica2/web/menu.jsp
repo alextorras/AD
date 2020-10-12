@@ -13,17 +13,17 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Menu</h1>
-    <CENTER>
+        <CENTER>
+        <h1 class="alert alert-primary">Menu</h1>
         <form>
         <br>
-        <input type="BUTTON" value="Registrar Imagen" onclick="window.location.href='registrarImagen.jsp'">
+        <input type="BUTTON" value="Registrar Imagen" class="btn btn-primary" onclick="window.location.href='registrarImagen.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Listar Imagenes" onclick="window.location.href='listImg.jsp'">
+        <input type="BUTTON" value="Listar Imagenes" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Buscar Imagen" onclick="window.location.href='buscarImagen.jsp'">
+        <input type="BUTTON" value="Buscar Imagen" class="btn btn-dark" onclick="window.location.href='buscarImagen.jsp'">
         <br>
         <br>
         <% /*<input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'"> */ %>

@@ -142,27 +142,50 @@ public class buscarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void PrintImageData(imagenData im, PrintWriter out) {            
-        out.println("<th scope=\"row\">" + im.getId() + "</th>");
-        out.println("<td>" + im.getTitol() + "</td>");
-        out.println("<td>" + im.getDescripcio() + "</td>");
-        out.println("<td>" + im.getKeywords() + "</td>");
-        out.println("<td>" + im.getAutor() + "</td>");
-        out.println("<td>" + im.getDatac() + "</td>");
-        out.println("<td>" + im.getDatas() + "</td>");
-        out.println("<td>" + im.getFilename() + "</td>");
+    private void PrintImageData(imagenData im, PrintWriter out) {
+        out.println("<form action=\"modificarImagen.jsp\" method=\"POST\">");
+        out.println("<th scope=\"row\" value=\"" + im.getId() + "\"> " + im.getId() + " </th>");
+        out.println("<td name=\"titol\" value=\"" + im.getTitol() + "\">" + im.getTitol() + "</td>");
+        out.println("<td name=\"descripcio\" value=\"" + im.getDescripcio() + "\"> " + im.getDescripcio() + " </td>");
+        out.println("<td name=\"keywords\" value=\"" + im.getKeywords() + "\">" + im.getKeywords() + "</td>");
+        out.println("<td name=\"autor\" value=\"" + im.getAutor() + "\">" + im.getAutor() + "</td>");
+        out.println("<td name=\"datac\" value=\"" + im.getDatac() + "\"> " + im.getDatac() + "</td>");
+        out.println("<td name=\"datas\" value=\"" + im.getDatas() + "\"> " + im.getDatas() + "</td>");
+        out.println("<td name=\"nom\" value=\"" + im.getFilename() +"\"> " + im.getFilename() +"</td>");
 
         if(im.getAutor().equals(user_aux))
         {
-            out.println("<td><a href=\"modificarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
-            out.println("<td><a href=\"eliminarImagen.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+            out.println("<td><button type=\"submit\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
         }
         else 
         {
-          out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
-          out.println("<td><a href=\"#\" class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
-        }          
+          out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
+        }                  
+        out.println("</form>");
+        
+        
+        out.println("<form action=\"eliminarImagen.jsp\" method=\"POST\">");
+        out.println("<th scope=\"row\" value=\" " + im.getId() + " \" hidden> " + im.getId() + " </th>");
+        out.println("<td name=\"titol\"value=\" " + im.getTitol() + " \" hidden>" + im.getTitol() + "</td>");
+        out.println("<td name=\"descripcio\"value=\" " + im.getDescripcio() + " \" hidden> " + im.getDescripcio() + " </td>");
+        out.println("<td name=\"keywords\"value=\" " + im.getKeywords() + " \" hidden>" + im.getKeywords() + "</td>");
+        out.println("<td name=\"autor\"value=\" " + im.getAutor() + " \" hidden>" + im.getAutor() + "</td>");
+        out.println("<td name=\"datac\"value=\" " + im.getDatac() + " \" hidden> " + im.getDatac() + "</td>");
+        out.println("<td name=\"datas\"value=\" " + im.getDatas() + " \" hidden> " + im.getDatas() + "</td>");
+        out.println("<td name=\"nom\" value=\" " + im.getFilename() +" \"hidden> " + im.getFilename() +"</td>");
+        
+        
+        if(im.getAutor().equals(user_aux))
+        {
+          
+            out.println("<td><button type=\"submit\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+        }
+        else 
+        {
 
+          out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+        }      
+        out.println("</form>");
         }
 
     

@@ -21,8 +21,6 @@
         }else user = (String) session.getAttribute("user");        
     %>  
     
-    <button type="button" style="float: right">Menú</button>
-        
         <form action="buscarImagen" method="GET">
 
         <div class="container p-5">
