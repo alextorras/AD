@@ -7,6 +7,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+<%
+        String user = null;
+        if(session.getAttribute("user") == null){
+                response.sendRedirect("login.jsp");
+        }else user = (String) session.getAttribute("user");        
+    %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

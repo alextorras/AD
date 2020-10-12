@@ -13,7 +13,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Practica 2!</h1>
+        <h1>Login</h1>
         <br>
     <CENTER>
         <form action="login" method="POST">
