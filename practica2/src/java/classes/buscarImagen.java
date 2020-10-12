@@ -29,7 +29,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author pellax
  */
-@WebServlet(urlPatterns = {"/buscarImagen"})
+@WebServlet(name="buscarImagen", urlPatterns = {"/buscarImagen"})
 public class buscarImagen extends HttpServlet {
      private HttpSession lasesion;
      String user_aux;
@@ -45,19 +45,21 @@ public class buscarImagen extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException  {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = null; 
+        try {
+            out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
             lasesion = request.getSession();
             user_aux = (String) lasesion.getAttribute("user");
-            //out.println(user_aux);
+
             if(user_aux.equals(null)) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
             }
 
-            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             List<imagenData> resultados;
             resultados = null;
             String titol = request.getParameter("titol");
@@ -68,6 +70,7 @@ public class buscarImagen extends HttpServlet {
             String datas = request.getParameter("datasubida");
             String filename = request.getParameter("filename");
             resultados = database.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
+            out.println("<td><a href=\"menu.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>");
             if (resultados != null)
             {
             sendResponse(resultados,out);
@@ -76,19 +79,36 @@ public class buscarImagen extends HttpServlet {
                 s.setAttribute("codigo", "3");
                 response.sendRedirect(request.getContextPath()+ "/error.jsp");
             }
+            
         } catch (SQLException e) {
             s.setAttribute("codigo", "1");
-            response.sendRedirect(request.getContextPath() + "/error.jsp");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (IOException e) {
+            s.setAttribute("codigo", "6");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");                
+            }
+        } catch (ClassNotFoundException e) {
+            s.setAttribute("codigo", "2");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");                
+            }
         }
-        catch (Exception e) {
-            response.sendRedirect(request.getContextPath() + "/error.jsp");
-        }
+        
         finally
         {
             try {
                 database.cerrarConexion();
             } catch (SQLException ex) {
-                s.setAttribute("codigo", "1");
+                ex.printStackTrace();
             }
         }
 

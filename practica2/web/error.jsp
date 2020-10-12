@@ -40,6 +40,14 @@
             case 5:
                 mensaje = "<p class=\"card-text\">Error en el IO</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 6:
+                mensaje = "<p class=\"card-text\">No se ha encontrado el fichero</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 7:
+                mensaje = "<p class=\"card-text\">Error del Servlet</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
@@ -47,18 +55,19 @@
                 
                 
                 
+                
         }
          %>
     <CENTER>
          <div class="card" style="width: 18rem;">
-             <CENTER>
-             <img class="card-img-top" src="https://www.wpextremo.com/wp-content/uploads/2019/11/500-internal-server-error-featured-image-1.png" alt="Card image cap">
-             <div class="card-body">
-                 <h5 class="card-title">ERROR</h5>
-                 <%=mensaje%>
+            <CENTER>
+            <img class="card-img-top" src="https://www.wpextremo.com/wp-content/uploads/2019/11/500-internal-server-error-featured-image-1.png" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">ERROR</h5>
+                <%=mensaje%>
                 <%=boton%>
-             </div>
-             </CENTER>
+            </div>
+            </CENTER>
          </div>
     </CENTER>
     </body>

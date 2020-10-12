@@ -4,8 +4,15 @@
     Author     : Àlex
 --%>
 
+<%@page import="classes.callsSQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String user = null;
+    if(session.getAttribute("user") == null){
+            response.sendRedirect("login.jsp");
+    }else user = (String) session.getAttribute("user");        
+    %>  
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,6 +20,8 @@
         <title>JSP Page</title>
     </head>
     <body>
+    <center>
+        <br>
         <form action="registrarImagen" method="POST" enctype="multipart/form-data">
        
             <input type="file" id="imatge" name="imatge" required autofocus> <br>
@@ -22,6 +31,8 @@
             <input   type="text" name="autor" placeholder="Autor" required><br>
             <input   type="text" name="datacreation" placeholder="aaaa/mm/dd" required><br>
             <button style="margin-top: 10px;" type="submit">Submit</button>
+            <input type="BUTTON" value="Menú" onclick="window.location.href='menu.jsp'">
         </form>
+    </center>
     </body>
 </html>

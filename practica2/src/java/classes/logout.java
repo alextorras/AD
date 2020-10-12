@@ -31,16 +31,25 @@ public class logout extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = null;
+        HttpSession s = request.getSession();
+        try {
+            out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
             HttpSession session = request.getSession();
             String aux = (String) session.getAttribute("user");
             out.println(aux);
             session.invalidate();            
             response.sendRedirect(request.getContextPath() + "/login.jsp");
-            
+        } catch(IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
         }
     }
 

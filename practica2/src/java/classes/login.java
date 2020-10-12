@@ -40,10 +40,12 @@ public class login extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8"); 
         HttpSession s = request.getSession();
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
             database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
@@ -52,12 +54,7 @@ public class login extends HttpServlet {
             out.println("<title>Servlet login</title>");        
             out.println("</head>");
             out.println("<body>");
-            //callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            /*Connection cn = null;
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            cn = DriverManager.getConnection("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");*/
-            
+
             String user = (String) request.getParameter("usuario");
             String password = (String) request.getParameter("password");
             if(user.equals(null) || password.equals(null)) out.println("<html>Hola</html>");
@@ -67,37 +64,49 @@ public class login extends HttpServlet {
             Cookie c = new Cookie("user", user);
             c.setMaxAge(600);
             response.addCookie(c);
-            
-            
-            
-            //database.cerrarConexion();            
+                      
             if(!comprova) {
-                s.setAttribute("codigo", "5");
+                s.setAttribute("codigo", "4");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             }
             else {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
-            }                
+            }     
+            
         } catch(SQLException e) {
-            s.setAttribute("codigo", "1");
-            response.sendRedirect(request.getContextPath() + "/error.jsp");
+            try {
+                s.setAttribute("codigo", "1");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
         } catch(ClassNotFoundException e) {
-            s.setAttribute("codigo", "2");
-            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=2");
-            e.printStackTrace();
+            try {
+                s.setAttribute("codigo", "2");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch(IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+            
         }
+        
         finally {
             try {
                 database.cerrarConexion();
             } catch(SQLException e) {
                 s.setAttribute("codigo", "1");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
+                e.getErrorCode();
             }
         }
-        
-            
-            
-        }
+    
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

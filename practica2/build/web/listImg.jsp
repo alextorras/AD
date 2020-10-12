@@ -39,6 +39,8 @@
     </head>
     <body>    
         <div>
+            
+            <input type="BUTTON" style="float: right" value="Menú" onclick="window.location.href='menu.jsp'">
           <%
                 int rss = 0;
                 String[] res = null;

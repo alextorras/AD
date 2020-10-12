@@ -67,7 +67,8 @@ public class eliminarImagen extends HttpServlet {
             }
             
             out.println("<html>Imatge eliminada amb exit<br></html>");            
-            File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
+            //File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
+            File f = new File(request.getContextPath() + "/web/images/" + nom_aux);
             if(f.delete())
             {
                 response.sendRedirect(request.getContextPath() + "/opcions.jsp");

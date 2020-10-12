@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 /**
@@ -26,13 +27,15 @@ import javax.servlet.http.Part;
 public class modificarImagen extends HttpServlet{
     callsSQL database = null;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
-        final String path = ("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\imagenes");
+        HttpSession s = request.getSession();
+        final String path = ("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\");
        
             /* TODO output your page here. You may use following sample code. */
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
 
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
@@ -42,20 +45,32 @@ public class modificarImagen extends HttpServlet{
             Integer id = Integer.parseInt(request.getParameter("id"));
             
             database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            
-            
             database.updateImage(titol, descripcio, keywords, autor, datac, id);
             
             response.sendRedirect(request.getContextPath() + "/menu.jsp");
             
-        } catch (IOException ex) {
-            Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(modificarImagen.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (ClassNotFoundException e) {
+            try {
+                s.setAttribute("codigo", "2");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (SQLException e) {
+            try {
+                s.setAttribute("codigo", "1");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } 
         
         finally{
             try {
