@@ -61,9 +61,6 @@ public class login extends HttpServlet {
             boolean comprova = database.login(user, password);
 
             s.setAttribute("user", user);
-            Cookie c = new Cookie("user", user);
-            c.setMaxAge(600);
-            response.addCookie(c);
                       
             if(!comprova) {
                 s.setAttribute("codigo", "4");
