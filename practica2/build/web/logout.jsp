@@ -1,6 +1,6 @@
 <%-- 
-    Document   : opcions
-    Created on : 09-oct-2020, 18:19:02
+    Document   : logout
+    Created on : 12-oct-2020, 14:05:02
     Author     : admin
 --%>
 
@@ -13,14 +13,17 @@
         <title>JSP Page</title>
     </head>
     <body>
+        <h1>Logout</h1>
     <CENTER>
+        <text>Vols tancar la sessió?</text>
         <br>
-        <h1> La imatge s'ha eliminat correctament </h1>
+        <form action="logout" method="POST">
+            <input type="submit" value="Si">
+            <br>
+            <input type="button" value="No" onclick="window.location.href='menu.jsp'">
+        </form>
         <br>
-        <input type="BUTTON" value="Torna al menu" style="height: '250'" onclick="window.location.href='menu.jsp'">
-        <br>
-        <br>
-        <input type="BUTTON" value="Tanca la sessió" onclick="window.location.href='logout.jsp'">
     </CENTER>
+    
     </body>
 </html>

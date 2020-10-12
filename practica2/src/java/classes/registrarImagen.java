@@ -39,7 +39,7 @@ public class registrarImagen extends HttpServlet {
        protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             {
         response.setContentType("text/html;charset=UTF-8");
-        final String path = ("D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\web\\imagenes");
+        final String path = ("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes");
        
             /* TODO output your page here. You may use following sample code. */
         try (PrintWriter out = response.getWriter()) {
@@ -73,7 +73,7 @@ public class registrarImagen extends HttpServlet {
         while ((read = filecontent.read(bytes)) != -1) {
             escritura.write(bytes, 0, read);
             }
-                response.sendRedirect(request.getContextPath() + "/opcions.jsp");
+                response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
         }
             
 

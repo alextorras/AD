@@ -29,6 +29,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name="login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
+    callsSQL database = null;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,7 +44,7 @@ public class login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");        
         try (PrintWriter out = response.getWriter()) {
-            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -74,16 +75,29 @@ public class login extends HttpServlet {
             
             
             
-            database.cerrarConexion();            
-            if(!comprova) out.println("<html>Usuario o contrasenya mal introducidos</html>");
+            //database.cerrarConexion();            
+            if(!comprova) {
+                //response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
+                out.println("<html>Usuario o contrasenya mal introducidos</html>");
+            }
             else {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
             }                
+        } catch(SQLException e) {
+            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=1");
+            e.printStackTrace();
+        } catch(ClassNotFoundException e) {
+            response.sendRedirect(request.getContextPath() + "/error.jsp?/codigo=2");
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                database.cerrarConexion();
             } catch(SQLException e) {
                 e.printStackTrace();
-            } catch(ClassNotFoundException e) {
-                e.printStackTrace();
             }
+        }
+        
             
             
         }

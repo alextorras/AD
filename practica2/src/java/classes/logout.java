@@ -1,21 +1,12 @@
-package classes;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package classes;
 
-import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.Class.forName;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +18,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author admin
  */
-@WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
-public class eliminarImagen extends HttpServlet {
-   int id_aux = 0;
-    String nom_aux = null;
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,44 +32,18 @@ public class eliminarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-             id_aux = (int) session.getAttribute("idImage");
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession session = request.getSession();
+            String aux = (String) session.getAttribute("user");
+            out.println(aux);
+            session.invalidate();            
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             
-            nom_aux = database.nom_eliminar_imagen(id_aux);
-                                    
-            //out.println("<html>" + id_aux + "</html>");
-            if(id_aux == 0) out.println("<html><br>No existeix tal imatge <br></html>");
-            //LANZAR EXCEPCIÓN PARA ESTE CASO
-            
-            out.println("<html><br>" + nom_aux + "<br></html>");
-            boolean resultat = false;
-            if(nom_aux.equals(null)) out.println("<html>La imagen " + nom_aux + " no existeix.</html>");
-            else {
-                resultat = database.eliminar_imagen(id_aux);
-            }
-            
-            out.println("<html>Imatge eliminada amb exit<br></html>");            
-            File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
-            if(f.delete())
-            {
-                response.sendRedirect(request.getContextPath() + "/opcions.jsp");
-            }
-            else {
-                response.sendRedirect(request.getContextPath() + "/menu.jsp");
-            }
-            database.cerrarConexion();
-            
-            
-        }catch(SQLException e) {
-            e.printStackTrace();            
-        } catch(ClassNotFoundException e) {
-            System.out.println("<html>No s'ha trobat la classe</html>");
         }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -90,6 +53,7 @@ public class eliminarImagen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
