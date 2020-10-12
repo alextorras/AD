@@ -47,7 +47,6 @@ public class buscarImagen extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession s = request.getSession();
         PrintWriter out = null; 
         try {
             out = response.getWriter();
@@ -76,26 +75,26 @@ public class buscarImagen extends HttpServlet {
             sendResponse(resultados,out);
             }
             else{
-                s.setAttribute("codigo", "3");
+                lasesion.setAttribute("codigo", "3");
                 response.sendRedirect(request.getContextPath()+ "/error.jsp");
             }
             
         } catch (SQLException e) {
-            s.setAttribute("codigo", "1");
+            lasesion.setAttribute("codigo", "1");
             try {
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             } catch (IOException ex) {
                 out.println("<html>No se ha redireccionado correctamente</html>");
             }
         } catch (IOException e) {
-            s.setAttribute("codigo", "6");
+            lasesion.setAttribute("codigo", "6");
             try {
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             } catch (IOException ex) {
                 out.println("<html>No se ha redireccionado correctamente</html>");                
             }
         } catch (ClassNotFoundException e) {
-            s.setAttribute("codigo", "2");
+            lasesion.setAttribute("codigo", "2");
             try {
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             } catch (IOException ex) {
@@ -162,7 +161,6 @@ public class buscarImagen extends HttpServlet {
           out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
         }                  
         out.println("</form>");
-        
         
         out.println("<form action=\"eliminarImagen.jsp\" method=\"POST\">");
         out.println("<th scope=\"row\" value=\" " + im.getId() + " \" hidden> " + im.getId() + " </th>");
