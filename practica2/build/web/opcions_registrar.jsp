@@ -17,10 +17,10 @@
         <br>
         <h1 class="alert alert-success">La imagen se ha registrado correctamente</h1>
         <br>
-        <input type="BUTTON" value="Torna al menu" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
+        <input type="BUTTON" value="Volver al menú" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Tanca la sessió" class="btn btn-secondary" onclick="window.location.href='logout.jsp'">
+        <input type="BUTTON" value="Cerrar la sessión" class="btn btn-secondary" onclick="window.location.href='logout.jsp'">
     </CENTER>
     </body>
 </html>

@@ -24,8 +24,8 @@
         <h1 class="alert alert-primary">Registrar Imagen</h1>
         <form action="registrarImagen" method="POST" enctype="multipart/form-data">      
             <input style="margin-top: 10px;" type="file" id="imatge" name="imatge" required autofocus> <br>
-            <input style="margin-top: 10px;"type="text" name="titol" placeholder="Títol" required><br>
-            <input style="margin-top: 10px;" type="text" name="descripcio" placeholder="Descripció" required><br>
+            <input style="margin-top: 10px;"type="text" name="titol" placeholder="Titulo" required><br>
+            <input style="margin-top: 10px;" type="text" name="descripcio" placeholder="Descripción" required><br>
             <input style="margin-top: 10px;" type="text" name="keywords" placeholder="Keywords" required><br>
             <input style="margin-top: 10px;" type="text" name="autor" placeholder="Autor" required><br>
             <input style="margin-top: 10px;" type="text" name="datacreation" placeholder="aaaa/mm/dd" required><br>
