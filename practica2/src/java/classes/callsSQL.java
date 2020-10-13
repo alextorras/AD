@@ -47,7 +47,7 @@ public class callsSQL {
             return id;
     }
     
-    public void newImage(int id, String titol, String descripcio, String keywords, String autor, String datac, String nom) throws SQLException {
+    public boolean newImage(int id, String titol, String descripcio, String keywords, String autor, String datac, String nom) throws SQLException {
 
             String datas = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
 
@@ -60,7 +60,9 @@ public class callsSQL {
             uploader.setString(6,datac);
             uploader.setString(7,datas);
             uploader.setString(8,nom);
-            uploader.executeUpdate();
+            int count = uploader.executeUpdate();
+            if(count > 0 ) return true;
+            else return false;
     }
     
 
@@ -224,6 +226,32 @@ public class callsSQL {
 
             uploader.executeUpdate();
     }
+    
+    public boolean existeix(String usuario) throws SQLException{
+        String aux = usuario;
+        System.out.println("Entro aqui");
+        String query = "select * from usuarios where id_usuario='" + aux + "'";
+        System.out.println(query);
+        PreparedStatement st = cn.prepareCall(query);
+        ResultSet rs = st.executeQuery();
+        return rs.next();
+    }
+    
+    public boolean newUser(String usuario, String password) throws SQLException 
+    {
+        
+        String aux1 = usuario;
+        String aux2 = password;
+        PreparedStatement st = cn.prepareStatement("insert into usuarios values(?,?)");
+        st.setString(1, aux1);
+        st.setString(2, aux2);
+        int num = st.executeUpdate();
+        if(num == 0) return false;
+        else return true;
+    }
+    
+
+    
         
     public void cerrarConexion() throws SQLException {
         cn.close();

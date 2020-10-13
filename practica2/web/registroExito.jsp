@@ -1,7 +1,7 @@
 <%-- 
-    Document   : opcions_registrar
-    Created on : 12-oct-2020, 15:36:24
-    Author     : Dani
+    Document   : registroExito
+    Created on : 13-oct-2020, 9:48:46
+    Author     : admin
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -14,13 +14,9 @@
     </head>
     <body>
     <CENTER>
+        <h1 class="alert alert-success">El usuario se ha registrado correctamente</h1>
         <br>
-        <h1 class="alert alert-success">La imagen se ha registrado correctamente</h1>
-        <br>
-        <input type="BUTTON" value="Torna al menu" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
-        <br>
-        <br>
-        <input type="BUTTON" value="Tanca la sessió" class="btn btn-secondary" onclick="window.location.href='logout.jsp'">
+        <button class="btn btn-primary" onclick="window.location.href='login.jsp'">Login</button>
     </CENTER>
     </body>
 </html>

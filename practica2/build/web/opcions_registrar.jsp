@@ -1,7 +1,7 @@
 <%-- 
     Document   : opcions_registrar
     Created on : 12-oct-2020, 15:36:24
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

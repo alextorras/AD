@@ -122,8 +122,7 @@
                 
                 finally {
                     try {
-                        if(cn != null)
-                        cn.close();
+                        database.cerrarConexion();
                     }
                     catch(SQLException e) {
                         // connection close failed.

@@ -60,7 +60,6 @@ public class registrarImagen extends HttpServlet {
             database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int id = database.getID();
             
-            database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
              OutputStream escritura = null;
         try {
             escritura = new FileOutputStream(new File(path + File.separator + nom));
@@ -73,14 +72,20 @@ public class registrarImagen extends HttpServlet {
             }
             
         }
-        InputStream filecontent = filePart.getInputStream();
-
+        InputStream filecontent = filePart.getInputStream();      
         int read = 0;
         final byte[] bytes = new byte[1024];
 
         while ((read = filecontent.read(bytes)) != -1) {
             escritura.write(bytes, 0, read);
             }
+        boolean comprobacio = database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
+        if(!comprobacio) {
+            File f = new File(path + File.separator + nom);
+            f.delete();
+            s.setAttribute("codigo", "10");
+            response.sendRedirect(request.getContextPath() + "/error.jsp");
+        }
         response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
         
         }

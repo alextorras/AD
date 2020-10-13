@@ -1,7 +1,7 @@
 <%-- 
     Document   : eliminarImagen
     Created on : 03-oct-2020, 11:33:43
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

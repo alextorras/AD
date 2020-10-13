@@ -1,7 +1,7 @@
 <%-- 
     Document   : opcions
     Created on : 09-oct-2020, 18:19:02
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

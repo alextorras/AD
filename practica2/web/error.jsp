@@ -1,7 +1,7 @@
 <%-- 
     Document   : proba
     Created on : 12-oct-2020, 16:35:38
-    Author     : admin
+    Author     : Alejandro Capella
 --%>
 
 <%@page import="java.lang.String"%>
@@ -53,6 +53,15 @@
             case 9:
                 mensaje = "<p class=\"card-text\">No se ha eliminado la base de datos.</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 10:
+                mensaje = "<p class=\"card-text\">Ha fallado el registro de Imagen</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 11: 
+                mensaje = "<p class=\"card-text\">Error al introducir los parametros</p>";
+                boton = "<a href=\"registrarUsuario.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 12:
+                mensaje = "<p class=\"card-text\">El usuario ya existe</p>";
+                boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";

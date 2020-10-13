@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author Dani
  */
 @WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
 public class eliminarImagen extends HttpServlet {
