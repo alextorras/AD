@@ -70,7 +70,7 @@ public class buscarImagen extends HttpServlet {
             String datas = request.getParameter("datasubida");
             String filename = request.getParameter("filename");
             resultados = database.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
-            out.println("<td><a href=\"menu.jsp\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>");
+            out.println("<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>");
             if (resultados != null)
             {
             sendResponse(resultados,out);

@@ -1,7 +1,7 @@
 <%-- 
     Document   : registrarUsuario
     Created on : 13-oct-2020, 11:50:51
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
