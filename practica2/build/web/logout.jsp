@@ -16,11 +16,11 @@
     <CENTER>
         <h1 class="alert alert-primary">Logout</h1>
         <br>
-        <text class="alert alert-warning" style="margin-top: 10px;">Vols tancar la sessió?</text>
+        <text class="alert alert-warning" style="margin-top: 10px;">Quieres cerrar la sesión?</text>
         <br>
         <form action="logout" method="POST">
             <br>
-            <input type="submit" value="Si" style="margin-top: 10px;" class="btn btn-primary" onclick="window.location.href='logout'">
+            <input type="submit" value="Sí" style="margin-top: 10px;" class="btn btn-primary" onclick="window.location.href='logout'">
             <input type="button" value="No" style="margin-top: 10px;" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
         </form>
         <br>

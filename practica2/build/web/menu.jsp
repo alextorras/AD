@@ -14,7 +14,7 @@
     </head>
     <body>
         <CENTER>
-        <h1 class="alert alert-primary">Menu</h1>
+        <h1 class="alert alert-primary">Menú</h1>
         <form>
         <br>
         <input type="BUTTON" value="Registrar Imagen" class="btn btn-primary" onclick="window.location.href='registrarImagen.jsp'">

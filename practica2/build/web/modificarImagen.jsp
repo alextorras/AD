@@ -19,11 +19,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <title>JSP Page</title>
     </head>
     <body>
 <div>
-        <h1>Modificar imagen:</h1>
+    <CENTER>
+    <h1 class="alert alert-primary">Modificar imagen</h1>
+    </CENTER>
       </div>
        <%
         String titol = request.getParameter("titol");
@@ -37,15 +40,14 @@
       <div>
           <img src="<%="imagenes\\" + request.getParameter("filename")%>" width="200" height="200">
             <form action="modificarImagen" method="POST" >
-                
-                <input type="text" name="titol" placeholder="Títol" value="<%= titol %>" required>
+                <input type="text" style="margin-top: 10px" name="titol" placeholder="Títol" value="<%= titol %>" required>
                 <input type="text" name="descripcio" placeholder="Descripció" value="<%= descrip %>" required>
                 <input type="text" name="keywords" placeholder="keywords" value="<%= tag %>" required>
                 <input type="text" name="autor" placeholder="Autor" value="<%= autor %>" required>
                 <input type="text" name="datac" value="<%= data %>" required>                
                 <input type="hidden" name="id" value="<%= id %>"  >
 
-                <button type="submit">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
       </div>
     </body>
