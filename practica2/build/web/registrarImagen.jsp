@@ -27,7 +27,7 @@
             <input style="margin-top: 10px;"type="text" name="titol" placeholder="Titulo" required><br>
             <input style="margin-top: 10px;" type="text" name="descripcio" placeholder="Descripción" required><br>
             <input style="margin-top: 10px;" type="text" name="keywords" placeholder="Keywords" required><br>
-            <input style="margin-top: 10px;" type="text" name="autor" placeholder="Autor" required><br>
+            <input style="margin-top: 10px;" type="text" name="autor" value=${user} required readonly="readonly"><br>
             <input style="margin-top: 10px;" type="text" name="datacreation" placeholder="aaaa/mm/dd" required><br>
             <button style="margin-top: 10px;" class="btn btn-primary" type="submit">Submit</button>
             <input style="margin-top: 10px;" type="BUTTON" value="Menú" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
