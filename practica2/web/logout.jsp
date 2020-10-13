@@ -15,6 +15,7 @@
     <body>
     <CENTER>
         <h1 class="alert alert-primary">Logout</h1>
+        <br>
         <text class="alert alert-warning" style="margin-top: 10px;">Vols tancar la sessió?</text>
         <br>
         <form action="logout" method="POST">

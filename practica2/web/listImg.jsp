@@ -40,8 +40,10 @@
     </head>
     <body>    
         <div>
-            
-            <input type="BUTTON" style="float: right" value="Menú" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
+            <CENTER>
+            <h1 class="alert alert-primary">Listado imagenes</h1>
+            </CENTER>
+            <input type="BUTTON" style="float: right" value="Menú" class="btn btn-info" onclick="window.location.href='menu.jsp'">
           <%
                 int rss = 0;
                 String[] res = null;
@@ -80,7 +82,7 @@
                             <input type="hidden" name="id" value="<%= imagen.getId()%>">
                             <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                             <p>
-                                <button type="submit">Editar</button>
+                                <button type="submit" class="btn btn-primary">Editar</button>
                             </p>
                 
                         </form> 
@@ -95,7 +97,7 @@
                             <input type="hidden" name="id" value="<%= imagen.getId()%>">
                             <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                             <p>
-                                <button type="submit" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
+                                <button type="submit" class="btn btn-secondary" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
                             </p>
                         
                             
