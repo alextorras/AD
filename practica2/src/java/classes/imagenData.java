@@ -7,7 +7,7 @@ package classes;
 
 /**
  *
- * @author Alejandro
+ * @author Alejandro Capella
  */
 public class imagenData {
 

@@ -15,7 +15,7 @@ import java.util.List;
  */
 /**
  *
- * @author pellax
+ * @author Alejandro Capella
  */
 public class ConsultaBase {
 

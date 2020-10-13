@@ -1,7 +1,7 @@
 <%-- 
     Document   : opcions_registrar
     Created on : 12-oct-2020, 15:36:24
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -15,12 +15,12 @@
     <body>
     <CENTER>
         <br>
-        <h1>La imatge s'ha registrat correctament </h1>
+        <h1 class="alert alert-success">La imagen se ha registrado correctamente</h1>
         <br>
-        <input type="BUTTON" value="Torna al menu" onclick="window.location.href='menu.jsp'">
+        <input type="BUTTON" value="Torna al menu" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
         <br>
         <br>
-        <input type="BUTTON" value="Tanca la sessió" onclick="window.location.href='logout.jsp'">
+        <input type="BUTTON" value="Tanca la sessió" class="btn btn-secondary" onclick="window.location.href='logout.jsp'">
     </CENTER>
     </body>
 </html>

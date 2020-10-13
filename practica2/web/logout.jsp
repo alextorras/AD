@@ -1,7 +1,7 @@
 <%-- 
     Document   : logout
     Created on : 12-oct-2020, 14:05:02
-    Author     : admin
+    Author     : Dani
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,14 +13,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Logout</h1>
     <CENTER>
-        <text>Vols tancar la sessió?</text>
+        <h1 class="alert alert-primary">Logout</h1>
+        <text class="alert alert-warning" style="margin-top: 10px;">Vols tancar la sessió?</text>
         <br>
         <form action="logout" method="POST">
-            <input type="submit" value="Si">
             <br>
-            <input type="button" value="No" onclick="window.location.href='menu.jsp'">
+            <input type="submit" value="Si" style="margin-top: 10px;" class="btn btn-primary" onclick="window.location.href='logout'">
+            <input type="button" value="No" style="margin-top: 10px;" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
         </form>
         <br>
     </CENTER>

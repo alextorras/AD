@@ -4,6 +4,7 @@
     Author     : Alejandro Capella
 --%>
 
+<%@page import="classes.callsSQL"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,17 +14,13 @@
         <title>JSP Page</title>
     </head>
     <body>
-        
-
-        <%
-            
-
-            if (session.getAttribute("user") == null) //no hay sesión
-            {
+    <%
+        String user = null;
+        if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-            }
-
-        %>
+        }else user = (String) session.getAttribute("user");        
+    %>  
+    
         <form action="buscarImagen" method="GET">
 
         <div class="container p-5">
@@ -65,6 +62,7 @@
                             <input type="text" class="form-control" class ="form-control" id="filename" name="filename" placeholder="Nombre archivo">
                         </div>  
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">Menú</button>
                     </div>
                 </div>
             </div>

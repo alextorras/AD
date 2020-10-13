@@ -35,10 +35,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <title>JSP Page</title>
     </head>
     <body>    
         <div>
+            
+            <input type="BUTTON" style="float: right" value="Menú" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
           <%
                 int rss = 0;
                 String[] res = null;
@@ -111,14 +114,15 @@
                     }
                 }
                 catch(Exception e) {
-                    System.out.println("Error amb la base de dades");
-                    System.err.println(e.getMessage());
+                    session.setAttribute("codigo", "1");
+                    response.sendRedirect(request.getContextPath() + "/error.jsp");
+                    //System.out.println("Error amb la base de dades");
+                    //System.err.println(e.getMessage());
                 }
                 
                 finally {
                     try {
-                        if(cn != null)
-                        cn.close();
+                        database.cerrarConexion();
                     }
                     catch(SQLException e) {
                         // connection close failed.

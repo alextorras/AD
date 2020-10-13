@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 
@@ -42,8 +43,10 @@ public class registrarImagen extends HttpServlet {
         final String path = ("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes");
        
             /* TODO output your page here. You may use following sample code. */
-        try (PrintWriter out = response.getWriter()) {
-
+        PrintWriter out = null;
+        HttpSession s = request.getSession();
+        try { 
+            out = response.getWriter();
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
             String keywords = request.getParameter("keywords");
@@ -57,33 +60,65 @@ public class registrarImagen extends HttpServlet {
             database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int id = database.getID();
             
-            database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
              OutputStream escritura = null;
         try {
-            escritura = new FileOutputStream(new File(path + File.separator
-                    + nom));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(registrarImagen.class.getName()).log(Level.SEVERE, null, ex);
+            escritura = new FileOutputStream(new File(path + File.separator + nom));
+        } catch (FileNotFoundException e) {
+            try {
+                s.setAttribute("codigo", "6");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+            
         }
-        InputStream filecontent = filePart.getInputStream();
-
+        InputStream filecontent = filePart.getInputStream();      
         int read = 0;
         final byte[] bytes = new byte[1024];
 
         while ((read = filecontent.read(bytes)) != -1) {
             escritura.write(bytes, 0, read);
             }
-                response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
+        boolean comprobacio = database.newImage(id, titol, descripcio, keywords, autor, datac, nom);
+        if(!comprobacio) {
+            File f = new File(path + File.separator + nom);
+            f.delete();
+            s.setAttribute("codigo", "10");
+            response.sendRedirect(request.getContextPath() + "/error.jsp");
         }
-            
-
-        catch (Exception e) {
-            if(e.equals("Extension")) {
-                System.out.println("La imatge no te extensio JPEG");
-            } else {
-                e.printStackTrace();
+        response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
+        
+        }
+        catch (IOException e) {            
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
             }
-        }  
+        } catch (SQLException e) {
+            try {
+                s.setAttribute("codigo", "1");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (ClassNotFoundException e) {
+            try {
+                s.setAttribute("codigo", "2");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (ServletException e) {
+            try {
+                s.setAttribute("codigo", "7");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        }            
+
         finally {
             try{
                 database.cerrarConexion();
