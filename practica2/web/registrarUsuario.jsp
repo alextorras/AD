@@ -1,6 +1,6 @@
 <%-- 
     Document   : registrarUsuario
-    Created on : 13-oct-2020, 9:20:27
+    Created on : 13-oct-2020, 11:50:51
     Author     : admin
 --%>
 
@@ -14,15 +14,17 @@
     </head>
     <body>
     <CENTER>
-        <h1 class="alert alert-primary">Hola usuario nuevo</h1>
-        <text class="alert-warning" style="margin-top: 10px;">Introduce los datos nuevos</text>
+        <h1 class="alert alert-primary">Bienvenido usuario nuevo</h1>
+        <br>
+        <text class="alert alert-warning" style="margin-top: 10px;">Introduce los valores para registrarte</text>
         <br>
         <form action="registrarUsuario" method="POST">
-            <input style="margin-top: 10px;" type="text" placeholder="Nombre nuevo usuario" name="usuario_nuevo" required>
             <br>
-            <input style="margin-top: 10px;" type="password" placeholder="Contraseña" name="password_nuevo" required> 
+            <input style="margin-top: 10px;" type="text" placeholder="Usuario" name="newUser" required>
             <br>
-            <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Registrar" onclick="window.location.href='registrarUsuario'">
+            <input style="margin-top: 10px;" type="password" placeholder="Contraseña" name="newPassword" required>
+            <br>
+            <input style="margin-top: 10px;" type="submit" class="btn btn-primary" value="Registrar">
         </form>
     </CENTER>
     </body>

@@ -227,7 +227,7 @@ public class callsSQL {
             uploader.executeUpdate();
     }
     
-    public boolean existeix(String usuario) throws SQLException{
+    public boolean existeix(String usuario) throws SQLException {
         String aux = usuario;
         System.out.println("Entro aqui");
         String query = "select * from usuarios where id_usuario='" + aux + "'";
@@ -237,17 +237,15 @@ public class callsSQL {
         return rs.next();
     }
     
-    public boolean newUser(String usuario, String password) throws SQLException 
-    {
-        
+    public boolean newUser(String usuario, String passwd) throws SQLException {
         String aux1 = usuario;
-        String aux2 = password;
-        PreparedStatement st = cn.prepareStatement("insert into usuarios values(?,?)");
+        String aux2 = passwd;
+        PreparedStatement st = cn.prepareStatement("insert into usuarios VALUES(?,?)");
         st.setString(1, aux1);
         st.setString(2, aux2);
-        int num = st.executeUpdate();
-        if(num == 0) return false;
-        else return true;
+        int count = st.executeUpdate();
+        if(count > 0) return true;
+        else return false;
     }
     
 

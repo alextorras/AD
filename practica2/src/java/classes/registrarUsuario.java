@@ -37,30 +37,36 @@ public class registrarUsuario extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession s = request.getSession();
-        PrintWriter out = null;
-        try {
-            out = response.getWriter();
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet registrarUsuario</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet registrarUsuario at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
             
-            
-            String user = request.getParameter("usuario_nuevo");
-            String password = request.getParameter("password_nuevo");
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             
-            boolean prova = database.existeix(user);
+            String aux1 = request.getParameter("newUser");
+            String aux2 = request.getParameter("newPassword");
+            boolean prova = database.existeix(aux1);
+            out.println(prova);
             if(prova) {
-                s.setAttribute("codigo", "12");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
+                s.setAttribute("codigo", "11");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");   
             }
-            else {
-                boolean prova2 = database.newUser(user, password);
-                if(prova) response.sendRedirect(request.getContextPath() + "/registroExito.jsp");
-                else response.sendRedirect(request.getContextPath() + "/error.jsp");
+            boolean insertat = database.newUser(aux1, aux2);
+            if(insertat) {
+                response.sendRedirect(request.getContextPath() + "/registrarExito.jsp");
             }
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+
         } catch (ClassNotFoundException ex) {
+            Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

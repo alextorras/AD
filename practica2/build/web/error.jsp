@@ -44,32 +44,31 @@
             case 6:
                 mensaje = "<p class=\"card-text\">No se ha encontrado el fichero</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
             case 7:
                 mensaje = "<p class=\"card-text\">Error del Servlet</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
             case 8:
                 mensaje = "<p class=\"card-text\">ID de la imagen NULL</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
             case 9:
                 mensaje = "<p class=\"card-text\">No se ha eliminado la base de datos.</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
             case 10:
                 mensaje = "<p class=\"card-text\">Ha fallado el registro de Imagen</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
-            case 11: 
-                mensaje = "<p class=\"card-text\">Error al introducir los parametros</p>";
-                boton = "<a href=\"registrarUsuario.jsp\" class=\"btn btn-primary\">Back</a>";
-            case 12:
+                break;
+            case 11:
                 mensaje = "<p class=\"card-text\">El usuario ya existe</p>";
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
-                break;
-                
-                
-                
-                
+                break;      
         }
          %>
     <CENTER>

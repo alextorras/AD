@@ -1,6 +1,6 @@
 <%-- 
-    Document   : registroExito
-    Created on : 13-oct-2020, 9:48:46
+    Document   : registrarExito
+    Created on : 13-oct-2020, 12:31:00
     Author     : admin
 --%>
 
@@ -14,9 +14,12 @@
     </head>
     <body>
     <CENTER>
-        <h1 class="alert alert-success">El usuario se ha registrado correctamente</h1>
+        <h1 class="alert alert-primary">Usuario Registrado</h1>
         <br>
-        <button class="btn btn-primary" onclick="window.location.href='login.jsp'">Login</button>
+        <text class="alert alert-success">El usuario se ha registrado con exito</text>
+        <br>
+        <br>
+        <button class="btn btn-primary" style="margin-top: 10px;" onclick="window.location.href='login.jsp'">Login</button>
     </CENTER>
     </body>
 </html>
