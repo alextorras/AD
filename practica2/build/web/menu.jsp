@@ -19,12 +19,12 @@
         <br>
         <input type="BUTTON" value="Registrar Imagen" class="btn btn-primary" onclick="window.location.href='registrarImagen.jsp'">
         <br>
+        <input type="BUTTON" style="margin-top: 10px" value="Listar Imagenes" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
         <br>
-        <input type="BUTTON" value="Listar Imagenes" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
+        <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen" class="btn btn-dark" onclick="window.location.href='buscarImagen.jsp'">
         <br>
-        <br>
-        <input type="BUTTON" value="Buscar Imagen" class="btn btn-dark" onclick="window.location.href='buscarImagen.jsp'">
-        <br>
+        <br>        
+        <input type="BUTTON" style="margin-top: 10px" value="Logout" class="btn btn-info" onclick="window.location.href='logout.jsp'">
         <br>
         <% /*<input type="BUTTON" value="Eliminar Imagen" onclick="window.location.href='eliminarImagen.jsp'"> */ %>
         </form>

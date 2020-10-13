@@ -21,10 +21,8 @@
     </head>
     <body>
     <center>
-        <br>
-        <form action="registrarImagen" method="POST" enctype="multipart/form-data">
-            <h1 class="alert alert-primary">Registrar Imagen</h1>
-       
+        <h1 class="alert alert-primary">Registrar Imagen</h1>
+        <form action="registrarImagen" method="POST" enctype="multipart/form-data">      
             <input style="margin-top: 10px;" type="file" id="imatge" name="imatge" required autofocus> <br>
             <input style="margin-top: 10px;"type="text" name="titol" placeholder="Títol" required><br>
             <input style="margin-top: 10px;" type="text" name="descripcio" placeholder="Descripció" required><br>
