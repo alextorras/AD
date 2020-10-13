@@ -41,7 +41,7 @@
     <body>    
         <div>
             
-            <input type="BUTTON" style="float: right" value="Menú" onclick="window.location.href='menu.jsp'">
+            <input type="BUTTON" style="float: right" value="Menú" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
           <%
                 int rss = 0;
                 String[] res = null;
@@ -114,8 +114,10 @@
                     }
                 }
                 catch(Exception e) {
-                    System.out.println("Error amb la base de dades");
-                    System.err.println(e.getMessage());
+                    session.setAttribute("codigo", "1");
+                    response.sendRedirect(request.getContextPath() + "/error.jsp");
+                    //System.out.println("Error amb la base de dades");
+                    //System.err.println(e.getMessage());
                 }
                 
                 finally {

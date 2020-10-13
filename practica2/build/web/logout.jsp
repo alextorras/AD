@@ -13,14 +13,14 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Logout</h1>
+        <h1 class="alert alert-primary">Logout</h1>
     <CENTER>
-        <text>Vols tancar la sessió?</text>
+        <text class="alert alert-warning">Vols tancar la sessió?</text>
         <br>
         <form action="logout" method="POST">
-            <input type="submit" value="Si">
+            <input type="submit" value="Si" class="btn btn-primary" onclick="window.location.href='logout'">
             <br>
-            <input type="button" value="No" onclick="window.location.href='menu.jsp'">
+            <input type="button" value="No" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
         </form>
         <br>
     </CENTER>
