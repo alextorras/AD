@@ -24,8 +24,7 @@
             <br>
             <br>
             <input type="submit" class="btn btn-primary" value="Enviar">
-            <button class="btn btn-secondary" onclick="window.location.href='registrarUsuario.jsp'">Registrar</button>
-            
+            <button class="btn btn-secondary" onclick="window.location.href='registrarUsuario.jsp'">Registrar</button>            
         </form>
         
     </CENTER>
