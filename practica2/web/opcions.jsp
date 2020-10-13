@@ -15,7 +15,7 @@
     <body>
     <CENTER>
         <br>
-        <h1 class="alert alert-success"> La imatge se ha eliminado correctamente </h1>
+        <h1 class="alert alert-success"> La imagen se ha eliminado correctamente </h1>
         <br>
         <input type="BUTTON" value="Torna al menu" class="btn btn-primary" onclick="window.location.href='menu.jsp'">
         <br>
