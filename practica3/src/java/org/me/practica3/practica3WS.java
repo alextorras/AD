@@ -8,21 +8,34 @@ package org.me.practica3;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author admin
  */
 @WebService(serviceName = "practica3WS")
-@Stateless()
 public class practica3WS {
 
+
     /**
-     * This is a sample web service operation
+     * Web service operation
+     * @param image
+     * @return 
      */
-    @WebMethod(operationName = "hello")
-    public String hello(@WebParam(name = "name") String txt) {
-        return "Hello " + txt + " !";
+    @WebMethod(operationName = "DeleteImage")
+    public int DeleteImage(@WebParam(name = "image") Image image) {
+        //TODO write your implementation code here:
+        return 0;
+    }
+
+    /**
+     * Web service operation
+     * @param image
+     * @return 
+     */
+    @WebMethod(operationName = "RegisterImage")
+    public int RegisterImage(@WebParam(name = "image") Image image) {
+        //TODO write your implementation code here:
+        return 0;
     }
 }
