@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package servicio;
 
 import java.io.IOException;
@@ -12,19 +13,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.WebServiceRef;
+import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author admin
+ * @author Dani
  */
-@WebServlet(name = "eliminarImagen", urlPatterns = {"/eliminarImagen"})
-public class eliminarImagen extends HttpServlet {
-    
-    Image i = null;
-
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/practica3Server/WS.wsdl")
-    private WS_Service service;
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,23 +32,25 @@ public class eliminarImagen extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        PrintWriter out = null;
+        HttpSession s = request.getSession();
+        try {
+            out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet eliminarImagen</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            i = new Image();
-            int aux = Integer.parseInt((String) request.getParameter("id"));
-            i.setId(aux);
-            deleteImage(i);
+            HttpSession session = request.getSession();
+            String aux = (String) session.getAttribute("user");
+            out.println(aux);
+            session.invalidate();            
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+        } catch(IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
         }
     }
 
@@ -94,12 +92,5 @@ public class eliminarImagen extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
-    private int deleteImage(servicio.Image image) {
-        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
-        // If the calling of port operations may lead to race condition some synchronization is required.
-        servicio.WS port = service.getWSPort();
-        return port.deleteImage(image);
-    }
 
 }
