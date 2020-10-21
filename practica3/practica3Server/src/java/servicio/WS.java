@@ -51,8 +51,19 @@ public class WS {
      */
     @WebMethod(operationName = "ModifyImage")
     public int ModifyImage(@WebParam(name = "image") Image image) {
-        //TODO write your implementation code here:
-        return 0;
+         try {
+            db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            db.updateImage(image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getId());
+         }catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
     }
 
     /**
@@ -69,9 +80,22 @@ public class WS {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        //TODO write your implementation code here:
-        return null;
+        List<Image> lista = null;
+         try {
+            db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            lista = db.listarImagenes();
+         }catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+         }
+        return lista;
     }
+         
 
     /**
      * Web service operation
