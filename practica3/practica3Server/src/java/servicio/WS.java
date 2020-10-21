@@ -25,29 +25,35 @@ public class WS {
     
     /**
      * Registrar una nueva imagen
+     * @param image
+     * @return 
      */
     @WebMethod(operationName = "RegistrarImagen")
     public int RegistrarImagen(@WebParam(name = "image") Image image) {
         //TODO write your implementation code here:
+        boolean salt = false;
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             db.newImage(image.getId(), image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getFilename());
             return 1;
         } catch(SQLException e) {
             e.printStackTrace();
+            salt = true;
         } finally {
             try {
                 db.cerrarConexion();
             } catch(SQLException e) {
                 e.printStackTrace();
             }
-            return 0;
         }
-
+        if(salt) return 0;
+        else return 1;
     }
 
     /**
      * Modificar una imagen existente
+     * @param image
+     * @return 
      */
     @WebMethod(operationName = "ModifyImage")
     public int ModifyImage(@WebParam(name = "image") Image image) {
@@ -57,11 +63,29 @@ public class WS {
 
     /**
      * Borrar una imagen existente
+     * @param image
+     * @return 
      */
     @WebMethod(operationName = "DeleteImage")
     public int DeleteImage(@WebParam(name = "image") Image image) {
-        //TODO write your implementation code here:        
-        return 0;
+        //TODO write your implementation code here:
+        boolean salt = false;
+        try {
+            db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            int aux = image.getId();
+            db.eliminar_imagen(aux);
+        } catch(SQLException e) {
+            e.printStackTrace();
+            salt = true;
+        } finally {
+            try {
+                db.cerrarConexion();       
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+        } 
+        if(salt) return 0;
+        else return 1;        
     }
 
     /**
