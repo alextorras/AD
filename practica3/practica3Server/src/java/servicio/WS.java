@@ -9,7 +9,10 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+
 import modelo.Image;
+import basedatos.callsSQL;
+import java.sql.SQLException;
 
 /**
  *
@@ -17,6 +20,10 @@ import modelo.Image;
  */
 @WebService(serviceName = "WS")
 public class WS {
+    
+    callsSQL db = null;
+    
+    
 
     /**
      * Registrar una nueva imagen
@@ -24,7 +31,21 @@ public class WS {
     @WebMethod(operationName = "RegistrarImagen")
     public int RegistrarImagen(@WebParam(name = "image") Image image) {
         //TODO write your implementation code here:
-        return 0;
+        try {
+            db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            db.newImage(image.getId(), image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getFilename());
+            return 1;
+        } catch(SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        }
+
     }
 
     /**
@@ -41,7 +62,7 @@ public class WS {
      */
     @WebMethod(operationName = "DeleteImage")
     public int DeleteImage(@WebParam(name = "image") Image image) {
-        //TODO write your implementation code here:
+        //TODO write your implementation code here:        
         return 0;
     }
 
