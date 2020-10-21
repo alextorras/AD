@@ -23,8 +23,6 @@ public class WS {
     
     callsSQL db = null;
     
-    
-
     /**
      * Registrar una nueva imagen
      */
