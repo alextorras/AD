@@ -65,6 +65,9 @@
                 mensaje = "<p class=\"card-text\">El usuario ya existe</p>";
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
                 break;
+            case 12:
+                mensaje = "<p class=\"card-text\">Formato de la imagen incorrecto</p>";
+                boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";

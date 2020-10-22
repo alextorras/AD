@@ -28,7 +28,21 @@ public class Image {
         datas = null;
         filename = null;
         id = -1;
+        
     }
+
+    public Image(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename, int id) {
+        this.titol = titol;
+        this.descripcio = descripcio;
+        this.keywords = keywords;
+        this.autor = autor;
+        this.datac = datac;
+        this.datas = datas;
+        this.filename = filename;
+        this.id = id;
+    }
+    
+    
 
     /**
      * @return the titol

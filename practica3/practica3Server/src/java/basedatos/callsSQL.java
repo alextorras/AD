@@ -38,7 +38,20 @@ public class callsSQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    } 
+    }
+    
+    public int getID() throws SQLException {
+            PreparedStatement getid = cn.prepareStatement("SELECT MAX(id) FROM image");
+            ResultSet rs = getid.executeQuery();
+            int id;
+            if(rs.next()) {                
+                id = rs.getInt(1)+1;
+            }
+            else {
+                id=0;
+            }
+            return id;
+    }
     
     public boolean newImage(int id, String titol, String descripcio, String keywords, String autor, String datac, String nom) throws SQLException {
 

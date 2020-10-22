@@ -16,6 +16,5 @@ public class Practica3WS_Client_Application {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-    }
-    
+    }   
 }
