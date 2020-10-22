@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
 
-import modelo.Imagen;
 
 /**
  *

@@ -33,6 +33,27 @@ public class callsSQL2 {
         return rs.next();
     }
     
+    public boolean existeix(String usuario) throws SQLException {
+        String aux = usuario;
+        System.out.println("Entro aqui");
+        String query = "select * from usuarios where id_usuario='" + aux + "'";
+        System.out.println(query);
+        PreparedStatement st = cn.prepareCall(query);
+        ResultSet rs = st.executeQuery();
+        return rs.next();
+    }
+    
+    public boolean newUser(String usuario, String passwd) throws SQLException {
+        String aux1 = usuario;
+        String aux2 = passwd;
+        PreparedStatement st = cn.prepareStatement("insert into usuarios VALUES(?,?)");
+        st.setString(1, aux1);
+        st.setString(2, aux2);
+        int count = st.executeUpdate();
+        if(count > 0) return true;
+        else return false;
+    }
+    
     public void cerrarConexion() throws SQLException {
         cn.close();
     }

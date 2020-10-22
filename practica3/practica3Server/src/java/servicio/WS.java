@@ -57,10 +57,15 @@ public class WS {
     public int DeleteImage(@WebParam(name = "image") Image image) {
         //TODO write your implementation code here:
         boolean salt = false;
+        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int aux = image.getId();
+            String nom_f = db.nom_eliminar_imagen(aux);
             db.eliminar_imagen(aux);
+            File f = new File(path + File.separator + nom_f);
+            if(f.delete()) System.out.println("Se ha eliminado con exito");
+            
         } catch(SQLException e) {
             e.printStackTrace();
             salt = true;
