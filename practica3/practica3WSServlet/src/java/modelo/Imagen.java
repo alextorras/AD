@@ -7,9 +7,9 @@ package modelo;
 
 /**
  *
- * @author Dani
+ * @author admin
  */
-public class Image {
+public class Imagen {
     private String titol;
     private String descripcio;
     private String keywords;
@@ -18,31 +18,6 @@ public class Image {
     private String datas;
     private String filename;
     private int id;
-    
-    public Image() {
-        titol = null;
-        descripcio = null;
-        keywords = null;
-        autor = null;
-        datac = null;
-        datas = null;
-        filename = null;
-        id = -1;
-        
-    }
-
-    public Image(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename, int id) {
-        this.titol = titol;
-        this.descripcio = descripcio;
-        this.keywords = keywords;
-        this.autor = autor;
-        this.datac = datac;
-        this.datas = datas;
-        this.filename = filename;
-        this.id = id;
-    }
-    
-    
 
     /**
      * @return the titol
@@ -155,8 +130,6 @@ public class Image {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
     
     
     

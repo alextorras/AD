@@ -5,10 +5,13 @@
  */
 package servicio;
 
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +20,14 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
 
+import modelo.Imagen;
+
 /**
  *
  * @author admin
  */
 @WebServlet(name = "registrarImagen", urlPatterns = {"/registrarImagen"})
+@MultipartConfig
 public class registrarImagen extends HttpServlet {
 
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/practica3Server/WS.wsdl")
@@ -43,6 +49,7 @@ public class registrarImagen extends HttpServlet {
         Image i = null;
         HttpSession s = request.getSession();
         try {
+            i = new Image();
             out = response.getWriter();
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
@@ -50,15 +57,37 @@ public class registrarImagen extends HttpServlet {
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
             
+            final Part filePart = request.getPart("imatge");
+            String nom = getName(filePart);
+            int punt = nom.lastIndexOf('.');
+            String extensio = nom.substring(punt);
+            if (!extensio.equals(".JPG")) {
+                out.println("Mal formato");
+            }
+            
             i.setTitol(titol);
             i.setDescripcio(descripcio);
             i.setKeywords(keywords);
             i.setAutor(autor);
             i.setDatac(datac);
-            registrarImagen(i);
+            i.setFilename(nom);
+            //out.println(i.getTitol());
+            
+            int auxiliar = registerImage(i);
+            out.println(auxiliar);
+            
+            if (auxiliar == 1) out.println("Imagen registrada con exito");
+            
         } catch(IOException e) {
             try {
                 s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (ServletException e) {
+            try {
+                s.setAttribute("codigo", "7");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             } catch (IOException ex) {
                 out.println("<html>No se ha redireccionado correctamente</html>");
@@ -105,14 +134,26 @@ public class registrarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private int registrarImagen(servicio.Image image) {
+    private String getName(Part filePart) {
+        final String partHeader = filePart.getHeader("content-disposition");
+        LOGGER.log(Level.INFO, "Part Header = {0}", partHeader);
+        for (String content : filePart.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+
+    private int registerImage(servicio.Image image) {
+        System.out.println("Entro aqui");
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicio.WS port = service.getWSPort();
-        return port.registrarImagen(image);
+        return port.registerImage(image);
     }
-    
-    
+
     
     
 }
