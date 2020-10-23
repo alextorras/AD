@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
+import java.io.InputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import javax.servlet.ServletContext;
 
 
 /**
@@ -47,6 +51,7 @@ public class registrarImagen extends HttpServlet {
         PrintWriter out = null;
         Image i = null;
         HttpSession s = request.getSession();
+        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
         
         String usuari = (String) s.getAttribute("user");
         
@@ -54,8 +59,6 @@ public class registrarImagen extends HttpServlet {
             if(usuari.equals(null)) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
             }
-                        
-            
             i = new Image();
             out = response.getWriter();
             String titol = request.getParameter("titol");
@@ -63,8 +66,12 @@ public class registrarImagen extends HttpServlet {
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
-            
+                       
             final Part filePart = request.getPart("imatge");
+            //String name = filePart.getName();
+            //System.out.println(name);
+
+            System.out.println("El nombre del fichero es: " + filePart);
             String nom = getName(filePart);            
             int punt = nom.lastIndexOf('.');
             String extensio = nom.substring(punt);
@@ -73,16 +80,33 @@ public class registrarImagen extends HttpServlet {
                 out.println("Mal formato");
             }
             
+            /*OutputStream escritura = null;
+            escritura = new FileOutputStream(new File(path + File.separator + nom));
+            InputStream filecontent = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            
+            while((read = filecontent.read(bytes)) != -1) {
+                escritura.write(bytes, 0, read);
+            }/*/
             i.setTitol(titol);
             i.setDescripcio(descripcio);
             i.setKeywords(keywords);
             i.setAutor(autor);
             i.setDatac(datac);
             i.setFilename(nom);
+            /*int auxiliar = registerImage(i);
             
-            int auxiliar = registerImage(i);
-            
-            if (auxiliar == 1) response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
+            if (auxiliar == 1) 
+            {
+                response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
+            }
+            else {
+                File f = new File(path + File.separator + nom);
+                f.delete();
+                s.setAttribute("codigo", "10");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }*/
             
             
         } catch(IOException e) {

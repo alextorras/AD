@@ -5,6 +5,9 @@
  */
 package modelo;
 
+
+//import javax.servlet.http.Part;
+
 /**
  *
  * @author Dani
@@ -155,10 +158,18 @@ public class Image {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
-    
-    
-    
-    
+
+    /**
+     * @return the filePart
+     */
+/*    public Part getFilePart() {
+        return filePart;
+    }
+*/
+    /**
+     * @param filePart the filePart to set
+     */
+/*    public void setFilePart(Part filePart) {
+        this.filePart = filePart;
+    }*/
 }
