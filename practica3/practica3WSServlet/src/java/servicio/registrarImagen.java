@@ -51,12 +51,10 @@ public class registrarImagen extends HttpServlet {
         String usuari = (String) s.getAttribute("user");
         
         try {
-            
             if(usuari.equals(null)) {
                 response.sendRedirect(request.getContextPath() + "/login.jsp");
             }
                         
-            
             
             i = new Image();
             out = response.getWriter();
@@ -156,7 +154,6 @@ public class registrarImagen extends HttpServlet {
     }
 
     private int registerImage(servicio.Image image) {
-        System.out.println("Entro aqui");
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicio.WS port = service.getWSPort();
