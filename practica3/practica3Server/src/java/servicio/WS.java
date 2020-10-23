@@ -64,8 +64,9 @@ public class WS {
             String nom_f = db.nom_eliminar_imagen(aux);
             db.eliminar_imagen(aux);
             File f = new File(path + File.separator + nom_f);
-            if(f.delete()) System.out.println("Se ha eliminado con exito");
-            
+            if(!f.delete()) {
+                salt = true;
+            }
         } catch(SQLException e) {
             e.printStackTrace();
             salt = true;

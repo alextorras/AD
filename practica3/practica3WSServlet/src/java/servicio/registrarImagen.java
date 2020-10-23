@@ -47,7 +47,17 @@ public class registrarImagen extends HttpServlet {
         PrintWriter out = null;
         Image i = null;
         HttpSession s = request.getSession();
+        
+        String usuari = (String) s.getAttribute("user");
+        
         try {
+            
+            if(usuari.equals(null)) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+            }
+                        
+            
+            
             i = new Image();
             out = response.getWriter();
             String titol = request.getParameter("titol");
@@ -57,9 +67,10 @@ public class registrarImagen extends HttpServlet {
             String datac = request.getParameter("datacreation");
             
             final Part filePart = request.getPart("imatge");
-            String nom = getName(filePart);
+            String nom = getName(filePart);            
             int punt = nom.lastIndexOf('.');
             String extensio = nom.substring(punt);
+            
             if (!extensio.equals(".JPG")) {
                 out.println("Mal formato");
             }
@@ -70,12 +81,11 @@ public class registrarImagen extends HttpServlet {
             i.setAutor(autor);
             i.setDatac(datac);
             i.setFilename(nom);
-            //out.println(i.getTitol());
             
             int auxiliar = registerImage(i);
-            out.println(auxiliar);
             
-            if (auxiliar == 1) out.println("Imagen registrada con exito");
+            if (auxiliar == 1) response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
+            
             
         } catch(IOException e) {
             try {

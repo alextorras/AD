@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceRef;
 
 /**
@@ -36,23 +37,44 @@ public class eliminarImagen extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet eliminarImagen</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet eliminarImagen at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        PrintWriter out = null;
+        HttpSession s = request.getSession();
+        String usuari = (String) s.getAttribute("user");
+        
+        try 
+        {
+            if(usuari.equals(null)) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+            }
+            
+            out = response.getWriter();
             i = new Image();
             int aux = Integer.parseInt((String) request.getParameter("id"));
+            
+            if(aux < 0) {
+                s.setAttribute("codigo", "8");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }
+            
             i.setId(aux);
-            deleteImage(i);
+            int numero = deleteImage(i);
+            
+            if (numero == 1) {
+                response.sendRedirect(request.getContextPath() + "/opcions.jsp");
+            }
+            else {
+                s.setAttribute("codigo", "9");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }
+        } catch (IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
         }
     }
 
