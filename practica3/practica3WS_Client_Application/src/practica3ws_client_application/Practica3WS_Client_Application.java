@@ -8,9 +8,16 @@ package practica3ws_client_application;
 import java.util.Scanner;
 import servicio.Image;
 import basedatos.callsSQL2;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +30,7 @@ public class Practica3WS_Client_Application
     static boolean sortir = false;
     static String usuari_sessio;
     static callsSQL2 db = null;
-    final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+    //final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
     
     
     /**
@@ -76,7 +83,6 @@ public class Practica3WS_Client_Application
         System.out.println("Que imagen quieres registrar? (Por favor introducir todo el path)");
         Scanner sc = new Scanner(System.in);
         String nombre_fichero = sc.nextLine();
-        //System.out.println(nombre_fichero);
         i = new Image();
         System.out.println("Añade título a la imagen");
         String titol = sc.nextLine();
@@ -85,16 +91,35 @@ public class Practica3WS_Client_Application
         System.out.println("Añade palabras clave");
         String keywords = sc.nextLine();
         System.out.println("Añade la fecha");
-        String datac = sc.nextLine();       
+        String datac = sc.nextLine();
         
-        i.setAutor(usuari_sessio);
-        i.setDatac(datac);
-        i.setDescripcio(descripcio);
-        i.setFilename(nombre_fichero);
-        i.setKeywords(keywords);
-        i.setTitol(titol);        
-        registerImage(i);
+        int posicio = nombre_fichero.lastIndexOf("\\");
+        String nom = nombre_fichero.substring(posicio + 1);
         
+        File f = new File(nombre_fichero);
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int read = 0;
+        try {
+            InputStream in = new FileInputStream(f);
+            byte[] aux = new byte[1024];
+            while((read = in.read(aux)) != -1) {
+                buffer.write(aux, 0, read);
+            }
+            byte[] envio = buffer.toByteArray();
+            i.setAutor(usuari_sessio);
+            i.setDatac(datac);
+            i.setDescripcio(descripcio);
+            i.setFilename(nom);
+            i.setKeywords(keywords);
+            i.setTitol(titol); 
+            i.setContenido(envio);
+            registerImage(i);
+        } catch (FileNotFoundException e) {
+            System.out.println("La causa del error es: " + e.getCause());
+        } catch (IOException e) {
+            System.out.println("La causa del error es: " + e.getCause());
+        }
+
         System.out.println("Quieres salir de la session? \n"
                 + "1 - Si \n"
                 + "2 - No");

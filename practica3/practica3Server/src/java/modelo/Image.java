@@ -5,6 +5,9 @@
  */
 package modelo;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 
 //import javax.servlet.http.Part;
 
@@ -21,7 +24,8 @@ public class Image {
     private String datas;
     private String filename;
     private int id;
-    private boolean proc;
+    private byte[] contenido;
+    
     
     public void Image() {
         titol = null;
@@ -32,8 +36,7 @@ public class Image {
         datas = null;
         filename = null;
         id = -1;
-        proc = false;
-        
+        contenido = new byte[0];
     }
     
     
@@ -151,18 +154,17 @@ public class Image {
     }
 
     /**
-     * @return the proc
+     * @return the contenido
      */
-    public boolean isProc() {
-        return proc;
+    public byte[] getContenido() {
+        return contenido;
     }
 
     /**
-     * @param proc the proc to set
+     * @param contenido the contenido to set
      */
-    public void setProc(boolean proc) {
-        this.proc = proc;
+    public void setContenido(byte[] contenido) {
+        this.contenido = contenido;
     }
-    
-    
+
 }
