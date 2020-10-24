@@ -4,6 +4,9 @@
     Author     : Àlex
 --%>
 
+<%@page import="java.io.File"%>
+<%@page import="org.apache.xml.security.utils.Base64"%>
+<%@page import="java.io.OutputStream"%>
 <%@page import="servicio.Image"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.List"%>
@@ -42,7 +45,7 @@
             <h1 class="alert alert-primary">Listado imagenes</h1>
             </CENTER>
             <input type="BUTTON" style="float: right" value="Menú" class="btn btn-info" onclick="window.location.href='menu.jsp'">
-          <%
+          <%/*
                 int rss = 0;
                 String[] res = null;
                 Connection cn = null;
@@ -55,13 +58,28 @@
                         // Inici while
                         Image imagen = (Image) it.next();
                         String content = imagen.getContenido().toString();
-                        %>
-                        <div>
-        <div>          
-        </div>
+                        */%>
+        <div>
+               <%-- start web service invocation --%><hr/>
+            <%
+            try {
+                String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\imagenes";
+                servicio.WS_Service service = new servicio.WS_Service();
+                servicio.WS port = service.getWSPort();
+                // TODO process result here
+                java.util.List<java.lang.Object> result = port.listImage();
+                Iterator<Object> it = result.iterator();
+                Image imagen = null;
+                byte[] contingut = new byte[102400];
+                while(it.hasNext()) {
+                    imagen = (Image) it.next();
+                    String content = imagen.getContenido().toString();                    
+            %>
+    <%-- end web service invocation --%><hr/>
+ 
         <div>
             <ul>
-            <img src="data:image/png;base64, <%=content%>" width="200" height="200">
+            <img src="data:image/png;base64,<%=content%>" width="200" height="200">
             <li>Títol: <%= imagen.getTitol() %></li>
             <li>Data creació: <%= imagen.getDatac() %></li>
             <li>Descripció: <%= imagen.getDescripcio() %></li>
