@@ -39,8 +39,7 @@ public class registrarUsuario extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = null;
         HttpSession s = request.getSession();
@@ -61,14 +60,27 @@ public class registrarUsuario extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/registrarExito.jsp");
             }
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            //Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-            //Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (SQLException e) {
+            try {
+                s.setAttribute("codigo", "1");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (ClassNotFoundException e) {
+            try {
+                s.setAttribute("codigo", "2");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -5,6 +5,9 @@
  */
 package modelo;
 
+
+//import javax.servlet.http.Part;
+
 /**
  *
  * @author Dani
@@ -18,8 +21,9 @@ public class Image {
     private String datas;
     private String filename;
     private int id;
+    private boolean proc;
     
-    public Image() {
+    public void Image() {
         titol = null;
         descripcio = null;
         keywords = null;
@@ -28,18 +32,8 @@ public class Image {
         datas = null;
         filename = null;
         id = -1;
+        proc = false;
         
-    }
-
-    public Image(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename, int id) {
-        this.titol = titol;
-        this.descripcio = descripcio;
-        this.keywords = keywords;
-        this.autor = autor;
-        this.datac = datac;
-        this.datas = datas;
-        this.filename = filename;
-        this.id = id;
     }
     
     
@@ -155,10 +149,20 @@ public class Image {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
-    
-    
+
+    /**
+     * @return the proc
+     */
+    public boolean isProc() {
+        return proc;
+    }
+
+    /**
+     * @param proc the proc to set
+     */
+    public void setProc(boolean proc) {
+        this.proc = proc;
+    }
     
     
 }

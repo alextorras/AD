@@ -4,23 +4,29 @@
 <xsd:import namespace="http://servicio/" schemaLocation="http://localhost:8080/practica3Server/WS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="DeleteImage">
-<part name="parameters" element="tns:DeleteImage"/>
-</message>
-<message name="DeleteImageResponse">
-<part name="parameters" element="tns:DeleteImageResponse"/>
-</message>
 <message name="ModifyImage">
 <part name="parameters" element="tns:ModifyImage"/>
 </message>
 <message name="ModifyImageResponse">
 <part name="parameters" element="tns:ModifyImageResponse"/>
 </message>
+<message name="DeleteImage">
+<part name="parameters" element="tns:DeleteImage"/>
+</message>
+<message name="DeleteImageResponse">
+<part name="parameters" element="tns:DeleteImageResponse"/>
+</message>
 <message name="ListImage">
 <part name="parameters" element="tns:ListImage"/>
 </message>
 <message name="ListImageResponse">
 <part name="parameters" element="tns:ListImageResponse"/>
+</message>
+<message name="SearchbyId">
+<part name="parameters" element="tns:SearchbyId"/>
+</message>
+<message name="SearchbyIdResponse">
+<part name="parameters" element="tns:SearchbyIdResponse"/>
 </message>
 <message name="SearchbyTitle">
 <part name="parameters" element="tns:SearchbyTitle"/>
@@ -34,11 +40,11 @@
 <message name="SearchbyCreaDateResponse">
 <part name="parameters" element="tns:SearchbyCreaDateResponse"/>
 </message>
-<message name="SearchbyId">
-<part name="parameters" element="tns:SearchbyId"/>
+<message name="RegisterImage">
+<part name="parameters" element="tns:RegisterImage"/>
 </message>
-<message name="SearchbyIdResponse">
-<part name="parameters" element="tns:SearchbyIdResponse"/>
+<message name="RegisterImageResponse">
+<part name="parameters" element="tns:RegisterImageResponse"/>
 </message>
 <message name="SearchbyAuthor">
 <part name="parameters" element="tns:SearchbyAuthor"/>
@@ -46,24 +52,22 @@
 <message name="SearchbyAuthorResponse">
 <part name="parameters" element="tns:SearchbyAuthorResponse"/>
 </message>
-<message name="RegisterImage">
-<part name="parameters" element="tns:RegisterImage"/>
-</message>
-<message name="RegisterImageResponse">
-<part name="parameters" element="tns:RegisterImageResponse"/>
-</message>
 <portType name="WS">
-<operation name="DeleteImage">
-<input wsam:Action="http://servicio/WS/DeleteImageRequest" message="tns:DeleteImage"/>
-<output wsam:Action="http://servicio/WS/DeleteImageResponse" message="tns:DeleteImageResponse"/>
-</operation>
 <operation name="ModifyImage">
 <input wsam:Action="http://servicio/WS/ModifyImageRequest" message="tns:ModifyImage"/>
 <output wsam:Action="http://servicio/WS/ModifyImageResponse" message="tns:ModifyImageResponse"/>
 </operation>
+<operation name="DeleteImage">
+<input wsam:Action="http://servicio/WS/DeleteImageRequest" message="tns:DeleteImage"/>
+<output wsam:Action="http://servicio/WS/DeleteImageResponse" message="tns:DeleteImageResponse"/>
+</operation>
 <operation name="ListImage">
 <input wsam:Action="http://servicio/WS/ListImageRequest" message="tns:ListImage"/>
 <output wsam:Action="http://servicio/WS/ListImageResponse" message="tns:ListImageResponse"/>
+</operation>
+<operation name="SearchbyId">
+<input wsam:Action="http://servicio/WS/SearchbyIdRequest" message="tns:SearchbyId"/>
+<output wsam:Action="http://servicio/WS/SearchbyIdResponse" message="tns:SearchbyIdResponse"/>
 </operation>
 <operation name="SearchbyTitle">
 <input wsam:Action="http://servicio/WS/SearchbyTitleRequest" message="tns:SearchbyTitle"/>
@@ -73,30 +77,17 @@
 <input wsam:Action="http://servicio/WS/SearchbyCreaDateRequest" message="tns:SearchbyCreaDate"/>
 <output wsam:Action="http://servicio/WS/SearchbyCreaDateResponse" message="tns:SearchbyCreaDateResponse"/>
 </operation>
-<operation name="SearchbyId">
-<input wsam:Action="http://servicio/WS/SearchbyIdRequest" message="tns:SearchbyId"/>
-<output wsam:Action="http://servicio/WS/SearchbyIdResponse" message="tns:SearchbyIdResponse"/>
+<operation name="RegisterImage">
+<input wsam:Action="http://servicio/WS/RegisterImageRequest" message="tns:RegisterImage"/>
+<output wsam:Action="http://servicio/WS/RegisterImageResponse" message="tns:RegisterImageResponse"/>
 </operation>
 <operation name="SearchbyAuthor">
 <input wsam:Action="http://servicio/WS/SearchbyAuthorRequest" message="tns:SearchbyAuthor"/>
 <output wsam:Action="http://servicio/WS/SearchbyAuthorResponse" message="tns:SearchbyAuthorResponse"/>
 </operation>
-<operation name="RegisterImage">
-<input wsam:Action="http://servicio/WS/RegisterImageRequest" message="tns:RegisterImage"/>
-<output wsam:Action="http://servicio/WS/RegisterImageResponse" message="tns:RegisterImageResponse"/>
-</operation>
 </portType>
 <binding name="WSPortBinding" type="tns:WS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="DeleteImage">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
 <operation name="ModifyImage">
 <soap:operation soapAction=""/>
 <input>
@@ -106,7 +97,25 @@
 <soap:body use="literal"/>
 </output>
 </operation>
+<operation name="DeleteImage">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
 <operation name="ListImage">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="SearchbyId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -133,7 +142,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="SearchbyId">
+<operation name="RegisterImage">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -143,15 +152,6 @@
 </output>
 </operation>
 <operation name="SearchbyAuthor">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="RegisterImage">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

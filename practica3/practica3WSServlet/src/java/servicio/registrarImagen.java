@@ -19,6 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import javax.xml.ws.WebServiceRef;
+import java.io.InputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import javax.servlet.ServletContext;
 
 
 /**
@@ -47,7 +51,14 @@ public class registrarImagen extends HttpServlet {
         PrintWriter out = null;
         Image i = null;
         HttpSession s = request.getSession();
+        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        
+        String usuari = (String) s.getAttribute("user");
+        
         try {
+            if(usuari.equals(null)) {
+                response.sendRedirect(request.getContextPath() + "/login.jsp");
+            }
             i = new Image();
             out = response.getWriter();
             String titol = request.getParameter("titol");
@@ -55,27 +66,50 @@ public class registrarImagen extends HttpServlet {
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
+                       
+            final Part filePart = request.getPart("file");
+            String name = request.getParameter("file");
+            System.out.println(name);
             
-            final Part filePart = request.getPart("imatge");
-            String nom = getName(filePart);
+            i.setProc(true);          
+
+            System.out.println("El nombre del fichero es: " + filePart);
+            String nom = getName(filePart);            
             int punt = nom.lastIndexOf('.');
             String extensio = nom.substring(punt);
-            if (!extensio.equals(".JPG")) {
+            
+            if (!extensio.equals(".JPG") || !extensio.equals(".jpg") || !extensio.equals(".png")) {
                 out.println("Mal formato");
             }
             
+            OutputStream escritura = null;
+            escritura = new FileOutputStream(new File(path + File.separator + nom));
+            InputStream filecontent = filePart.getInputStream();
+            int read = 0;
+            final byte[] bytes = new byte[1024];
+            
+            while((read = filecontent.read(bytes)) != -1) {
+                escritura.write(bytes, 0, read);
+            }
             i.setTitol(titol);
             i.setDescripcio(descripcio);
             i.setKeywords(keywords);
             i.setAutor(autor);
             i.setDatac(datac);
             i.setFilename(nom);
-            //out.println(i.getTitol());
-            
             int auxiliar = registerImage(i);
-            out.println(auxiliar);
             
-            if (auxiliar == 1) out.println("Imagen registrada con exito");
+            if (auxiliar == 1) 
+            {
+                response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
+            }
+            else {
+                File f = new File(path + File.separator + nom);
+                f.delete();
+                s.setAttribute("codigo", "10");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }
+            
             
         } catch(IOException e) {
             try {
@@ -146,7 +180,6 @@ public class registrarImagen extends HttpServlet {
     }
 
     private int registerImage(servicio.Image image) {
-        System.out.println("Entro aqui");
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
         servicio.WS port = service.getWSPort();
