@@ -91,47 +91,50 @@ public class WS {
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
         List<Image> lista = null;
+        String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
         try {
-            System.out.println("Entro aqui");
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             lista = db.listarImagenes();
             Iterator<Image> it = lista.iterator();
+            Image imagen = null;
+            InputStream filecontent = null;
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] envio = new byte[1024];
             while (it.hasNext()){
-                Image imagen = it.next();
+                imagen = it.next();
                 byte[] b = null;
-                String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+                
+                System.out.println(imagen.getFilename());
                 File f = new File(path + File.separator + imagen.getFilename());
-                InputStream filecontent = null;
-                try {
-                    filecontent = new FileInputStream(f);
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                
+                filecontent = new FileInputStream(f);
+                
                 int read = 0;
-                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                byte[] aux = new byte[1024];
-                byte[] envio = new byte[1024];
-                try {
-                    while((read = filecontent.read(aux)) != -1) {
-                        buffer.write(aux, 0, read);
-                    }
-                    envio = buffer.toByteArray();
-                } catch (IOException ex) {
-                    Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+                byte[] aux = new byte[10240000];
+                
+                while((read = filecontent.read(aux)) != -1) {
+                    buffer.write(aux, 0, read);
                 }
-                //byte[] envio = buffer.toByteArray();
+                envio = buffer.toByteArray();
                 imagen.setContenido(envio);
+            }    
+                
+        } catch (FileNotFoundException e) {
+            System.out.println("La causa del error es: " + e.getCause());
+            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            System.out.println("La causa del error es: " + e.getCause());
+            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException e) {
+            System.out.println("La causa del error es: " + e.getCause());
+            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+                try {
+                    db.cerrarConexion();
+                } catch(SQLException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (Exception e) {
-            return null;
-        }
-        finally {
-            try {
-                db.cerrarConexion();
-            } catch(SQLException e) {
-                e.printStackTrace();
-            }
-        }
         return lista;
     }
 
@@ -176,18 +179,13 @@ public class WS {
      */
     @WebMethod(operationName = "RegisterImage")
     public int RegisterImage(@WebParam(name = "image") Image image) {
-        System.out.println("Aqui tambien entro");
         
         boolean salt = false;
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-        System.out.println("Conectado");
         final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
 
         FileOutputStream ous = null;
         String nom = image.getFilename();
-        /*int posicio = nom.lastIndexOf("\\");
-        String fich = nom.substring(posicio + 1);
-        System.out.println(fich);*/
         byte[] contingut = image.getContenido();
               
         File fo = null;
