@@ -5,6 +5,12 @@
  */
 package modelo;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+
+//import javax.servlet.http.Part;
+
 /**
  *
  * @author Dani
@@ -18,8 +24,10 @@ public class Image {
     private String datas;
     private String filename;
     private int id;
+    private byte[] contenido;
     
-    public Image() {
+    
+    public void Image() {
         titol = null;
         descripcio = null;
         keywords = null;
@@ -28,7 +36,10 @@ public class Image {
         datas = null;
         filename = null;
         id = -1;
+        contenido = new byte[0];
     }
+    
+    
 
     /**
      * @return the titol
@@ -141,10 +152,19 @@ public class Image {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
-    
-    
-    
-    
+
+    /**
+     * @return the contenido
+     */
+    public byte[] getContenido() {
+        return contenido;
+    }
+
+    /**
+     * @param contenido the contenido to set
+     */
+    public void setContenido(byte[] contenido) {
+        this.contenido = contenido;
+    }
+
 }

@@ -1,39 +1,38 @@
-package classes;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-import java.awt.event.ActionListener;
-import java.io.File;
+package servicio;
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import static java.lang.Class.forName;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import basedatos.callsSQL2;
 
 /**
  *
  * @author Dani
  */
-@WebServlet(name="eliminarImagen", urlPatterns = {"/eliminarImagen"})
-public class eliminarImagen extends HttpServlet {
-   int id_aux = 0;
-    String nom_aux = null;
-
+@WebServlet(name="login", urlPatterns = {"/login"})
+public class login extends HttpServlet {
+    callsSQL2 database = null;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -45,69 +44,70 @@ public class eliminarImagen extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException {
-        HttpSession session = request.getSession();
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8"); 
+        HttpSession s = request.getSession();
         PrintWriter out = null;
         try {
-            String user_aux = (String) session.getAttribute("user");
-            if(user_aux.equals(null)) {
-                response.sendRedirect(request.getContextPath() + "/login.jsp");
-            }
             out = response.getWriter();
-            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            //id_aux = (int) session.getAttribute("idImage");
-            id_aux = Integer.parseInt(request.getParameter("id"));
-            
-            nom_aux = database.nom_eliminar_imagen(id_aux);
-            if(id_aux == 0){
-                session.setAttribute("codigo", "8");
+            database = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet login</title>");        
+            out.println("</head>");
+            out.println("<body>");
+
+            String user = (String) request.getParameter("usuario");
+            String password = (String) request.getParameter("password");
+            if(user.equals(null) || password.equals(null)) out.println("<html>Hola</html>");
+            boolean comprova = database.login(user, password);
+
+            s.setAttribute("user", user);
+                      
+            if(!comprova) {
+                s.setAttribute("codigo", "4");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
-            }
-            boolean resultat;
-            resultat = database.eliminar_imagen(id_aux);
-            if(!resultat) {
-                session.setAttribute("codigo", "9");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");                
-            }
-            
-            File f = new File("C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica2\\web\\imagenes\\" + nom_aux);
-            //File f = new File(request.getContextPath() + "/web/images/" + nom_aux);
-            if(f.delete())
-            {
-                response.sendRedirect(request.getContextPath() + "/opcions.jsp");
             }
             else {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
-            }
-            database.cerrarConexion();
+            }     
             
-            
-        }catch(SQLException e) {
+        } catch(SQLException e) {
             try {
-                session.setAttribute("codigo", "1");
+                s.setAttribute("codigo", "1");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             } catch (IOException ex) {
                 out.println("<html>No se ha redireccionado correctamente</html>");
             }
         } catch(ClassNotFoundException e) {
-            session.setAttribute("codigo", "2");
             try {
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            } catch(IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");
-            }
-            //System.out.println("<html>No s'ha trobat la classe</html>");
-        } catch(IOException e) {
-            session.setAttribute("codigo", "5");
-            try {
+                s.setAttribute("codigo", "2");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             } catch (IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");                
+                out.println("<html>No se ha redireccionado correctamente</html>");
             }
-                      
+        } catch(IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+            
         }
-    }
+        
+        finally {
+            try {
+                database.cerrarConexion();
+            } catch(SQLException e) {
+                s.setAttribute("codigo", "1");
+                e.getErrorCode();
+            }
+        }
     
+    }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -117,6 +117,7 @@ public class eliminarImagen extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
@@ -133,7 +134,7 @@ public class eliminarImagen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            processRequest(request, response);
     }
 
     /**

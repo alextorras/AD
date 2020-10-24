@@ -38,7 +38,20 @@ public class callsSQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    } 
+    }
+    
+    public int getID() throws SQLException {
+            PreparedStatement getid = cn.prepareStatement("SELECT MAX(id) FROM image");
+            ResultSet rs = getid.executeQuery();
+            int id;
+            if(rs.next()) {                
+                id = rs.getInt(1)+1;
+            }
+            else {
+                id=0;
+            }
+            return id;
+    }
     
     public boolean newImage(int id, String titol, String descripcio, String keywords, String autor, String datac, String nom) throws SQLException {
 
@@ -59,14 +72,14 @@ public class callsSQL {
     }
     
 
-    public boolean login(String usuario, String password) throws SQLException
+    /*public boolean login(String usuario, String password) throws SQLException
     {
         String query = "select * from usuarios where id_usuario='" + usuario + "' and password='" + password + "'";
         PreparedStatement st = cn.prepareCall(query);
         ResultSet rs = st.executeQuery();
         
         return rs.next();
-    }
+    }*/
     
     public String nom_eliminar_imagen(Integer id) throws SQLException
     {
@@ -220,17 +233,16 @@ public class callsSQL {
             uploader.executeUpdate();
     }
     
-    public boolean existeix(String usuario) throws SQLException {
+    /*public boolean existeix(String usuario) throws SQLException {
         String aux = usuario;
-        System.out.println("Entro aqui");
         String query = "select * from usuarios where id_usuario='" + aux + "'";
         System.out.println(query);
         PreparedStatement st = cn.prepareCall(query);
         ResultSet rs = st.executeQuery();
         return rs.next();
-    }
+    }*/
     
-    public boolean newUser(String usuario, String passwd) throws SQLException {
+    /*public boolean newUser(String usuario, String passwd) throws SQLException {
         String aux1 = usuario;
         String aux2 = passwd;
         PreparedStatement st = cn.prepareStatement("insert into usuarios VALUES(?,?)");
@@ -239,7 +251,7 @@ public class callsSQL {
         int count = st.executeUpdate();
         if(count > 0) return true;
         else return false;
-    }
+    }*/
     
 
     

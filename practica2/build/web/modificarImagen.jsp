@@ -43,7 +43,7 @@
                 <input type="text" style="margin-top: 10px" name="titol" placeholder="Títol" value="<%= titol %>" required>
                 <input type="text" name="descripcio" placeholder="Descripció" value="<%= descrip %>" required>
                 <input type="text" name="keywords" placeholder="keywords" value="<%= tag %>" required>
-                <input type="text" name="autor" placeholder="Autor" value="<%= autor %>" required>
+                <input type="text" name="autor" placeholder="Autor" value="<%= autor %>" required readonly="readonly">
                 <input type="text" name="datac" value="<%= data %>" required>                
                 <input type="hidden" name="id" value="<%= id %>"  >
 

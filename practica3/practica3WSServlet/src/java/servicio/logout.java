@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package classes;
+
+package servicio;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +19,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Dani
  */
-@WebServlet(name = "registrarUsuario", urlPatterns = {"/registrarUsuario"})
-public class registrarUsuario extends HttpServlet {
+@WebServlet(name = "logout", urlPatterns = {"/logout"})
+public class logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,40 +32,25 @@ public class registrarUsuario extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = null;
         HttpSession s = request.getSession();
-        try (PrintWriter out = response.getWriter()) {
+        try {
+            out = response.getWriter();
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet registrarUsuario</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet registrarUsuario at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-            
-            callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            
-            String aux1 = request.getParameter("newUser");
-            String aux2 = request.getParameter("newPassword");
-            boolean prova = database.existeix(aux1);
-            out.println(prova);
-            if(prova) {
-                s.setAttribute("codigo", "11");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");   
+            HttpSession session = request.getSession();
+            String aux = (String) session.getAttribute("user");
+            out.println(aux);
+            session.invalidate();            
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+        } catch(IOException e) {
+            try {
+                s.setAttribute("codigo", "5");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
             }
-            boolean insertat = database.newUser(aux1, aux2);
-            if(insertat) {
-                response.sendRedirect(request.getContextPath() + "/registrarExito.jsp");
-            }
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(registrarUsuario.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

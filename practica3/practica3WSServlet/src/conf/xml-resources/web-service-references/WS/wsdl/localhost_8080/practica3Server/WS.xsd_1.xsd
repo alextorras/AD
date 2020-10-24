@@ -4,6 +4,8 @@
 
 <xs:element name="DeleteImageResponse" type="tns:DeleteImageResponse"/>
 
+<xs:element name="IOException" type="tns:IOException"/>
+
 <xs:element name="ListImage" type="tns:ListImage"/>
 
 <xs:element name="ListImageResponse" type="tns:ListImageResponse"/>
@@ -12,9 +14,9 @@
 
 <xs:element name="ModifyImageResponse" type="tns:ModifyImageResponse"/>
 
-<xs:element name="RegistrarImagen" type="tns:RegistrarImagen"/>
+<xs:element name="RegisterImage" type="tns:RegisterImage"/>
 
-<xs:element name="RegistrarImagenResponse" type="tns:RegistrarImagenResponse"/>
+<xs:element name="RegisterImageResponse" type="tns:RegisterImageResponse"/>
 
 <xs:element name="SearchbyAuthor" type="tns:SearchbyAuthor"/>
 
@@ -53,6 +55,7 @@
 <xs:complexType name="image">
 <xs:sequence>
 <xs:element name="autor" type="xs:string" minOccurs="0"/>
+<xs:element name="contenido" type="xs:base64Binary" minOccurs="0"/>
 <xs:element name="datac" type="xs:string" minOccurs="0"/>
 <xs:element name="datas" type="xs:string" minOccurs="0"/>
 <xs:element name="descripcio" type="xs:string" minOccurs="0"/>
@@ -81,6 +84,18 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="RegisterImage">
+<xs:sequence>
+<xs:element name="image" type="tns:image" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RegisterImageResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="SearchbyTitle">
 <xs:sequence>
 <xs:element name="title" type="xs:string" minOccurs="0"/>
@@ -105,18 +120,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="RegistrarImagen">
-<xs:sequence>
-<xs:element name="image" type="tns:image" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="RegistrarImagenResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="ListImage">
 <xs:sequence/>
 </xs:complexType>
@@ -124,6 +127,12 @@
 <xs:complexType name="ListImageResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="IOException">
+<xs:sequence>
+<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
