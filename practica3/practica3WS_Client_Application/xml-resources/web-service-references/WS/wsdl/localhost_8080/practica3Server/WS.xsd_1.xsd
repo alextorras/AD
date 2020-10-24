@@ -53,13 +53,13 @@
 <xs:complexType name="image">
 <xs:sequence>
 <xs:element name="autor" type="xs:string" minOccurs="0"/>
+<xs:element name="contenido" type="xs:base64Binary" minOccurs="0"/>
 <xs:element name="datac" type="xs:string" minOccurs="0"/>
 <xs:element name="datas" type="xs:string" minOccurs="0"/>
 <xs:element name="descripcio" type="xs:string" minOccurs="0"/>
 <xs:element name="filename" type="xs:string" minOccurs="0"/>
 <xs:element name="id" type="xs:int"/>
 <xs:element name="keywords" type="xs:string" minOccurs="0"/>
-<xs:element name="proc" type="xs:boolean"/>
 <xs:element name="titol" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
@@ -82,18 +82,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="SearchbyTitle">
-<xs:sequence>
-<xs:element name="title" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="SearchbyTitleResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="RegisterImage">
 <xs:sequence>
 <xs:element name="image" type="tns:image" minOccurs="0"/>
@@ -103,6 +91,18 @@
 <xs:complexType name="RegisterImageResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="SearchbyTitle">
+<xs:sequence>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="SearchbyTitleResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 

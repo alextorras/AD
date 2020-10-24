@@ -55,7 +55,8 @@ public class eliminarImagen extends HttpServlet {
             }
             out = response.getWriter();
             callsSQL database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            id_aux = (int) session.getAttribute("idImage");
+            //id_aux = (int) session.getAttribute("idImage");
+            id_aux = Integer.parseInt(request.getParameter("id"));
             
             nom_aux = database.nom_eliminar_imagen(id_aux);
             if(id_aux == 0){

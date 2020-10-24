@@ -6,6 +6,7 @@
 package servicio;
 
 import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -22,7 +23,7 @@ import javax.xml.ws.WebServiceRef;
 import java.io.InputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import javax.servlet.ServletContext;
+
 
 
 /**
@@ -71,7 +72,6 @@ public class registrarImagen extends HttpServlet {
             String name = request.getParameter("file");
             System.out.println(name);
             
-            i.setProc(true);          
 
             System.out.println("El nombre del fichero es: " + filePart);
             String nom = getName(filePart);            
@@ -82,30 +82,36 @@ public class registrarImagen extends HttpServlet {
                 out.println("Mal formato");
             }
             
-            OutputStream escritura = null;
-            escritura = new FileOutputStream(new File(path + File.separator + nom));
+            /*OutputStream escritura = null;
+            escritura = new FileOutputStream(new File(path + File.separator + nom));*/
             InputStream filecontent = filePart.getInputStream();
             int read = 0;
-            final byte[] bytes = new byte[1024];
-            
-            while((read = filecontent.read(bytes)) != -1) {
-                escritura.write(bytes, 0, read);
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] aux = new byte[102400000];
+            while((read = filecontent.read(aux)) != -1) {
+                buffer.write(aux, 0, read);
             }
+            byte[] envio = buffer.toByteArray();
+            
+            
+            
+            
+            /*while((read = filecontent.read(bytes)) != -1) {
+                escritura.write(bytes, 0, read);
+            }*/
+            
             i.setTitol(titol);
             i.setDescripcio(descripcio);
             i.setKeywords(keywords);
             i.setAutor(autor);
             i.setDatac(datac);
             i.setFilename(nom);
+            i.setContenido(envio);
             int auxiliar = registerImage(i);
-            
-            if (auxiliar == 1) 
-            {
+            if (auxiliar == 1) {
                 response.sendRedirect(request.getContextPath() + "/opcions_registrar.jsp");
             }
             else {
-                File f = new File(path + File.separator + nom);
-                f.delete();
                 s.setAttribute("codigo", "10");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             }

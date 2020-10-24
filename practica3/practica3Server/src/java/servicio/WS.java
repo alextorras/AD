@@ -12,7 +12,7 @@ import javax.jws.WebParam;
 
 import modelo.Image;
 import basedatos.callsSQL;
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
+//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,8 +23,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.io.ByteArrayOutputStream;
 
 import javax.servlet.http.Part;
 
@@ -87,8 +90,49 @@ public class WS {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        //TODO write your implementation code here:
-        return null;
+        List<Image> lista = null;
+        try {
+            System.out.println("Entro aqui");
+            db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            lista = db.listarImagenes();
+            Iterator<Image> it = lista.iterator();
+            while (it.hasNext()){
+                Image imagen = it.next();
+                byte[] b = null;
+                String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+                File f = new File(path + File.separator + imagen.getFilename());
+                InputStream filecontent = null;
+                try {
+                    filecontent = new FileInputStream(f);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                int read = 0;
+                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                byte[] aux = new byte[1024];
+                byte[] envio = new byte[1024];
+                try {
+                    while((read = filecontent.read(aux)) != -1) {
+                        buffer.write(aux, 0, read);
+                    }
+                    envio = buffer.toByteArray();
+                } catch (IOException ex) {
+                    Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                //byte[] envio = buffer.toByteArray();
+                imagen.setContenido(envio);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        finally {
+            try {
+                db.cerrarConexion();
+            } catch(SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
     }
 
     /**
@@ -139,41 +183,27 @@ public class WS {
         System.out.println("Conectado");
         final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
 
-        FileInputStream ins = null;
         FileOutputStream ous = null;
         String nom = image.getFilename();
-        int posicio = nom.lastIndexOf("\\");
+        /*int posicio = nom.lastIndexOf("\\");
         String fich = nom.substring(posicio + 1);
-        System.out.println(fich);
-        
-        File fi = null;
+        System.out.println(fich);*/
+        byte[] contingut = image.getContenido();
+              
         File fo = null;
-        
-        
         try {
-            if(!image.isProc()){
-                fi = new File(nom);
-                fo = new File(path + File.separator + fich);
-
-                ins = new FileInputStream(fi);
-                ous = new FileOutputStream(fo);
-
-                byte[] buffer = new byte[1024];
-
-                int longitut;
-                while ((longitut = ins.read(buffer)) > 0) {
-                    ous.write(buffer, 0, longitut);
-                }
-                ins.close();
-                ous.close();
-            }
+            //fi = new File(nom);
+            fo = new File(path + File.separator + nom);
+            ous = new FileOutputStream(fo);
+            ous.write(contingut);
             image.setId(db.getID());           
             boolean comprobacio = db.newImage(image.getId(), image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getFilename());
             if(!comprobacio) {
                 File f = new File(path + File.separator + nom);
                 f.delete();
                 return 0;
-            }           
+            }
+            
         } catch (FileNotFoundException ex) {
             System.out.println("La causa és: " + ex.getCause());
             salt = true;
