@@ -67,20 +67,22 @@ public class registrarImagen extends HttpServlet {
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
                        
-            final Part filePart = request.getPart("imatge");
-            //String name = filePart.getName();
-            //System.out.println(name);
+            final Part filePart = request.getPart("file");
+            String name = request.getParameter("file");
+            System.out.println(name);
+            
+            i.setProc(true);          
 
             System.out.println("El nombre del fichero es: " + filePart);
             String nom = getName(filePart);            
             int punt = nom.lastIndexOf('.');
             String extensio = nom.substring(punt);
             
-            if (!extensio.equals(".JPG")) {
+            if (!extensio.equals(".JPG") || !extensio.equals(".jpg") || !extensio.equals(".png")) {
                 out.println("Mal formato");
             }
             
-            /*OutputStream escritura = null;
+            OutputStream escritura = null;
             escritura = new FileOutputStream(new File(path + File.separator + nom));
             InputStream filecontent = filePart.getInputStream();
             int read = 0;
@@ -88,14 +90,14 @@ public class registrarImagen extends HttpServlet {
             
             while((read = filecontent.read(bytes)) != -1) {
                 escritura.write(bytes, 0, read);
-            }/*/
+            }
             i.setTitol(titol);
             i.setDescripcio(descripcio);
             i.setKeywords(keywords);
             i.setAutor(autor);
             i.setDatac(datac);
             i.setFilename(nom);
-            /*int auxiliar = registerImage(i);
+            int auxiliar = registerImage(i);
             
             if (auxiliar == 1) 
             {
@@ -106,7 +108,7 @@ public class registrarImagen extends HttpServlet {
                 f.delete();
                 s.setAttribute("codigo", "10");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
-            }*/
+            }
             
             
         } catch(IOException e) {

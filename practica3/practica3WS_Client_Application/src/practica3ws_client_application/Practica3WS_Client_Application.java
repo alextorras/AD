@@ -40,25 +40,30 @@ public class Practica3WS_Client_Application
                 + "2 - Listar imagen \n"
                 + "3 - Buscar imagen \n"
                 + "4 - Eliminar imagen");
+        String num = null;
         while(!sortir) {
-            int num = Integer.parseInt(sc.nextLine());
-            if (num == 1) {
+            num = sc.nextLine();
+            if (num.equals("1")) {
                 registrarImagen();
                 primer_cop = false;
             }
-            if (num == 2) {
+            else if (num.equals("2")) {
                 listarImagen();
                 primer_cop = false;
             }
-            if (num == 3) {
+            else if (num.equals("3")) {
                 buscarImagen();
                 primer_cop = false;
             }
-            if (num == 4) {
+            else if (num.equals("4")) {
                 eliminarImagen();
                 primer_cop = false;
             }
-            if(!primer_cop) System.out.println("Que desea hacer? \n"
+            else {
+                System.out.println("Introduzca un valor correcto");
+            }
+            if(!primer_cop) System.out.println(
+                    "Que desea hacer? \n"
                     + "1 - Registrar imagen \n"
                     + "2 - Listar imagen \n"
                     + "3 - Buscar imagen \n"
@@ -93,10 +98,23 @@ public class Practica3WS_Client_Application
         System.out.println("Quieres salir de la session? \n"
                 + "1 - Si \n"
                 + "2 - No");
-        
-        int s = Integer.parseInt(sc.nextLine());
-        if(s == 1) sortir = true;
-        else sortir = false;
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+            
     }
     
     public static void listarImagen() {
@@ -108,6 +126,36 @@ public class Practica3WS_Client_Application
     }
     
     public static void eliminarImagen() {
+        System.out.println("Has eliegido eliminar imagen");
+        System.out.println("Que imagen quieres eliminar?(Introduce su ID)");
+        //PRIMERO LE LISTAMOS TODAS LAS IMAGENES QUE TENGA DISPONIBLES PARA QUE PUEDA ELEGIR LA QUE QUIERA
+        int num = 0;
+        Scanner sc = new Scanner(System.in);
+        num = Integer.parseInt(sc.nextLine());
+        i = new Image();
+        i.setId(num);
+        int resultat = deleteImage(i);
+        if(resultat == 1) System.out.println("La imagen se ha eliminado con éxito");
+        else System.out.println("La imagen no se ha podido eliminar");
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
         
     }
 
@@ -146,6 +194,12 @@ public class Practica3WS_Client_Application
         servicio.WS_Service service = new servicio.WS_Service();
         servicio.WS port = service.getWSPort();
         return port.registerImage(image);
+    }
+
+    private static int deleteImage(servicio.Image image) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.deleteImage(image);
     }
     
     

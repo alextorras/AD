@@ -138,40 +138,35 @@ public class WS {
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
         System.out.println("Conectado");
         final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
-        //System.out.println("El path es: " + path);
-        
+
         FileInputStream ins = null;
         FileOutputStream ous = null;
         String nom = image.getFilename();
         int posicio = nom.lastIndexOf("\\");
         String fich = nom.substring(posicio + 1);
         System.out.println(fich);
+        
+        File fi = null;
+        File fo = null;
+        
+        
         try {
-            File fi = new File(nom);
-            File fo = new File(path + File.separator + fich);
-            
-            ins = new FileInputStream(fi);
-            ous = new FileOutputStream(fo);
-            
-            byte[] buffer = new byte[1024];
-            
-            int longitut;
-            while ((longitut = ins.read(buffer)) > 0) {
-                ous.write(buffer, 0, longitut);
+            if(!image.isProc()){
+                fi = new File(nom);
+                fo = new File(path + File.separator + fich);
+
+                ins = new FileInputStream(fi);
+                ous = new FileOutputStream(fo);
+
+                byte[] buffer = new byte[1024];
+
+                int longitut;
+                while ((longitut = ins.read(buffer)) > 0) {
+                    ous.write(buffer, 0, longitut);
+                }
+                ins.close();
+                ous.close();
             }
-            ins.close();
-            ous.close();         
-          
-            /*String nom = image.getFilename();
-            System.out.println(nom);
-            OutputStream escritura = null;
-            escritura = new FileOutputStream(new File(path + File.separator + nom));
-            InputStream filecontent = filePart.getInputStream();
-            int read = 0;
-            final byte[] bytes = new byte[1024];
-            while((read = filecontent.read(bytes)) != -1) {
-                escritura.write(bytes, 0, read);
-            }*/
             image.setId(db.getID());           
             boolean comprobacio = db.newImage(image.getId(), image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getFilename());
             if(!comprobacio) {
@@ -181,7 +176,7 @@ public class WS {
             }           
         } catch (FileNotFoundException ex) {
             System.out.println("La causa és: " + ex.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+            salt = true;
         } catch (IOException e) {
             e.printStackTrace();
             salt = true;
@@ -197,6 +192,5 @@ public class WS {
         }
         if(salt) return 0;
         else return 1;
-        //return 1;
     }
 }
