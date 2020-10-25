@@ -19,7 +19,7 @@
         <br>
         <input type="BUTTON" style="margin-top: 10px" value="Registrar Imagen" class="btn btn-primary" onclick="window.location.href='registrarImagen.jsp'">
         <br>
-        <input type="BUTTON" style="margin-top: 10px" value="Listar Imagenes" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
+        <input type="BUTTON" style="margin-top: 10px" value="Listar Imagenes" class="btn btn-secondary" onclick="window.location.href='proba.jsp'">
         <br>
         <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen" class="btn btn-dark" onclick="window.location.href='buscarImagen.jsp'">
         <br>

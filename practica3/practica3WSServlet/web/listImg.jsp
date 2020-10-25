@@ -63,7 +63,7 @@
                <%-- start web service invocation --%><hr/>
             <%
             try {
-                String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\imagenes";
+                String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
                 servicio.WS_Service service = new servicio.WS_Service();
                 servicio.WS port = service.getWSPort();
                 // TODO process result here

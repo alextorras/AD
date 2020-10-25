@@ -5,8 +5,10 @@
  */
 package servicio;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +44,7 @@ public class eliminarImagen extends HttpServlet {
         PrintWriter out = null;
         HttpSession s = request.getSession();
         String usuari = (String) s.getAttribute("user");
-        
+        String id = (String) s.getAttribute("valor");
         try 
         {
             if(usuari.equals(null)) {
@@ -51,13 +53,13 @@ public class eliminarImagen extends HttpServlet {
             
             out = response.getWriter();
             i = new Image();
-            int aux = Integer.parseInt((String) request.getParameter("id"));
+            //int aux = Integer.parseInt((String) request.getParameter("valor"));
+            int aux = Integer.parseInt(id);
             
             if(aux < 0) {
                 s.setAttribute("codigo", "8");
                 response.sendRedirect(request.getContextPath() + "/error.jsp");
             }
-            
             i.setId(aux);
             int numero = deleteImage(i);
             
