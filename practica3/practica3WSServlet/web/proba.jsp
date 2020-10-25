@@ -45,15 +45,18 @@
         
 	java.util.List<java.lang.Object> result = port.listImage();
         Iterator<Object> it = result.iterator();
+        
         File f = null;
         OutputStream ous = null;
+        byte[] contingut = null;
+        
         while(it.hasNext()) {
-            byte[] contingut = new byte[1024];
+            contingut = new byte[1024000];
             Image imagen = (Image) it.next();
-            System.out.println(imagen.getId());
+            
             contingut = imagen.getContenido();
             f = new File(path + imagen.getFilename());
-            out.println(f.getAbsolutePath());
+            
             ous = new FileOutputStream(f);
             ous.write(contingut);
             ous.close();
