@@ -221,4 +221,49 @@ public class WS {
         if(salt) return 0;
         else return 1;
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "MultiSearch")
+    public List MultiSearch(@WebParam(name = "titulo") String titulo, @WebParam(name = "description") String description, @WebParam(name = "keywords") String keywords, @WebParam(name = "autor") String autor, @WebParam(name = "datacreation") String datacreation, @WebParam(name = "datasubida") String datasubida, @WebParam(name = "filename") String filename) {
+        //TODO write your implementation code here:
+        try{
+        List<Image> resultados;
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagen(titulo, description, keywords, autor, datacreation, datasubida, filename);
+        return resultados;
+         } catch (SQLException e) {
+            lasesion.setAttribute("codigo", "1");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");
+            }
+        } catch (IOException e) {
+            lasesion.setAttribute("codigo", "6");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");                
+            }
+        } catch (ClassNotFoundException e) {
+            lasesion.setAttribute("codigo", "2");
+            try {
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            } catch (IOException ex) {
+                out.println("<html>No se ha redireccionado correctamente</html>");                
+            }
+        }
+        
+        finally
+        {
+            try {
+                database.cerrarConexion();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

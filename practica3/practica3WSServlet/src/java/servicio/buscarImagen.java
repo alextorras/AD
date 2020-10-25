@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service;
+package servicio;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -65,7 +65,7 @@ public class buscarImagen extends HttpServlet {
             }
 
             //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            List<service.image> resultados;
+            List<Image> resultados;
             //resultados = null;
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
@@ -203,7 +203,7 @@ public class buscarImagen extends HttpServlet {
         }
 
     
-    private void sendResponse(List<imagenData> resultados,PrintWriter out)
+    private void sendResponse(List<Image> resultados,PrintWriter out)
     {    
          out.println("<!DOCTYPE html>");
             out.println("<html>");
