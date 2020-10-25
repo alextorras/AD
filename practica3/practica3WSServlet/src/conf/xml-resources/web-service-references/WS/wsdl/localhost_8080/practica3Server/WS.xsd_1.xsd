@@ -4,8 +4,6 @@
 
 <xs:element name="DeleteImageResponse" type="tns:DeleteImageResponse"/>
 
-<xs:element name="IOException" type="tns:IOException"/>
-
 <xs:element name="ListImage" type="tns:ListImage"/>
 
 <xs:element name="ListImageResponse" type="tns:ListImageResponse"/>
@@ -13,6 +11,10 @@
 <xs:element name="ModifyImage" type="tns:ModifyImage"/>
 
 <xs:element name="ModifyImageResponse" type="tns:ModifyImageResponse"/>
+
+<xs:element name="MultiSearch" type="tns:MultiSearch"/>
+
+<xs:element name="MultiSearchResponse" type="tns:MultiSearchResponse"/>
 
 <xs:element name="RegisterImage" type="tns:RegisterImage"/>
 
@@ -84,18 +86,6 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="RegisterImage">
-<xs:sequence>
-<xs:element name="image" type="tns:image" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="RegisterImageResponse">
-<xs:sequence>
-<xs:element name="return" type="xs:int"/>
-</xs:sequence>
-</xs:complexType>
-
 <xs:complexType name="SearchbyTitle">
 <xs:sequence>
 <xs:element name="title" type="xs:string" minOccurs="0"/>
@@ -105,6 +95,18 @@
 <xs:complexType name="SearchbyTitleResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RegisterImage">
+<xs:sequence>
+<xs:element name="image" type="tns:image" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="RegisterImageResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -120,6 +122,24 @@
 </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="MultiSearch">
+<xs:sequence>
+<xs:element name="titulo" type="xs:string" minOccurs="0"/>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+<xs:element name="keywords" type="xs:string" minOccurs="0"/>
+<xs:element name="autor" type="xs:string" minOccurs="0"/>
+<xs:element name="datacreation" type="xs:string" minOccurs="0"/>
+<xs:element name="datasubida" type="xs:string" minOccurs="0"/>
+<xs:element name="filename" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="MultiSearchResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
 <xs:complexType name="ListImage">
 <xs:sequence/>
 </xs:complexType>
@@ -127,12 +147,6 @@
 <xs:complexType name="ListImageResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:complexType>
-
-<xs:complexType name="IOException">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

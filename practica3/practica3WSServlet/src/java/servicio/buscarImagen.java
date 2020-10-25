@@ -5,37 +5,27 @@
  */
 package servicio;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
- * @author Alejandro Capella
+ * @author pellax
  */
 @WebServlet(name="buscarImagen", urlPatterns = {"/buscarImagen"})
 public class buscarImagen extends HttpServlet {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/practica3Server/WS.wsdl")
+    private WS_Service service;
      private HttpSession lasesion;
      String user_aux;
      //callsSQL database = null;
@@ -65,7 +55,7 @@ public class buscarImagen extends HttpServlet {
             }
 
             //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            List<Image> resultados;
+            List<Image> resultados = null;
             //resultados = null;
             String titol = request.getParameter("titol");
             String descripcio = request.getParameter("descripcio");
@@ -75,7 +65,7 @@ public class buscarImagen extends HttpServlet {
             String datas = request.getParameter("datasubida");
             String filename = request.getParameter("filename");
             
-            //resultados = database.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
+            resultados = (List<Image>)(Object)multiSearch(titol, descripcio, keywords, autor, datac, datas, filename);
             //out.println("<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>");
             if (resultados != null)
             {
@@ -86,13 +76,7 @@ public class buscarImagen extends HttpServlet {
                 response.sendRedirect(request.getContextPath()+ "/error.jsp");
             }
             
-        } catch (SQLException e) {
-            lasesion.setAttribute("codigo", "1");
-            try {
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            } catch (IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");
-            }
+       
         } catch (IOException e) {
             lasesion.setAttribute("codigo", "6");
             try {
@@ -100,24 +84,14 @@ public class buscarImagen extends HttpServlet {
             } catch (IOException ex) {
                 out.println("<html>No se ha redireccionado correctamente</html>");                
             }
-        } catch (ClassNotFoundException e) {
-            lasesion.setAttribute("codigo", "2");
-            try {
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            } catch (IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");                
-            }
-        }
+        
         
         finally
         {
-            try {
-                database.cerrarConexion();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+            
         }
 
+    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -148,7 +122,7 @@ public class buscarImagen extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void PrintImageData(imagenData im, PrintWriter out) {
+    private void PrintImageData(Image im, PrintWriter out) {
         lasesion.setAttribute("idImage", im.getId());
         lasesion.setAttribute("name", im.getFilename());
         out.println("<th scope=\"row\" value=\"" + im.getId() + "\"> " + im.getId() + " </th>");
@@ -232,7 +206,7 @@ public class buscarImagen extends HttpServlet {
             out.println("</tr>");
             out.println("</thead>");
             out.println("<tbody>");
-            for (imagenData i : resultados) {
+            for (Image i : resultados) {
                 out.println("<tr>");
                 PrintImageData(i,out);
                 out.println("</tr>");
@@ -241,5 +215,12 @@ public class buscarImagen extends HttpServlet {
             out.println("</table>");
             out.println("</body>");
             out.println("</html>");
+    }
+
+    private java.util.List<java.lang.Object> multiSearch(java.lang.String titulo, java.lang.String description, java.lang.String keywords, java.lang.String autor, java.lang.String datacreation, java.lang.String datasubida, java.lang.String filename) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        servicio.WS port = service.getWSPort();
+        return port.multiSearch(titulo, description, keywords, autor, datacreation, datasubida, filename);
     }
 }
