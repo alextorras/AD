@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 import javax.servlet.http.Part;
 
@@ -90,33 +91,41 @@ public class WS {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        List<Image> lista = null;
         String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        List<Image> lista = null;
+        List<Image> data = new ArrayList<Image>();
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             lista = db.listarImagenes();
             Iterator<Image> it = lista.iterator();
             Image imagen = null;
             InputStream filecontent = null;
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            //byte[] envio = new byte[1024];
+            ByteArrayOutputStream buffer = null;
+            
+            byte[] envio = new byte[1024];
+            File f = null;
             while (it.hasNext()){
-                System.out.println("\n Iteracion:");
+                //System.out.println("\n Iteracion:");
                 imagen = it.next();
-                System.out.println("Estoy en WS " + imagen.getId());
+                System.out.println("Estoy en WS con la imagen con id: " + imagen.getId());
                 String aux_nom = imagen.getFilename();
-                System.out.println("Estoy en WS " + aux_nom);
-                byte[] envio = new byte[1024];
-                File f = new File(path + File.separator + aux_nom);
+                //System.out.println("Estoy en WS " + aux_nom);
+                
+                f = new File(path + File.separator + aux_nom);
                 filecontent = new FileInputStream(f);
                 int read = 0;
-                byte[] aux = new byte[10240000];
+                byte[] aux = new byte[1024];
+                buffer = new ByteArrayOutputStream();
                 while((read = filecontent.read(aux)) != -1) {
                     buffer.write(aux, 0, read);
                 }
+                
+                filecontent.close();
                 envio = buffer.toByteArray();
                 System.out.println(envio);
+                
                 imagen.setContenido(envio);
+                data.add(imagen);
             }
                 
         } catch (FileNotFoundException e) {
@@ -135,7 +144,7 @@ public class WS {
                     e.printStackTrace();
                 }
             }
-        return lista;
+        return data;
     }
 
     /**
