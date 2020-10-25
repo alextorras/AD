@@ -6,6 +6,7 @@
 
 package servicio;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -42,7 +43,13 @@ public class logout extends HttpServlet {
             HttpSession session = request.getSession();
             String aux = (String) session.getAttribute("user");
             out.println(aux);
-            session.invalidate();            
+            session.invalidate();     
+            
+            File dir = null;
+            String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
+            dir = new File(path);
+            dir.delete();
+            
             response.sendRedirect(request.getContextPath() + "/login.jsp");
         } catch(IOException e) {
             try {

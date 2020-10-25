@@ -4,6 +4,7 @@
     Author     : Dani
 --%>
 
+<%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -11,7 +12,9 @@
         String user = null;
         if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("user");        
+        }else user = (String) session.getAttribute("user");
+        String id_foto = request.getParameter("id");
+        session.setAttribute("valor", id_foto);
     %>
 <html>
     <head>
@@ -26,8 +29,8 @@
         <text class="alert alert-warning">Estas seguro que quieres eliminar la imagen <%=request.getParameter("filename")%>?</text>
         <form action="eliminarImagen" method="POST" enctype="multipart/form-data">
         <br>
-            <input type="hidden" style="margin-top: 10px" name="id" value="<%=request.getParameter("id")%>">
-            <input type="submit" name="boto_si" class="btn btn-primary" value="Si" onclick="window.location.href='eliminarImagen'">
+            <input type="text" name="valor" value="<%=id_foto%>">
+            <input type="submit" name="boto_si" class="btn btn-primary" value="Si">
             <input type="button" name="boto_no" value="No" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
         </form>
     </CENTER>   

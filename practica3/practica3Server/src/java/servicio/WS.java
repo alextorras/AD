@@ -99,25 +99,25 @@ public class WS {
             Image imagen = null;
             InputStream filecontent = null;
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] envio = new byte[1024];
+            //byte[] envio = new byte[1024];
             while (it.hasNext()){
+                System.out.println("\n Iteracion:");
                 imagen = it.next();
-                byte[] b = null;
-                
-                System.out.println(imagen.getFilename());
-                File f = new File(path + File.separator + imagen.getFilename());
-                
+                System.out.println("Estoy en WS " + imagen.getId());
+                String aux_nom = imagen.getFilename();
+                System.out.println("Estoy en WS " + aux_nom);
+                byte[] envio = new byte[1024];
+                File f = new File(path + File.separator + aux_nom);
                 filecontent = new FileInputStream(f);
-                
                 int read = 0;
                 byte[] aux = new byte[10240000];
-                
                 while((read = filecontent.read(aux)) != -1) {
                     buffer.write(aux, 0, read);
                 }
                 envio = buffer.toByteArray();
+                System.out.println(envio);
                 imagen.setContenido(envio);
-            }    
+            }
                 
         } catch (FileNotFoundException e) {
             System.out.println("La causa del error es: " + e.getCause());
