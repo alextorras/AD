@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,7 +47,8 @@ public class Practica3WS_Client_Application
         System.out.println("1 - Registrar imagen \n"
                 + "2 - Listar imagen \n"
                 + "3 - Buscar imagen \n"
-                + "4 - Eliminar imagen");
+                + "4 - Eliminar imagen\n"
+                + "5 - Salir");
         String num = null;
         while(!sortir) {
             num = sc.nextLine();
@@ -66,6 +68,12 @@ public class Practica3WS_Client_Application
                 eliminarImagen();
                 primer_cop = false;
             }
+            else if (num.equals("5")) {
+                
+                primer_cop = false;
+                sortir = true;
+            }
+            
             else {
                 System.out.println("Introduzca un valor correcto");
             }
@@ -74,7 +82,8 @@ public class Practica3WS_Client_Application
                     + "1 - Registrar imagen \n"
                     + "2 - Listar imagen \n"
                     + "3 - Buscar imagen \n"
-                    + "4 - Eliminar imagen");
+                    + "4 - Eliminar imagen\n"
+                    + "5 - Salir");
         }
     }
     
@@ -147,7 +156,61 @@ public class Practica3WS_Client_Application
     }
     
     public static void buscarImagen() {
+     System.out.println("Has escogido buscar Imagen");
+        System.out.println("Ve introduciendo campo por campo los campos por los que quieres buscar, si no quiere introducir algún campo simplemente pulse enter");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        List<Image> resultados = null;
+        System.out.println("¿Que título tiene tu imagen?");
+        String titol = sc.nextLine();
+        System.out.println("¿Que descripción tiene tu imagen ?");
+        String descripcio = sc.nextLine();
+        System.out.println("Que palabra clave tiene tu imagen");
+        String keywords = sc.nextLine();
+         System.out.println("Que autor tiene tu imagen");
+        String autor = sc.nextLine();
+         System.out.println("Que data de creación tiene tu imagen ");
+        String datacreation = sc.nextLine();
+         System.out.println("Que data de subida tiene tu imagen");
+        String datasubida = sc.nextLine();
+         System.out.println("Que nombre de archivo tiene tu imagen");
+        String filename = sc.nextLine();
+        resultados = (List<Image>)(Object)multiSearch(titol,descripcio,keywords,autor,datacreation,datasubida,filename);
+         System.out.println("ID  Título  Descripción Keywords Autor Datacreation DataSubida filename "); 
+        for (Image i : resultados) {
+                
+                PrintImageData(i);
+                
+            }
         
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+            
+       
+        
+    }
+    private static void PrintImageData(Image i)
+    {
+        System.out.println(i.getId()+"\t"+i.getTitol()+"\t"+i.getDescripcio()+"\t"+i.getKeywords()+"\t"+i.getAutor()+"\t"+i.getDatac()+"\t"+i.getDatas()+"\t"+i.getFilename());
     }
     
     public static void eliminarImagen() {
@@ -225,6 +288,12 @@ public class Practica3WS_Client_Application
         servicio.WS_Service service = new servicio.WS_Service();
         servicio.WS port = service.getWSPort();
         return port.deleteImage(image);
+    }
+
+    private static java.util.List<java.lang.Object> multiSearch(java.lang.String titulo, java.lang.String description, java.lang.String keywords, java.lang.String autor, java.lang.String datacreation, java.lang.String datasubida, java.lang.String filename) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.multiSearch(titulo, description, keywords, autor, datacreation, datasubida, filename);
     }
     
     
