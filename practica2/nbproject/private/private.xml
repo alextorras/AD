@@ -2,6 +2,24 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/src/java/classes/eliminarImagen.java</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/error.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/src/java/classes/modificarImagen.java</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/src/java/classes/imagenData.java</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/login.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/src/java/classes/buscarImagen.java</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/modificarImagen.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/menu.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/opcions.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/src/java/classes/callsSQL.java</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/listImg.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/eliminarImagen.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/buscarImagen.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/web/registrarImagen.jsp</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/nbproject/build-impl.xml</file>
+            <file>file:/C:/Users/pellax/Documents/ProyectoADDef/AD/practica2/src/java/classes/registrarImagen.java</file>
+        </group>
     </open-files>
 </project-private>
