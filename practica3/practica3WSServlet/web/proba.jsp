@@ -21,11 +21,9 @@
                 response.sendRedirect("login.jsp");
     } else user = (String) session.getAttribute("user");
     
-    File dir = null;
-    String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
-    dir = new File(path);
+    String path = "im\\";
+    File dir = new File(path);
     dir.mkdir();
-    dir.deleteOnExit();
 %>
 <!DOCTYPE html>
 <html>
@@ -44,7 +42,7 @@
     try {
 	servicio.WS_Service service = new servicio.WS_Service();
 	servicio.WS port = service.getWSPort();
-	// TODO process result here
+        
 	java.util.List<java.lang.Object> result = port.listImage();
         Iterator<Object> it = result.iterator();
         File f = null;
@@ -54,13 +52,16 @@
             Image imagen = (Image) it.next();
             System.out.println(imagen.getId());
             contingut = imagen.getContenido();
-            f = new File(path + File.separator + imagen.getFilename());
+            f = new File(path + imagen.getFilename());
+            out.println(f.getAbsolutePath());
             ous = new FileOutputStream(f);
             ous.write(contingut);
+            ous.close();
+            
     %>
         <div>
             <ul>
-                <img src="<%="im\\" + imagen.getFilename()%>" width="200" height="200">
+                <img src="<%=f.getAbsolutePath()%>" width="200" height="200">
                 <li>Títol: <%= imagen.getTitol() %></li>
                 <li>Data creació: <%= imagen.getDatac() %></li>
                 <li>Descripció: <%= imagen.getDescripcio() %></li>
