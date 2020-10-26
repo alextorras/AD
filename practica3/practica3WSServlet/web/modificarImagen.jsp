@@ -31,6 +31,7 @@
     <CENTER>
     <h1 class="alert alert-primary">Modificar imagen</h1>
     </CENTER>
+    <input type="BUTTON" style="float: right" value="Menú" class="btn btn-info" onclick="window.location.href='menu.jsp'">
       </div>
        <%
            servicio.WS_Service service = new servicio.WS_Service();
@@ -66,6 +67,7 @@
         
 
     %>
+    <CENTER>
       <div>
           <img id="imatge reg" src="<%=encoded%>" width="200" height="200">
             <form action="modificarImagen" method="POST" >
@@ -79,5 +81,6 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
       </div>
+                </CENTER>
     </body>
 </html>
