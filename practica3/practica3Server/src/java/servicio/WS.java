@@ -69,8 +69,7 @@ public class WS {
                 salt = true;
             }
         } catch(SQLException e) {
-            codi_error = 1;
-            
+            codi_error = 1;            
             salt = true;
             System.out.println("La causa del error es con la BD y el motivo: " + e.getCause());
         } finally {
@@ -259,6 +258,75 @@ public class WS {
            
         }
      return resultados;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "iniSession")
+    public boolean iniSession(@WebParam(name = "user") String user, @WebParam(name = "password") String password) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        boolean entra = true;
+        try {
+        entra = db.login(user, password);
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
+        return entra;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "comprobaUser")
+    public boolean comprobaUser(@WebParam(name = "user") String user) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        boolean entra = true;
+        try {
+        entra = db.existeix(user);
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
+        return entra;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "afegeixUser")
+    public boolean afegeixUser(@WebParam(name = "user") String user, @WebParam(name = "password") String password) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        boolean entra = true;
+        try {
+        entra = db.newUser(user, password);
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
+        return entra;
     }
 
 

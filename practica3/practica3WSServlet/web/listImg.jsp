@@ -22,8 +22,6 @@
                 response.sendRedirect("login.jsp");
     } else user = (String) session.getAttribute("user");
     
-    //String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
-    String path = "im";
     
     
 %>
@@ -51,7 +49,7 @@
         if (!it.hasNext()) { %>
         <center>
         <br>
-        <h2 class="alert-warning">No hay imagenes para listar</h2>
+        <text class="alert-warning">No hay imagenes para listar</text>
         </center>
         <%
         }       
@@ -76,14 +74,27 @@
             
             
     %>
-        <div>
+    <div> 
             <ul>
+            <table class="table">
+                <tr>
+                    <th style="width: 200px;">
                 <img id="imatge reg" src="<%=encoded%>" width="200" height="200">
-                <li>Títol: <%= imagen.getTitol() %></li>
-                <li>Data creació: <%= imagen.getDatac() %></li>
-                <li>Descripció: <%= imagen.getDescripcio() %></li>
-                <li>Autor: <%= imagen.getAutor() %></li>
-                <li>Keywords: <%= imagen.getKeywords() %></li>
+                    </th>
+                    <th style="text-align: left" style="width: 20px;">
+                        Titulo: <text style="font-weight: lighter"><%=imagen.getTitol()%></text>
+                        <br>
+                        Fecha creación: <text style="font-weight: lighter"><%=imagen.getDatac()%></text>
+                        <br>
+                        Descripcion: <text style="font-weight: lighter"><%=imagen.getDescripcio()%></text>
+                        <br>
+                        Autor: <text style="font-weight: lighter"><%=imagen.getAutor()%></text>
+                        <br>
+                        Keywords: <text style="font-weight: lighter"><%=imagen.getKeywords()%></text>
+                    </th>
+                    
+            </tr>
+            </table>
             </ul>
             <% 
                 if(imagen.getAutor().equals(user)) {
@@ -118,7 +129,7 @@
     </div>
     <%
         }
-    } catch (FileNotFoundException e) { 
+    } catch (Exception e) { 
         e.printStackTrace();
 	// TODO handle custom exceptions here
     }

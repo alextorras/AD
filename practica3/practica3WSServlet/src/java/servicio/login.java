@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import basedatos.callsSQL2;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
@@ -32,7 +32,9 @@ import basedatos.callsSQL2;
  */
 @WebServlet(name="login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
-    callsSQL2 database = null;
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/practica3Server/WS.wsdl")
+    private WS_Service service;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,7 +51,7 @@ public class login extends HttpServlet {
         PrintWriter out = null;
         try {
             out = response.getWriter();
-            database = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+            //database = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -60,8 +62,11 @@ public class login extends HttpServlet {
 
             String user = (String) request.getParameter("usuario");
             String password = (String) request.getParameter("password");
-            if(user.equals(null) || password.equals(null)) out.println("<html>Hola</html>");
-            boolean comprova = database.login(user, password);
+            if(user.equals(null) || password.equals(null)) {
+                s.setAttribute("codigo", "13");
+                response.sendRedirect(request.getContextPath() + "/error.jsp");
+            }
+            boolean comprova = iniSession(user, password);
 
             s.setAttribute("user", user);
                       
@@ -73,20 +78,6 @@ public class login extends HttpServlet {
                 response.sendRedirect(request.getContextPath() + "/menu.jsp");
             }     
             
-        } catch(SQLException e) {
-            try {
-                s.setAttribute("codigo", "1");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            } catch (IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");
-            }
-        } catch(ClassNotFoundException e) {
-            try {
-                s.setAttribute("codigo", "2");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            } catch (IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");
-            }
         } catch(IOException e) {
             try {
                 s.setAttribute("codigo", "5");
@@ -96,16 +87,6 @@ public class login extends HttpServlet {
             }
             
         }
-        
-        finally {
-            try {
-                database.cerrarConexion();
-            } catch(SQLException e) {
-                s.setAttribute("codigo", "1");
-                e.getErrorCode();
-            }
-        }
-    
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -146,5 +127,12 @@ public class login extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private boolean iniSession(java.lang.String user, java.lang.String password) {
+        // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
+        // If the calling of port operations may lead to race condition some synchronization is required.
+        servicio.WS port = service.getWSPort();
+        return port.iniSession(user, password);
+    }
 
 }

@@ -7,7 +7,6 @@ package practica3ws_client_application;
 
 import java.util.Scanner;
 import servicio.Image;
-import basedatos.callsSQL2;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,7 +29,6 @@ public class Practica3WS_Client_Application
     static Image i = null;
     static boolean sortir = false;
     static String usuari_sessio;
-    static callsSQL2 db = null;
     
     
     /**
@@ -40,12 +38,21 @@ public class Practica3WS_Client_Application
     {
         Scanner sc = new Scanner(System.in); 
         boolean primer_cop = true;
-        System.out.println("Bienvenido usuari@");
+        int op = opcions_entrar();
+        boolean comproba = false;
+        if(op == 1) {
+            comproba = inicia_sessio();
+        }
+        if(op == 2) {
+            registra_usuari();
+            comproba = inicia_sessio();
+        }
         System.out.println("Que desea hacer?");
         System.out.println("1 - Registrar imagen \n"
                 + "2 - Listar imagen \n"
                 + "3 - Buscar imagen \n"
-                + "4 - Eliminar imagen");
+                + "4 - Eliminar imagen \n"
+                + "5 - Salir de la sessión");
         String num = null;
         while(!sortir) {
             num = sc.nextLine();
@@ -65,6 +72,9 @@ public class Practica3WS_Client_Application
                 eliminarImagen();
                 primer_cop = false;
             }
+            else if(num.equals("5")) {
+                sortir = true;
+            }
             else {
                 System.out.println("Introduzca un valor correcto");
             }
@@ -73,9 +83,44 @@ public class Practica3WS_Client_Application
                     + "1 - Registrar imagen \n"
                     + "2 - Listar imagen \n"
                     + "3 - Buscar imagen \n"
-                    + "4 - Eliminar imagen");
+                    + "4 - Eliminar imagen \n"
+                    + "5 - Salir de la sessión");
         }
         if(sortir) System.out.println("La ejecución del programa ha finalizado");
+    }
+    
+    private static int opcions_entrar() {
+        boolean marcat = false;
+        Scanner sc = new Scanner(System.in);
+        int num = 0;
+        while(!marcat) {
+            System.out.println("Bienvenido, que desea hacer: \n"
+                    + "1 - Iniciar sesión \n"
+                    + "2 - Registrarse");
+            
+            num = Integer.parseInt(sc.nextLine());
+            if (num == 1 || num == 2) {
+                marcat = true;
+            }
+        }
+        return num;           
+    }
+    private static boolean inicia_sessio() {
+        System.out.println("Introduzca nombre usuario:");
+        Scanner sc = new Scanner(System.in);
+        String u = sc.nextLine();
+        System.out.println("Introduzca contraseña:");
+        String passwd = sc.nextLine();
+        return iniSession(u, passwd);
+    }
+    private static void registra_usuari() {
+        System.out.println("Introduzca nombre usuario:");
+        Scanner sc = new Scanner(System.in);
+        String u = sc.nextLine();
+        System.out.println("Introduzca contraseña:");
+        String passwd = sc.nextLine();
+        boolean a = afegeixUser(u, passwd);
+        if(a) System.out.println("Usuario registrado con exito");
     }
     
     public static void registrarImagen() {
@@ -256,10 +301,23 @@ public class Practica3WS_Client_Application
         servicio.WS port = service.getWSPort();
         return port.multiSearch(titulo, description, keywords, autor, datacreation, datasubida, filename);
     }
-    
-    
-    
-    
-    
-    
+
+    private static boolean afegeixUser(java.lang.String user, java.lang.String password) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.afegeixUser(user, password);
+    }
+
+    private static boolean iniSession(java.lang.String user, java.lang.String password) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.iniSession(user, password);
+    }
+
+    private static boolean comprobaUser(java.lang.String user) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.comprobaUser(user);
+    }
+
 }
