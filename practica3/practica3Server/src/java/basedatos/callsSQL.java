@@ -72,14 +72,14 @@ public class callsSQL {
     }
     
 
-    /*public boolean login(String usuario, String password) throws SQLException
+    public boolean login(String usuario, String password) throws SQLException
     {
         String query = "select * from usuarios where id_usuario='" + usuario + "' and password='" + password + "'";
         PreparedStatement st = cn.prepareCall(query);
         ResultSet rs = st.executeQuery();
         
         return rs.next();
-    }*/
+    }
     
     public String nom_eliminar_imagen(Integer id) throws SQLException
     {
@@ -110,60 +110,6 @@ public class callsSQL {
                     + " OR (storage_date like '%'||?||'%')"
                     + " OR (filename like '%'||?||'%')";
 
-            /*String consulta = "SELECT * from IMAGE where (title like ?)"
-                    + " OR description like ?"
-                    + " OR keywords like ?"
-                    + " OR author like ?"
-                    + " OR creation_date like' ?"
-                    + " OR storage_date like ?"
-                    + " OR filename like  ?";
-            
-            titol = titol
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            descripcio = descripcio
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            keywords = keywords
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            autor = autor
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            datac = datac
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            datas = datas
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            filename = filename
-                .replace("!", "!!")
-                .replace("%", "!%")
-                .replace("_", "!_")
-                .replace("[", "![");
-            */
-            /*
-            statement = cn.prepareStatement(consulta);
-            statement.setString(1,"%" + titol + "%");
-            statement.setString(2,"%" + descripcio+"%");
-            statement.setString(3, "%" +keywords +"%");
-            statement.setString(4,"%" + autor +"%");
-            statement.setString(5,"%" +datac + "%");
-            statement.setString(6,"%" + datas + "%");
-            statement.setString(7,"%" + filename + "%");
-            */
            statement = cn.prepareStatement(consulta);
             statement.setString(1,titol);
             statement.setString(2, descripcio);
@@ -233,16 +179,16 @@ public class callsSQL {
             uploader.executeUpdate();
     }
     
-    /*public boolean existeix(String usuario) throws SQLException {
+    public boolean existeix(String usuario) throws SQLException {
         String aux = usuario;
         String query = "select * from usuarios where id_usuario='" + aux + "'";
         System.out.println(query);
         PreparedStatement st = cn.prepareCall(query);
         ResultSet rs = st.executeQuery();
         return rs.next();
-    }*/
+    }
     
-    /*public boolean newUser(String usuario, String passwd) throws SQLException {
+    public boolean newUser(String usuario, String passwd) throws SQLException {
         String aux1 = usuario;
         String aux2 = passwd;
         PreparedStatement st = cn.prepareStatement("insert into usuarios VALUES(?,?)");
@@ -251,7 +197,7 @@ public class callsSQL {
         int count = st.executeUpdate();
         if(count > 0) return true;
         else return false;
-    }*/
+    }
     
 
     

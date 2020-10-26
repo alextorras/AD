@@ -68,6 +68,9 @@
             case 12:
                 mensaje = "<p class=\"card-text\">Formato de la imagen incorrecto</p>";
                 boton = "<a href=\"menu.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 13:
+                mensaje = "<p class=\"card-text\">Parametros nulos</p>";
+                boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
             default:
                 mensaje = "<p class=\"card-text\">Error inclasificable</p>" ;
                 boton = "<a href=\"login.jsp\" class=\"btn btn-primary\">Back</a>";
