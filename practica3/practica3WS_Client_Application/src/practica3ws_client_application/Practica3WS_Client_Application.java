@@ -31,7 +31,6 @@ public class Practica3WS_Client_Application
     static boolean sortir = false;
     static String usuari_sessio;
     static callsSQL2 db = null;
-    //final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
     
     
     /**
@@ -39,8 +38,7 @@ public class Practica3WS_Client_Application
      */
     public static void main(String[] args) 
     {
-        Scanner sc = new Scanner(System.in);   
-        boolean a = login();
+        Scanner sc = new Scanner(System.in); 
         boolean primer_cop = true;
         System.out.println("Bienvenido usuari@");
         System.out.println("Que desea hacer?");
@@ -70,13 +68,14 @@ public class Practica3WS_Client_Application
             else {
                 System.out.println("Introduzca un valor correcto");
             }
-            if(!primer_cop ) System.out.println(
+            if(!primer_cop && !sortir) System.out.println(
                     "Que desea hacer? \n"
                     + "1 - Registrar imagen \n"
                     + "2 - Listar imagen \n"
                     + "3 - Buscar imagen \n"
                     + "4 - Eliminar imagen");
         }
+        if(sortir) System.out.println("La ejecución del programa ha finalizado");
     }
     
     public static void registrarImagen() {
@@ -239,35 +238,7 @@ public class Practica3WS_Client_Application
 
 
     
-    private static boolean login() {
-        
-        boolean existeix = false;
-        
-        try {
-            System.out.println("Llego aqui");
-            db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Introduce el usuario");
-            String user = sc.nextLine();
-            System.out.println("Introduce la contraseña");
-            String password = sc.nextLine();
-            existeix = db.login(user, password);
-            if(existeix) usuari_sessio = user;
-            return existeix;
-        } catch(ClassNotFoundException e) {
-            System.out.println("La causa del error es: " + e.getCause());
-        } catch(SQLException e) {
-            System.out.println("La causa del error es: " + e.getCause());
-        } /*finally {
-            try {
-                db.cerrarConexion();
-            } catch(SQLException e) {
-                System.out.println("La causa del error es: " + e.getCause());
-            }
-        } */
-        return existeix;     
-    }
-
+    
     private static int registerImage(servicio.Image image) {
         servicio.WS_Service service = new servicio.WS_Service();
         servicio.WS port = service.getWSPort();

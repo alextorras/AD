@@ -12,25 +12,18 @@ import javax.jws.WebParam;
 
 import modelo.Image;
 import basedatos.callsSQL;
-//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-import javax.servlet.http.Part;
 
 /**
  *
@@ -39,7 +32,10 @@ import javax.servlet.http.Part;
 @WebService(serviceName = "WS")
 public class WS {
     
-    callsSQL db = null;
+    private callsSQL db = null;
+    private int codi_error;
+
+    
     
 
     /**
@@ -73,13 +69,15 @@ public class WS {
                 salt = true;
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            codi_error = 1;
+            
             salt = true;
+            System.out.println("La causa del error es con la BD y el motivo: " + e.getCause());
         } finally {
             try {
                 db.cerrarConexion();       
             } catch(SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getCause());
             }
         } 
         if(salt) return 0;
@@ -105,11 +103,8 @@ public class WS {
             byte[] envio = new byte[1024];
             File f = null;
             while (it.hasNext()){
-                //System.out.println("\n Iteracion:");
                 imagen = it.next();
-                System.out.println("Estoy en WS con la imagen con id: " + imagen.getId());
                 String aux_nom = imagen.getFilename();
-                //System.out.println("Estoy en WS " + aux_nom);
                 
                 f = new File(path + File.separator + aux_nom);
                 filecontent = new FileInputStream(f);
@@ -122,21 +117,20 @@ public class WS {
                 
                 filecontent.close();
                 envio = buffer.toByteArray();
-                System.out.println(envio);
                 
                 imagen.setContenido(envio);
                 data.add(imagen);
             }
                 
         } catch (FileNotFoundException e) {
+            codi_error = 6;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
+            codi_error = 5;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
+            codi_error = 1;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
                 try {
                     db.cerrarConexion();
@@ -212,13 +206,16 @@ public class WS {
             }
             
         } catch (FileNotFoundException ex) {
+            codi_error = 6;
             System.out.println("La causa és: " + ex.getCause());
             salt = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            codi_error = 5;
+            System.out.println("La causa de error es de IO y el motivo: " + e.getCause());
             salt = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            codi_error = 1;
+            System.out.println("La causa del error es relativa a la base de datos y el motivo: " + e.getCause());
             salt = true;
         } finally {
             try {
@@ -243,7 +240,10 @@ public class WS {
         resultados = db.buscarImagen(titulo, description, keywords, autor, datacreation, datasubida, filename);
         
          } catch (SQLException e) {
-            e.printStackTrace();
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
             // lasesion.setAttribute("codigo", "1");
             
         } 
@@ -260,4 +260,6 @@ public class WS {
         }
      return resultados;
     }
+
+
 }
