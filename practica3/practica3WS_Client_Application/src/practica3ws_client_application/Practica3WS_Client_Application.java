@@ -7,7 +7,6 @@ package practica3ws_client_application;
 
 import java.util.Scanner;
 import servicio.Image;
-import basedatos.callsSQL2;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,8 +29,6 @@ public class Practica3WS_Client_Application
     static Image i = null;
     static boolean sortir = false;
     static String usuari_sessio;
-    static callsSQL2 db = null;
-    //final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
     
     
     /**
@@ -38,15 +36,23 @@ public class Practica3WS_Client_Application
      */
     public static void main(String[] args) 
     {
-        Scanner sc = new Scanner(System.in);   
-        boolean a = login();
+        Scanner sc = new Scanner(System.in); 
         boolean primer_cop = true;
-        System.out.println("Bienvenido usuari@");
+        int op = opcions_entrar();
+        boolean comproba = false;
+        if(op == 1) {
+            comproba = inicia_sessio();
+        }
+        if(op == 2) {
+            registra_usuari();
+            comproba = inicia_sessio();
+        }
         System.out.println("Que desea hacer?");
         System.out.println("1 - Registrar imagen \n"
                 + "2 - Listar imagen \n"
                 + "3 - Buscar imagen \n"
-                + "4 - Eliminar imagen");
+                + "4 - Eliminar imagen \n"
+                + "5 - Salir de la sessión");
         String num = null;
         while(!sortir) {
             num = sc.nextLine();
@@ -66,16 +72,55 @@ public class Practica3WS_Client_Application
                 eliminarImagen();
                 primer_cop = false;
             }
+            else if(num.equals("5")) {
+                sortir = true;
+            }
             else {
                 System.out.println("Introduzca un valor correcto");
             }
-            if(!primer_cop) System.out.println(
+            if(!primer_cop && !sortir) System.out.println(
                     "Que desea hacer? \n"
                     + "1 - Registrar imagen \n"
                     + "2 - Listar imagen \n"
                     + "3 - Buscar imagen \n"
-                    + "4 - Eliminar imagen");
+                    + "4 - Eliminar imagen \n"
+                    + "5 - Salir de la sessión");
         }
+        if(sortir) System.out.println("La ejecución del programa ha finalizado");
+    }
+    
+    private static int opcions_entrar() {
+        boolean marcat = false;
+        Scanner sc = new Scanner(System.in);
+        int num = 0;
+        while(!marcat) {
+            System.out.println("Bienvenido, que desea hacer: \n"
+                    + "1 - Iniciar sesión \n"
+                    + "2 - Registrarse");
+            
+            num = Integer.parseInt(sc.nextLine());
+            if (num == 1 || num == 2) {
+                marcat = true;
+            }
+        }
+        return num;           
+    }
+    private static boolean inicia_sessio() {
+        System.out.println("Introduzca nombre usuario:");
+        Scanner sc = new Scanner(System.in);
+        String u = sc.nextLine();
+        System.out.println("Introduzca contraseña:");
+        String passwd = sc.nextLine();
+        return iniSession(u, passwd);
+    }
+    private static void registra_usuari() {
+        System.out.println("Introduzca nombre usuario:");
+        Scanner sc = new Scanner(System.in);
+        String u = sc.nextLine();
+        System.out.println("Introduzca contraseña:");
+        String passwd = sc.nextLine();
+        boolean a = afegeixUser(u, passwd);
+        if(a) System.out.println("Usuario registrado con exito");
     }
     
     public static void registrarImagen() {
@@ -143,12 +188,69 @@ public class Practica3WS_Client_Application
     }
     
     public static void listarImagen() {
+        System.out.println("Has escogido listar imagen");
+        List<Image> resultados = (List<Image>)(Object)listImage();
         
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
     }
     
     public static void buscarImagen() {
+        System.out.println("Has escogido buscar Imagen");
+        System.out.println("Ve introduciendo campo por campo los campos por los que quieres buscar, si no quiere introducir algún campo simplemente pulse enter");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        List<Image> resultados = null;
+        System.out.println("¿Que título tiene tu imagen?");
+        String titol = sc.nextLine();
+        System.out.println("¿Que descripción tiene tu imagen ?");
+        String descripcio = sc.nextLine();
+        System.out.println("Que palabra clave tiene tu imagen");
+        String keywords = sc.nextLine();
+         System.out.println("Que autor tiene tu imagen");
+        String autor = sc.nextLine();
+         System.out.println("Que data de creación tiene tu imagen ");
+        String datacreation = sc.nextLine();
+         System.out.println("Que data de subida tiene tu imagen");
+        String datasubida = sc.nextLine();
+         System.out.println("Que nombre de archivo tiene tu imagen");
+        String filename = sc.nextLine();
+        resultados = (List<Image>)(Object)multiSearch(titol,descripcio,keywords,autor,datacreation,datasubida,filename);
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
         
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
     }
+    
+    private static void PrintImageData(Image i)
+    {
+        System.out.println("ID: " + i.getId()+"\t Titulo: "+i.getTitol()+"\t Descripcion: "+i.getDescripcio()+"\t Keywords: "+i.getKeywords()+"\t Autor: "
+                +i.getAutor()+"\t Fecha de creacion: "+i.getDatac()+"\t Fecha de subida: "+i.getDatas()+"\t Nombre del fichero: "+i.getFilename());
+    }
+    
+    
     
     public static void eliminarImagen() {
         System.out.println("Has eliegido eliminar imagen");
@@ -185,36 +287,12 @@ public class Practica3WS_Client_Application
     }
 
 
-    
-    private static boolean login() {
-        
-        boolean existeix = false;
-        
-        try {
-            System.out.println("Llego aqui");
-            db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Introduce el usuario");
-            String user = sc.nextLine();
-            System.out.println("Introduce la contraseña");
-            String password = sc.nextLine();
-            existeix = db.login(user, password);
-            if(existeix) usuari_sessio = user;
-            return existeix;
-        } catch(ClassNotFoundException e) {
-            System.out.println("La causa del error es: " + e.getCause());
-        } catch(SQLException e) {
-            System.out.println("La causa del error es: " + e.getCause());
-        } /*finally {
-            try {
-                db.cerrarConexion();
-            } catch(SQLException e) {
-                System.out.println("La causa del error es: " + e.getCause());
-            }
-        } */
-        return existeix;     
+    private static java.util.List<java.lang.Object> listImage() {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.listImage();
     }
-
+    
     private static int registerImage(servicio.Image image) {
         servicio.WS_Service service = new servicio.WS_Service();
         servicio.WS port = service.getWSPort();
@@ -226,10 +304,29 @@ public class Practica3WS_Client_Application
         servicio.WS port = service.getWSPort();
         return port.deleteImage(image);
     }
-    
-    
-    
-    
-    
-    
+
+    private static java.util.List<java.lang.Object> multiSearch(java.lang.String titulo, java.lang.String description, java.lang.String keywords, java.lang.String autor, java.lang.String datacreation, java.lang.String datasubida, java.lang.String filename) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.multiSearch(titulo, description, keywords, autor, datacreation, datasubida, filename);
+    }
+
+    private static boolean afegeixUser(java.lang.String user, java.lang.String password) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.afegeixUser(user, password);
+    }
+
+    private static boolean iniSession(java.lang.String user, java.lang.String password) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.iniSession(user, password);
+    }
+
+    private static boolean comprobaUser(java.lang.String user) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.comprobaUser(user);
+    }
+
 }

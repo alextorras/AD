@@ -12,25 +12,20 @@ import javax.jws.WebParam;
 
 import modelo.Image;
 import basedatos.callsSQL;
-//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.servlet.http.Part;
 
 /**
  *
@@ -39,7 +34,10 @@ import javax.servlet.http.Part;
 @WebService(serviceName = "WS")
 public class WS {
     
-    callsSQL db = null;
+    private callsSQL db = null;
+    private int codi_error;
+
+    
     
 
     /**
@@ -48,10 +46,16 @@ public class WS {
      * @return 
      */
     @WebMethod(operationName = "ModifyImage")
-    public int ModifyImage(@WebParam(name = "image") Image image) {
-        //TODO write your implementation code here:
+public int ModifyImage(@WebParam(name = "image") Image image) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        try {
+            db.updateImage(image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return 0;
     }
+
 
     /**
      * Borrar una imagen existente
@@ -62,7 +66,7 @@ public class WS {
     public int DeleteImage(@WebParam(name = "image") Image image) {
         //TODO write your implementation code here:
         boolean salt = false;
-        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        final String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int aux = image.getId();
@@ -73,13 +77,14 @@ public class WS {
                 salt = true;
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            codi_error = 1;            
             salt = true;
+            System.out.println("La causa del error es con la BD y el motivo: " + e.getCause());
         } finally {
             try {
                 db.cerrarConexion();       
             } catch(SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getCause());
             }
         } 
         if(salt) return 0;
@@ -91,7 +96,7 @@ public class WS {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
         List<Image> lista = null;
         List<Image> data = new ArrayList<Image>();
         try {
@@ -105,11 +110,8 @@ public class WS {
             byte[] envio = new byte[1024];
             File f = null;
             while (it.hasNext()){
-                //System.out.println("\n Iteracion:");
                 imagen = it.next();
-                System.out.println("Estoy en WS con la imagen con id: " + imagen.getId());
                 String aux_nom = imagen.getFilename();
-                //System.out.println("Estoy en WS " + aux_nom);
                 
                 f = new File(path + File.separator + aux_nom);
                 filecontent = new FileInputStream(f);
@@ -122,21 +124,20 @@ public class WS {
                 
                 filecontent.close();
                 envio = buffer.toByteArray();
-                System.out.println(envio);
                 
                 imagen.setContenido(envio);
                 data.add(imagen);
             }
                 
         } catch (FileNotFoundException e) {
+            codi_error = 6;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
+            codi_error = 5;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
+            codi_error = 1;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
                 try {
                     db.cerrarConexion();
@@ -146,6 +147,8 @@ public class WS {
             }
         return data;
     }
+    
+    
 
     /**
      * Web service operation
@@ -191,7 +194,7 @@ public class WS {
         
         boolean salt = false;
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        final String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
 
         FileOutputStream ous = null;
         String nom = image.getFilename();
@@ -212,13 +215,16 @@ public class WS {
             }
             
         } catch (FileNotFoundException ex) {
+            codi_error = 6;
             System.out.println("La causa és: " + ex.getCause());
             salt = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            codi_error = 5;
+            System.out.println("La causa de error es de IO y el motivo: " + e.getCause());
             salt = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            codi_error = 1;
+            System.out.println("La causa del error es relativa a la base de datos y el motivo: " + e.getCause());
             salt = true;
         } finally {
             try {
@@ -230,4 +236,108 @@ public class WS {
         if(salt) return 0;
         else return 1;
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "MultiSearch")
+    public List MultiSearch(@WebParam(name = "titulo") String titulo, @WebParam(name = "description") String description, @WebParam(name = "keywords") String keywords, @WebParam(name = "autor") String autor, @WebParam(name = "datacreation") String datacreation, @WebParam(name = "datasubida") String datasubida, @WebParam(name = "filename") String filename) {
+        List<Image> resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagen(titulo, description, keywords, autor, datacreation, datasubida, filename);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "iniSession")
+    public boolean iniSession(@WebParam(name = "user") String user, @WebParam(name = "password") String password) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        boolean entra = true;
+        try {
+        entra = db.login(user, password);
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
+        return entra;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "comprobaUser")
+    public boolean comprobaUser(@WebParam(name = "user") String user) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        boolean entra = true;
+        try {
+        entra = db.existeix(user);
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
+        return entra;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "afegeixUser")
+    public boolean afegeixUser(@WebParam(name = "user") String user, @WebParam(name = "password") String password) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        boolean entra = true;
+        try {
+        entra = db.newUser(user, password);
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
+        return entra;
+    }
+
+
 }

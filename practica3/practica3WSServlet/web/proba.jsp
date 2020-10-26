@@ -15,13 +15,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
-    callsSQL2 db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     String user = null;
     if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
     } else user = (String) session.getAttribute("user");
     
-    String path = "im\\";
+    String path = System.getProperty("user.dir") + "\\im\\";
     File dir = new File(path);
     dir.mkdir();
 %>
@@ -64,7 +63,7 @@
     %>
         <div>
             <ul>
-                <img src="<%=f.getAbsolutePath()%>" width="200" height="200">
+                <img src="<%=f.getPath()%> " width="200" height="200">
                 <li>Títol: <%= imagen.getTitol() %></li>
                 <li>Data creació: <%= imagen.getDatac() %></li>
                 <li>Descripció: <%= imagen.getDescripcio() %></li>

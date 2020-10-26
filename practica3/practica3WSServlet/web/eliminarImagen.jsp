@@ -29,7 +29,7 @@
         <text class="alert alert-warning">Estas seguro que quieres eliminar la imagen <%=request.getParameter("filename")%>?</text>
         <form action="eliminarImagen" method="POST" enctype="multipart/form-data">
         <br>
-            <input type="text" name="valor" value="<%=id_foto%>">
+            <input type="hidden" name="valor" value="<%=id_foto%>">
             <input type="submit" name="boto_si" class="btn btn-primary" value="Si">
             <input type="button" name="boto_no" value="No" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
         </form>

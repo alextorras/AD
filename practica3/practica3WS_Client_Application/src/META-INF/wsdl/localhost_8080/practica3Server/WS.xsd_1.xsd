@@ -12,6 +12,10 @@
 
 <xs:element name="ModifyImageResponse" type="tns:ModifyImageResponse"/>
 
+<xs:element name="MultiSearch" type="tns:MultiSearch"/>
+
+<xs:element name="MultiSearchResponse" type="tns:MultiSearchResponse"/>
+
 <xs:element name="RegisterImage" type="tns:RegisterImage"/>
 
 <xs:element name="RegisterImageResponse" type="tns:RegisterImageResponse"/>
@@ -31,6 +35,18 @@
 <xs:element name="SearchbyTitle" type="tns:SearchbyTitle"/>
 
 <xs:element name="SearchbyTitleResponse" type="tns:SearchbyTitleResponse"/>
+
+<xs:element name="afegeixUser" type="tns:afegeixUser"/>
+
+<xs:element name="afegeixUserResponse" type="tns:afegeixUserResponse"/>
+
+<xs:element name="comprobaUser" type="tns:comprobaUser"/>
+
+<xs:element name="comprobaUserResponse" type="tns:comprobaUserResponse"/>
+
+<xs:element name="iniSession" type="tns:iniSession"/>
+
+<xs:element name="iniSessionResponse" type="tns:iniSessionResponse"/>
 
 <xs:complexType name="SearchbyAuthor">
 <xs:sequence>
@@ -70,15 +86,15 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="RegisterImage">
+<xs:complexType name="SearchbyTitle">
 <xs:sequence>
-<xs:element name="image" type="tns:image" minOccurs="0"/>
+<xs:element name="title" type="xs:string" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="RegisterImageResponse">
+<xs:complexType name="SearchbyTitleResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:int"/>
+<xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -94,15 +110,15 @@
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="SearchbyTitle">
+<xs:complexType name="RegisterImage">
 <xs:sequence>
-<xs:element name="title" type="xs:string" minOccurs="0"/>
+<xs:element name="image" type="tns:image" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 
-<xs:complexType name="SearchbyTitleResponse">
+<xs:complexType name="RegisterImageResponse">
 <xs:sequence>
-<xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element name="return" type="xs:int"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -115,6 +131,49 @@
 <xs:complexType name="DeleteImageResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="comprobaUser">
+<xs:sequence>
+<xs:element name="user" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="comprobaUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="afegeixUser">
+<xs:sequence>
+<xs:element name="user" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="afegeixUserResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="MultiSearch">
+<xs:sequence>
+<xs:element name="titulo" type="xs:string" minOccurs="0"/>
+<xs:element name="description" type="xs:string" minOccurs="0"/>
+<xs:element name="keywords" type="xs:string" minOccurs="0"/>
+<xs:element name="autor" type="xs:string" minOccurs="0"/>
+<xs:element name="datacreation" type="xs:string" minOccurs="0"/>
+<xs:element name="datasubida" type="xs:string" minOccurs="0"/>
+<xs:element name="filename" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="MultiSearchResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
 
@@ -137,6 +196,19 @@
 <xs:complexType name="SearchbyCreaDateResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iniSession">
+<xs:sequence>
+<xs:element name="user" type="xs:string" minOccurs="0"/>
+<xs:element name="password" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="iniSessionResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean"/>
 </xs:sequence>
 </xs:complexType>
 </xs:schema>
