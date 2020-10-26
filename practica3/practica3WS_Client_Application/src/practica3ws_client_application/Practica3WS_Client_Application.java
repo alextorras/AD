@@ -188,7 +188,12 @@ public class Practica3WS_Client_Application
     }
     
     public static void listarImagen() {
+        System.out.println("Has escogido listar imagen");
+        List<Image> resultados = (List<Image>)(Object)listImage();
         
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
     }
     
     public static void buscarImagen() {
@@ -212,7 +217,6 @@ public class Practica3WS_Client_Application
          System.out.println("Que nombre de archivo tiene tu imagen");
         String filename = sc.nextLine();
         resultados = (List<Image>)(Object)multiSearch(titol,descripcio,keywords,autor,datacreation,datasubida,filename);
-         System.out.println("ID  Título  Descripción Keywords Autor Datacreation DataSubida filename "); 
         for (Image i : resultados) {        
                 PrintImageData(i);
         }
@@ -242,7 +246,8 @@ public class Practica3WS_Client_Application
     
     private static void PrintImageData(Image i)
     {
-        System.out.println(i.getId()+"\t"+i.getTitol()+"\t"+i.getDescripcio()+"\t"+i.getKeywords()+"\t"+i.getAutor()+"\t"+i.getDatac()+"\t"+i.getDatas()+"\t"+i.getFilename());
+        System.out.println("ID: " + i.getId()+"\t Titulo: "+i.getTitol()+"\t Descripcion: "+i.getDescripcio()+"\t Keywords: "+i.getKeywords()+"\t Autor: "
+                +i.getAutor()+"\t Fecha de creacion: "+i.getDatac()+"\t Fecha de subida: "+i.getDatas()+"\t Nombre del fichero: "+i.getFilename());
     }
     
     
@@ -282,7 +287,11 @@ public class Practica3WS_Client_Application
     }
 
 
-    
+    private static java.util.List<java.lang.Object> listImage() {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.listImage();
+    }
     
     private static int registerImage(servicio.Image image) {
         servicio.WS_Service service = new servicio.WS_Service();

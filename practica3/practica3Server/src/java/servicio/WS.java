@@ -23,6 +23,8 @@ import java.util.Iterator;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -44,10 +46,16 @@ public class WS {
      * @return 
      */
     @WebMethod(operationName = "ModifyImage")
-    public int ModifyImage(@WebParam(name = "image") Image image) {
-        //TODO write your implementation code here:
+public int ModifyImage(@WebParam(name = "image") Image image) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        try {
+            db.updateImage(image.getTitol(), image.getDescripcio(), image.getKeywords(), image.getAutor(), image.getDatac(), image.getId());
+        } catch (SQLException ex) {
+            Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return 0;
     }
+
 
     /**
      * Borrar una imagen existente
@@ -58,7 +66,7 @@ public class WS {
     public int DeleteImage(@WebParam(name = "image") Image image) {
         //TODO write your implementation code here:
         boolean salt = false;
-        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        final String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int aux = image.getId();
@@ -88,7 +96,7 @@ public class WS {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
         List<Image> lista = null;
         List<Image> data = new ArrayList<Image>();
         try {
@@ -139,6 +147,8 @@ public class WS {
             }
         return data;
     }
+    
+    
 
     /**
      * Web service operation
@@ -184,7 +194,7 @@ public class WS {
         
         boolean salt = false;
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        final String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
 
         FileOutputStream ous = null;
         String nom = image.getFilename();

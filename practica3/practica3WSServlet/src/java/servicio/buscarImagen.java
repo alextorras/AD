@@ -152,12 +152,12 @@ public class buscarImagen extends HttpServlet {
         out.println("<form action=\"eliminarImagen.jsp\" method=\"POST\">"); 
                             
         out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getTitol()+"\">");
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getDescripcio()+"\">");
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getDatac()+"\">");
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getKeywords()+"\">");
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getAutor()+"\">");
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getId()+"\">");
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getFilename()+"\">");
+        out.println("<input type=\"hidden\" name=\"descripcio\" value =\""+im.getDescripcio()+"\">");
+        out.println("<input type=\"hidden\" name=\"datac\" value =\""+im.getDatac()+"\">");
+        out.println("<input type=\"hidden\" name=\"keywords\" value =\""+im.getKeywords()+"\">");
+        out.println("<input type=\"hidden\" name=\"autor\" value =\""+im.getAutor()+"\">");
+        out.println("<input type=\"hidden\" name=\"id\" value =\""+im.getId()+"\">");
+        out.println("<input type=\"hidden\" name=\"filename\" value =\""+im.getFilename()+"\">");
         
         if(im.getAutor().equals(user_aux))
         {

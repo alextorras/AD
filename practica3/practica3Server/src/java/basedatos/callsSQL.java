@@ -134,7 +134,6 @@ public class callsSQL {
             }
             return bilers;
         }
-    
 
     
     public List<Image> listarImagenes() throws SQLException {

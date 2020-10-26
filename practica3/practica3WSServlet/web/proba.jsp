@@ -1,10 +1,9 @@
 <%-- 
     Document   : proba
     Created on : 24-oct-2020, 23:27:11
-    Author     : Àlex
+    Author     : admin
 --%>
 
-<%@page import="java.util.Base64"%>
 <%@page import="java.io.FileNotFoundException"%>
 <%@page import="java.nio.file.Files"%>
 <%@page import="basedatos.callsSQL2"%>
@@ -16,14 +15,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
-    callsSQL2 db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     String user = null;
     if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
     } else user = (String) session.getAttribute("user");
     
-    
-    
+    String path = System.getProperty("user.dir") + "\\im\\";
+    File dir = new File(path);
+    dir.mkdir();
 %>
 <!DOCTYPE html>
 <html>
@@ -46,53 +45,30 @@
 	java.util.List<java.lang.Object> result = port.listImage();
         Iterator<Object> it = result.iterator();
         
-        if (!it.hasNext()) { %>
-        <center>
-        <br>
-        <text class="alert-warning">No hay imagenes para listar</text>
-        </center>
-        <%
-        }       
-
-        
-
+        File f = null;
+        OutputStream ous = null;
         byte[] contingut = null;
         
-        String aux = System.getProperty("user.dir"); 
-        Image imagen = null;
-        String actual = null;
         while(it.hasNext()) {
-            contingut = new byte[1024];
-            imagen = (Image) it.next();
-            contingut = imagen.getContenido();
-
-            byte[] encodedBase64 = Base64.getEncoder().encode(contingut);
-            String encoded = new String(encodedBase64, "UTF-8");
-            encoded = "data:image/png;base64," + encoded;
+            contingut = new byte[1024000];
+            Image imagen = (Image) it.next();
             
+            contingut = imagen.getContenido();
+            f = new File(path + imagen.getFilename());
+            
+            ous = new FileOutputStream(f);
+            ous.write(contingut);
+            ous.close();
             
     %>
-    <div> 
+        <div>
             <ul>
-            <table class="table">
-                <tr>
-                    <th style="width: 200px;">
-                <img id="imatge reg" src="<%=encoded%>" width="200" height="200">
-                    </th>
-                    <th style="text-align: left" style="width: 20px;">
-                        Titulo: <text style="font-weight: lighter"><%=imagen.getTitol()%></text>
-                        <br>
-                        Fecha creación: <text style="font-weight: lighter"><%=imagen.getDatac()%></text>
-                        <br>
-                        Descripcion: <text style="font-weight: lighter"><%=imagen.getDescripcio()%></text>
-                        <br>
-                        Autor: <text style="font-weight: lighter"><%=imagen.getAutor()%></text>
-                        <br>
-                        Keywords: <text style="font-weight: lighter"><%=imagen.getKeywords()%></text>
-                    </th>
-                    
-            </tr>
-            </table>
+                <img src="<%=f.getPath()%> " width="200" height="200">
+                <li>Títol: <%= imagen.getTitol() %></li>
+                <li>Data creació: <%= imagen.getDatac() %></li>
+                <li>Descripció: <%= imagen.getDescripcio() %></li>
+                <li>Autor: <%= imagen.getAutor() %></li>
+                <li>Keywords: <%= imagen.getKeywords() %></li>
             </ul>
             <% 
                 if(imagen.getAutor().equals(user)) {
@@ -118,7 +94,7 @@
                 <input type="hidden" name="id" value="<%= imagen.getId()%>">
                 <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                 <p>
-                    <button type="submit" class="btn btn-secondary">Eliminar</button>
+                    <button type="submit" class="btn btn-secondary" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
                 </p>  
             </form>
                 <%
@@ -127,7 +103,7 @@
     </div>
     <%
         }
-    } catch (Exception e) { 
+    } catch (FileNotFoundException e) { 
         e.printStackTrace();
 	// TODO handle custom exceptions here
     }
