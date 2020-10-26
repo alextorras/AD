@@ -15,15 +15,17 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    response.sendRedirect(request.getContextPath() + "/probes");
     callsSQL2 db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     String user = null;
     if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
     } else user = (String) session.getAttribute("user");
     
-    String path = "im\\";
-    File dir = new File(path);
-    dir.mkdir();
+    //String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
+    String path = "im";
+    
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -50,21 +52,28 @@
         OutputStream ous = null;
         byte[] contingut = null;
         
+        String aux = System.getProperty("user.dir"); 
+        Image imagen = null;
+        String actual = null;
         while(it.hasNext()) {
-            contingut = new byte[1024000];
-            Image imagen = (Image) it.next();
-            
+            contingut = new byte[1024];
+            imagen = (Image) it.next();
             contingut = imagen.getContenido();
-            f = new File(path + imagen.getFilename());
-            
+            f = new File(path + File.separator + imagen.getFilename());
             ous = new FileOutputStream(f);
             ous.write(contingut);
             ous.close();
+            actual = f.getAbsolutePath();
+        }
+        it = result.iterator();
+        while(it.hasNext()) {
+            imagen = (Image) it.next();
+            
             
     %>
         <div>
             <ul>
-                <img src="<%=f.getAbsolutePath()%>" width="200" height="200">
+                <img src="<%=aux + File.separator + "im\\" + imagen.getFilename()%>" width="200" height="200">
                 <li>Títol: <%= imagen.getTitol() %></li>
                 <li>Data creació: <%= imagen.getDatac() %></li>
                 <li>Descripció: <%= imagen.getDescripcio() %></li>

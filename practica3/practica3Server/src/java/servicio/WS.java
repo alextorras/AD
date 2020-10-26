@@ -230,4 +230,34 @@ public class WS {
         if(salt) return 0;
         else return 1;
     }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "MultiSearch")
+    public List MultiSearch(@WebParam(name = "titulo") String titulo, @WebParam(name = "description") String description, @WebParam(name = "keywords") String keywords, @WebParam(name = "autor") String autor, @WebParam(name = "datacreation") String datacreation, @WebParam(name = "datasubida") String datasubida, @WebParam(name = "filename") String filename) {
+        List<Image> resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagen(titulo, description, keywords, autor, datacreation, datasubida, filename);
+        
+         } catch (SQLException e) {
+            e.printStackTrace();
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
+    }
 }

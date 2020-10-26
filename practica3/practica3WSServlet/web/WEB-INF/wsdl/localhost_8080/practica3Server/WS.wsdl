@@ -4,17 +4,23 @@
 <xsd:import namespace="http://servicio/" schemaLocation="http://localhost:8080/practica3Server/WS?xsd=1"/>
 </xsd:schema>
 </types>
-<message name="RegisterImage">
-<part name="parameters" element="tns:RegisterImage"/>
+<message name="SearchbyTitle">
+<part name="parameters" element="tns:SearchbyTitle"/>
 </message>
-<message name="RegisterImageResponse">
-<part name="parameters" element="tns:RegisterImageResponse"/>
+<message name="SearchbyTitleResponse">
+<part name="parameters" element="tns:SearchbyTitleResponse"/>
 </message>
 <message name="SearchbyAuthor">
 <part name="parameters" element="tns:SearchbyAuthor"/>
 </message>
 <message name="SearchbyAuthorResponse">
 <part name="parameters" element="tns:SearchbyAuthorResponse"/>
+</message>
+<message name="RegisterImage">
+<part name="parameters" element="tns:RegisterImage"/>
+</message>
+<message name="RegisterImageResponse">
+<part name="parameters" element="tns:RegisterImageResponse"/>
 </message>
 <message name="DeleteImage">
 <part name="parameters" element="tns:DeleteImage"/>
@@ -28,17 +34,11 @@
 <message name="SearchbyIdResponse">
 <part name="parameters" element="tns:SearchbyIdResponse"/>
 </message>
-<message name="ListImage">
-<part name="parameters" element="tns:ListImage"/>
+<message name="SearchbyCreaDate">
+<part name="parameters" element="tns:SearchbyCreaDate"/>
 </message>
-<message name="ListImageResponse">
-<part name="parameters" element="tns:ListImageResponse"/>
-</message>
-<message name="SearchbyTitle">
-<part name="parameters" element="tns:SearchbyTitle"/>
-</message>
-<message name="SearchbyTitleResponse">
-<part name="parameters" element="tns:SearchbyTitleResponse"/>
+<message name="SearchbyCreaDateResponse">
+<part name="parameters" element="tns:SearchbyCreaDateResponse"/>
 </message>
 <message name="ModifyImage">
 <part name="parameters" element="tns:ModifyImage"/>
@@ -46,20 +46,30 @@
 <message name="ModifyImageResponse">
 <part name="parameters" element="tns:ModifyImageResponse"/>
 </message>
-<message name="SearchbyCreaDate">
-<part name="parameters" element="tns:SearchbyCreaDate"/>
+<message name="ListImage">
+<part name="parameters" element="tns:ListImage"/>
 </message>
-<message name="SearchbyCreaDateResponse">
-<part name="parameters" element="tns:SearchbyCreaDateResponse"/>
+<message name="ListImageResponse">
+<part name="parameters" element="tns:ListImageResponse"/>
+</message>
+<message name="MultiSearch">
+<part name="parameters" element="tns:MultiSearch"/>
+</message>
+<message name="MultiSearchResponse">
+<part name="parameters" element="tns:MultiSearchResponse"/>
 </message>
 <portType name="WS">
-<operation name="RegisterImage">
-<input wsam:Action="http://servicio/WS/RegisterImageRequest" message="tns:RegisterImage"/>
-<output wsam:Action="http://servicio/WS/RegisterImageResponse" message="tns:RegisterImageResponse"/>
+<operation name="SearchbyTitle">
+<input wsam:Action="http://servicio/WS/SearchbyTitleRequest" message="tns:SearchbyTitle"/>
+<output wsam:Action="http://servicio/WS/SearchbyTitleResponse" message="tns:SearchbyTitleResponse"/>
 </operation>
 <operation name="SearchbyAuthor">
 <input wsam:Action="http://servicio/WS/SearchbyAuthorRequest" message="tns:SearchbyAuthor"/>
 <output wsam:Action="http://servicio/WS/SearchbyAuthorResponse" message="tns:SearchbyAuthorResponse"/>
+</operation>
+<operation name="RegisterImage">
+<input wsam:Action="http://servicio/WS/RegisterImageRequest" message="tns:RegisterImage"/>
+<output wsam:Action="http://servicio/WS/RegisterImageResponse" message="tns:RegisterImageResponse"/>
 </operation>
 <operation name="DeleteImage">
 <input wsam:Action="http://servicio/WS/DeleteImageRequest" message="tns:DeleteImage"/>
@@ -69,26 +79,26 @@
 <input wsam:Action="http://servicio/WS/SearchbyIdRequest" message="tns:SearchbyId"/>
 <output wsam:Action="http://servicio/WS/SearchbyIdResponse" message="tns:SearchbyIdResponse"/>
 </operation>
-<operation name="ListImage">
-<input wsam:Action="http://servicio/WS/ListImageRequest" message="tns:ListImage"/>
-<output wsam:Action="http://servicio/WS/ListImageResponse" message="tns:ListImageResponse"/>
-</operation>
-<operation name="SearchbyTitle">
-<input wsam:Action="http://servicio/WS/SearchbyTitleRequest" message="tns:SearchbyTitle"/>
-<output wsam:Action="http://servicio/WS/SearchbyTitleResponse" message="tns:SearchbyTitleResponse"/>
+<operation name="SearchbyCreaDate">
+<input wsam:Action="http://servicio/WS/SearchbyCreaDateRequest" message="tns:SearchbyCreaDate"/>
+<output wsam:Action="http://servicio/WS/SearchbyCreaDateResponse" message="tns:SearchbyCreaDateResponse"/>
 </operation>
 <operation name="ModifyImage">
 <input wsam:Action="http://servicio/WS/ModifyImageRequest" message="tns:ModifyImage"/>
 <output wsam:Action="http://servicio/WS/ModifyImageResponse" message="tns:ModifyImageResponse"/>
 </operation>
-<operation name="SearchbyCreaDate">
-<input wsam:Action="http://servicio/WS/SearchbyCreaDateRequest" message="tns:SearchbyCreaDate"/>
-<output wsam:Action="http://servicio/WS/SearchbyCreaDateResponse" message="tns:SearchbyCreaDateResponse"/>
+<operation name="ListImage">
+<input wsam:Action="http://servicio/WS/ListImageRequest" message="tns:ListImage"/>
+<output wsam:Action="http://servicio/WS/ListImageResponse" message="tns:ListImageResponse"/>
+</operation>
+<operation name="MultiSearch">
+<input wsam:Action="http://servicio/WS/MultiSearchRequest" message="tns:MultiSearch"/>
+<output wsam:Action="http://servicio/WS/MultiSearchResponse" message="tns:MultiSearchResponse"/>
 </operation>
 </portType>
 <binding name="WSPortBinding" type="tns:WS">
 <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-<operation name="RegisterImage">
+<operation name="SearchbyTitle">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -98,6 +108,15 @@
 </output>
 </operation>
 <operation name="SearchbyAuthor">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="RegisterImage">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -124,16 +143,7 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="ListImage">
-<soap:operation soapAction=""/>
-<input>
-<soap:body use="literal"/>
-</input>
-<output>
-<soap:body use="literal"/>
-</output>
-</operation>
-<operation name="SearchbyTitle">
+<operation name="SearchbyCreaDate">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
@@ -151,7 +161,16 @@
 <soap:body use="literal"/>
 </output>
 </operation>
-<operation name="SearchbyCreaDate">
+<operation name="ListImage">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="MultiSearch">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>
