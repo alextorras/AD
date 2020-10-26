@@ -17,7 +17,7 @@ import java.sql.Connection;
  * @author admin
  */
 public class callsSQL2 {
-    
+        
     Connection cn = null;
     
     public callsSQL2(String database) throws ClassNotFoundException, SQLException {        

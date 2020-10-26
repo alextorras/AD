@@ -1,145 +1,130 @@
 <%-- 
-    Document   : list
-    Created on : 03-oct-2020, 16:50:11
-    Author     : Àlex
+    Document   : proba
+    Created on : 24-oct-2020, 23:27:11
+    Author     : Ã€lex
 --%>
 
-<%@page import="java.io.File"%>
-<%@page import="org.apache.xml.security.utils.Base64"%>
+<%@page import="java.util.Base64"%>
+<%@page import="java.io.FileNotFoundException"%>
+<%@page import="java.nio.file.Files"%>
+<%@page import="basedatos.callsSQL2"%>
+<%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.OutputStream"%>
+<%@page import="java.io.File"%>
 <%@page import="servicio.Image"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="java.util.List"%>
-<%@page import="java.sql.SQLException"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="javax.servlet.http.HttpSession"%>
-<%@page import="javax.servlet.http.Cookie"%>
-<%@page import="javax.servlet.http.HttpServlet"%>
-<%@page import="javax.servlet.http.HttpServletRequest"%>
-<%@page import="javax.servlet.http.HttpServletResponse"%>
-<%@page import="javax.servlet.http.HttpSession"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-
-
-<%
-        String user = null;
-        if(session.getAttribute("user") == null){
+<% 
+    callsSQL2 db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+    String user = null;
+    if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("user");        
-    %>  
+    } else user = (String) session.getAttribute("user");
     
+    //String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
+    String path = "im";
+    
+    
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-        <title>JSP Page</title>
+        <title>Listar Imagenes</title>
     </head>
-    <body>    
-        <div>
-            <CENTER>
-            <h1 class="alert alert-primary">Listado imagenes</h1>
-            </CENTER>
-            <input type="BUTTON" style="float: right" value="Menú" class="btn btn-info" onclick="window.location.href='menu.jsp'">
-          <%/*
-                int rss = 0;
-                String[] res = null;
-                Connection cn = null;
-                try {
-                    servicio.WS_Service service = new servicio.WS_Service();
-                    servicio.WS port = service.getWSPort();
-                    List<Object> lista = port.listImage();
-                    Iterator<Object> it = lista.iterator();
-                    while (it.hasNext()){
-                        // Inici while
-                        Image imagen = (Image) it.next();
-                        String content = imagen.getContenido().toString();
-                        */%>
-        <div>
-               <%-- start web service invocation --%><hr/>
-            <%
-            try {
-                String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3WSServlet\\web\\im";
-                servicio.WS_Service service = new servicio.WS_Service();
-                servicio.WS port = service.getWSPort();
-                // TODO process result here
-                java.util.List<java.lang.Object> result = port.listImage();
-                Iterator<Object> it = result.iterator();
-                Image imagen = null;
-                byte[] contingut = new byte[102400];
-                while(it.hasNext()) {
-                    imagen = (Image) it.next();
-                    String content = imagen.getContenido().toString();                    
-            %>
-    <%-- end web service invocation --%><hr/>
- 
-        <div>
-            <ul>
-            <img src="data:image/png;base64,<%=content%>" width="200" height="200">
-            <li>Títol: <%= imagen.getTitol() %></li>
-            <li>Data creació: <%= imagen.getDatac() %></li>
-            <li>Descripció: <%= imagen.getDescripcio() %></li>
-            <li>Autor: <%= imagen.getAutor() %></li>
-            <li>Keywords: <%= imagen.getKeywords() %></li>
-            
-          </ul>
+    <body>
+    <CENTER>
+        <h1 class="alert alert-primary">Listar Imagenes </h1>
+    </CENTER>
+    <input type="BUTTON" style="float: right" value="MenÃº" class="btn btn-info" onclick="window.location.href='menu.jsp'">
+        <%-- start web service invocation --%><hr/>
+    <%
+    try {
+	servicio.WS_Service service = new servicio.WS_Service();
+	servicio.WS port = service.getWSPort();
+        
+	java.util.List<java.lang.Object> result = port.listImage();
+        Iterator<Object> it = result.iterator();
+        
+        if (!it.hasNext()) { %>
+        <center>
+        <br>
+        <h2 class="alert-warning">No hay imagenes para listar</h2>
+        </center>
         <%
-                      if (imagen.getAutor().equals(user)){ 
-                       %>
-                        <form action="modificarImagen.jsp" method="POST">
-                            
-                            <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
-                            <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
-                            <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
-                            <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
-                            <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
-                            <input type="hidden" name="id" value="<%= imagen.getId()%>">
-                            <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
-                            <p>
-                                <button type="submit" class="btn btn-primary">Editar</button>
-                            </p>
-                
-                        </form>                         
-                            <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
-                            <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
-                            <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
-                            <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
-                            <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
-                            <input type="hidden" name="id" value="<%= imagen.getId()%>">
-                            <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
-                            <p>
-                                <button type="submit" class="btn btn-secondary" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
-                            </p>
-                        
-                            
+        }       
+
         
 
-                        <%
-                        }
-                     %>
-        </div><!-- /.col-sm-4 -->
-      </div>
-                   
-    
-       
-                     <%
- 
-                    }
-                }
-                catch(Exception e) {
-                    session.setAttribute("codigo", "1");
-                    response.sendRedirect(request.getContextPath() + "/error.jsp");
-                    //System.out.println("Error amb la base de dades");
-                    //System.err.println(e.getMessage());
-                }         
-            %>
-            <%-- start web service invocation --%><hr/>
-    <%-- end web service invocation --%><hr/>
+        byte[] contingut = null;
+        
+        String aux = System.getProperty("user.dir"); 
+        Image imagen = null;
+        String actual = null;
+        byte[] encodedBase64 = null;
+        String encoded = null;
+        while(it.hasNext()) {
+            contingut = new byte[1024];
+            imagen = (Image) it.next();
+            contingut = imagen.getContenido();
 
-      </div>
+            encodedBase64 = Base64.getEncoder().encode(contingut);
+            encoded = new String(encodedBase64, "UTF-8");
+            encoded = "data:image/png;base64," + encoded;
+            
+            
+    %>
+        <div>
+            <ul>
+                <img id="imatge reg" src="<%=encoded%>" width="200" height="200">
+                <li>TÃ­tol: <%= imagen.getTitol() %></li>
+                <li>Data creaciÃ³: <%= imagen.getDatac() %></li>
+                <li>DescripciÃ³: <%= imagen.getDescripcio() %></li>
+                <li>Autor: <%= imagen.getAutor() %></li>
+                <li>Keywords: <%= imagen.getKeywords() %></li>
+            </ul>
+            <% 
+                if(imagen.getAutor().equals(user)) {
+            %>
+            <form action="modificarImagen.jsp" method="POST">               
+                <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
+                <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
+                <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
+                <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
+                <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
+                <input type="hidden" name="id" value="<%= imagen.getId()%>">
+                <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
+                <p>
+                    <button type="submit" class="btn btn-primary">Editar</button>
+                </p>
+            </form>
+                <form action="eliminarImagen.jsp" method="POST">
+                <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
+                <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
+                <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
+                <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
+                <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
+                <input type="hidden" name="id" value="<%= imagen.getId()%>">
+                <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
+                <p>
+                    <button type="submit" class="btn btn-secondary" onclick="window.location.href='eliminarImagen.jsp'">Eliminar</button>
+                </p>  
+            </form>
+                <%
+                    }
+                %>
+    </div>
+    <%
+        }
+    } catch (FileNotFoundException e) { 
+        e.printStackTrace();
+	// TODO handle custom exceptions here
+    }
+    %>
+    <%-- end web service invocation --%><hr/>
     </body>
+
+
 </html>

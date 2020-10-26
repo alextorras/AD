@@ -12,24 +12,18 @@ import javax.jws.WebParam;
 
 import modelo.Image;
 import basedatos.callsSQL;
-//import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
-import javax.servlet.http.Part;
 
 /**
  *
@@ -38,7 +32,10 @@ import javax.servlet.http.Part;
 @WebService(serviceName = "WS")
 public class WS {
     
-    callsSQL db = null;
+    private callsSQL db = null;
+    private int codi_error;
+
+    
     
 
     /**
@@ -72,13 +69,15 @@ public class WS {
                 salt = true;
             }
         } catch(SQLException e) {
-            e.printStackTrace();
+            codi_error = 1;
+            
             salt = true;
+            System.out.println("La causa del error es con la BD y el motivo: " + e.getCause());
         } finally {
             try {
                 db.cerrarConexion();       
             } catch(SQLException e) {
-                e.printStackTrace();
+                System.out.println(e.getCause());
             }
         } 
         if(salt) return 0;
@@ -90,44 +89,48 @@ public class WS {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        List<Image> lista = null;
         String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        List<Image> lista = null;
+        List<Image> data = new ArrayList<Image>();
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             lista = db.listarImagenes();
             Iterator<Image> it = lista.iterator();
             Image imagen = null;
             InputStream filecontent = null;
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            //byte[] envio = new byte[1024];
+            ByteArrayOutputStream buffer = null;
+            
+            byte[] envio = new byte[1024];
+            File f = null;
             while (it.hasNext()){
-                System.out.println("\n Iteracion:");
                 imagen = it.next();
-                System.out.println("Estoy en WS " + imagen.getId());
                 String aux_nom = imagen.getFilename();
-                System.out.println("Estoy en WS " + aux_nom);
-                byte[] envio = new byte[1024];
-                File f = new File(path + File.separator + aux_nom);
+                
+                f = new File(path + File.separator + aux_nom);
                 filecontent = new FileInputStream(f);
                 int read = 0;
-                byte[] aux = new byte[10240000];
+                byte[] aux = new byte[1024];
+                buffer = new ByteArrayOutputStream();
                 while((read = filecontent.read(aux)) != -1) {
                     buffer.write(aux, 0, read);
                 }
+                
+                filecontent.close();
                 envio = buffer.toByteArray();
-                System.out.println(envio);
+                
                 imagen.setContenido(envio);
+                data.add(imagen);
             }
                 
         } catch (FileNotFoundException e) {
+            codi_error = 6;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException e) {
+            codi_error = 5;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
+            codi_error = 1;
             System.out.println("La causa del error es: " + e.getCause());
-            //Logger.getLogger(WS.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
                 try {
                     db.cerrarConexion();
@@ -135,7 +138,7 @@ public class WS {
                     e.printStackTrace();
                 }
             }
-        return lista;
+        return data;
     }
 
     /**
@@ -203,13 +206,16 @@ public class WS {
             }
             
         } catch (FileNotFoundException ex) {
+            codi_error = 6;
             System.out.println("La causa és: " + ex.getCause());
             salt = true;
         } catch (IOException e) {
-            e.printStackTrace();
+            codi_error = 5;
+            System.out.println("La causa de error es de IO y el motivo: " + e.getCause());
             salt = true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            codi_error = 1;
+            System.out.println("La causa del error es relativa a la base de datos y el motivo: " + e.getCause());
             salt = true;
         } finally {
             try {
@@ -227,7 +233,6 @@ public class WS {
      */
     @WebMethod(operationName = "MultiSearch")
     public List MultiSearch(@WebParam(name = "titulo") String titulo, @WebParam(name = "description") String description, @WebParam(name = "keywords") String keywords, @WebParam(name = "autor") String autor, @WebParam(name = "datacreation") String datacreation, @WebParam(name = "datasubida") String datasubida, @WebParam(name = "filename") String filename) {
-        //TODO write your implementation code here:
         List<Image> resultados = null;
         try{
         
@@ -235,7 +240,10 @@ public class WS {
         resultados = db.buscarImagen(titulo, description, keywords, autor, datacreation, datasubida, filename);
         
          } catch (SQLException e) {
-            e.printStackTrace();
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
             // lasesion.setAttribute("codigo", "1");
             
         } 
@@ -252,5 +260,6 @@ public class WS {
         }
      return resultados;
     }
+
 
 }
