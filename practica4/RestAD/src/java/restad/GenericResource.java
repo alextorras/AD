@@ -149,6 +149,7 @@ public class GenericResource {
     public String searchByTitle (@PathParam("title") String title) {
         return null;
     }
+    
     /**
     * GET method to search images by creation date
     * @param creaDate
@@ -160,6 +161,7 @@ public class GenericResource {
     public String searchByCreationDate (@PathParam("date") String date) {
         return null;
     }
+    
     /**
     * GET method to search images by author
     * @param author
