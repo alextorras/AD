@@ -9,6 +9,7 @@ import basedatos.callsSQL;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -31,8 +32,7 @@ public class GenericResource {
 
     @Context
     private UriInfo context;
-    
-    callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+    private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
 
     /**
      * Creates a new instance of GenericResource
@@ -83,7 +83,7 @@ public class GenericResource {
         return null;
     }
     
-        /**
+         /**
     * POST method to modify an existing image
     * @param user
     * @param password
@@ -93,7 +93,7 @@ public class GenericResource {
     @POST
     public String login (@FormParam("user") String user, @FormParam("password") String password) {
         boolean entra = true;
-        
+
         try {
         entra = db.login(user, password);
         if(!entra) {
@@ -105,7 +105,7 @@ public class GenericResource {
         } catch(SQLException e) {
             entra = false;
             System.out.println("La causa del error es: " + e.getCause());
-            
+
         } finally {
             try {
                 db.cerrarConexion();
@@ -115,6 +115,8 @@ public class GenericResource {
         }
         return null;
     }
+    
+    
     
     /**
     * POST method to modify an existing image
@@ -223,6 +225,7 @@ public class GenericResource {
     public String searchByKeywords (@PathParam("keywords") String keywords) {
         return null;
     }
+    
     
     
 }
