@@ -5,6 +5,10 @@
  */
 package restad;
 
+import basedatos.callsSQL;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
@@ -27,6 +31,8 @@ public class GenericResource {
 
     @Context
     private UriInfo context;
+    
+    callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
 
     /**
      * Creates a new instance of GenericResource
@@ -74,6 +80,39 @@ public class GenericResource {
         @FormParam("keywords") String keywords,
         @FormParam("author") String author,
         @FormParam("creation") String crea_date) {
+        return null;
+    }
+    
+        /**
+    * POST method to modify an existing image
+    * @param user
+    * @param password
+    * @return
+    */
+    @Path("login")
+    @POST
+    public String login (@FormParam("user") String user, @FormParam("password") String password) {
+        boolean entra = true;
+        
+        try {
+        entra = db.login(user, password);
+        if(!entra) {
+                //hacer que se redireccione al error (no se como jugar con las sesiones y los response en REST
+            }
+            else {
+                //hacer que se redireccione a menu.jsp poniendo en la sesion el user
+            }     
+        } catch(SQLException e) {
+            entra = false;
+            System.out.println("La causa del error es: " + e.getCause());
+            
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
+            }
+        }
         return null;
     }
     

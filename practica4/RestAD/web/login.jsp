@@ -16,7 +16,7 @@
         <CENTER>
         <h1 class="alert alert-primary">Login</h1>
         <br>    
-        <form action="login" method="POST">
+        <form action="webresources\generic\login" method="POST">
             <input type="text" placeholder="Usuario" name="usuario" required>
             <br>
             <br>
