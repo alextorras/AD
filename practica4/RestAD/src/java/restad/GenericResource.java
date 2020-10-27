@@ -6,6 +6,9 @@
 package restad;
 
 import basedatos.callsSQL;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -33,6 +37,8 @@ public class GenericResource {
     @Context
     private UriInfo context;
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+    private String usuario_sesion;
+    private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
 
     /**
      * Creates a new instance of GenericResource
@@ -69,6 +75,7 @@ public class GenericResource {
     * @param keywords
     * @param author
     * @param crea_date
+    * @param fileName
     * @return
     */
     @Path("register")
@@ -79,8 +86,26 @@ public class GenericResource {
         @FormParam("description") String description,
         @FormParam("keywords") String keywords,
         @FormParam("author") String author,
-        @FormParam("creation") String crea_date) {
-        return null;
+        @FormParam("creation") String crea_date,
+        @FormParam("file") String fn) {
+        String t = title;
+        String ds = description;
+        String key = keywords;
+        String aut = author;
+        String dc = crea_date;
+        String nom = fn;
+        int id = 0;
+        boolean registrat = false;        
+        
+
+        try {
+            id = db.getID();
+            registrat = db.newImage(id, t, ds, key, aut, dc, nom);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(registrat) return red_regImg_be();
+        else return "<html>No</html>";       
     }
     
          /**
@@ -91,17 +116,18 @@ public class GenericResource {
     */
     @Path("login")
     @POST
-    public String login (@FormParam("user") String user, @FormParam("password") String password) {
+    public String login (@FormParam("usuario") String user, @FormParam("password") String password) {
         boolean entra = true;
-
+        String redireccio = null;
+        usuario_sesion = user;
         try {
         entra = db.login(user, password);
         if(!entra) {
-                //hacer que se redireccione al error (no se como jugar con las sesiones y los response en REST
-            }
-            else {
-                //hacer que se redireccione a menu.jsp poniendo en la sesion el user
-            }     
+            redireccio = "No";
+        }
+        else {
+            redireccio = red_login_be();
+        }
         } catch(SQLException e) {
             entra = false;
             System.out.println("La causa del error es: " + e.getCause());
@@ -112,10 +138,9 @@ public class GenericResource {
             } catch (SQLException e) {
                 System.out.println("No se ha cerrado bien la base de datos. " + e.getCause());
             }
-        }
-        return null;
+        }      
+        return redireccio;        
     }
-    
     
     
     /**
@@ -226,6 +251,56 @@ public class GenericResource {
         return null;
     }
     
+    private String red_login_be() {
+        String a = "<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>Menú</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"        <CENTER>\n" +
+"        <h1 class=\"alert alert-primary\">Menú</h1>\n" +
+"        <form>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Registrar Imagen\" class=\"btn btn-primary\" onclick=\"window.location.href='http://localhost:8080/RestAD/registrarImagen.jsp'\">\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Listar Imagenes\" class=\"btn btn-secondary\" onclick=\"window.location.href='listImg.jsp'\">\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Buscar Imagen\" class=\"btn btn-dark\" onclick=\"window.location.href='buscarImagen.jsp'\">\n" +
+"        <br>\n" +
+"        <br>        \n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Logout\" class=\"btn btn-info\" onclick=\"window.location.href='logout.jsp'\">\n" +
+"        <br>\n" +
+"        </form>\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>\n";
+        return a;
+    }
     
+    private String red_regImg_be() {
+        String a = 
+"<!DOCTYPE html>\n" +
+"<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>JSP Page</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"    <CENTER>\n" +
+"        <br>\n" +
+"        <h1 class=\"alert alert-success\">La imagen se ha registrado correctamente</h1>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='http://localhost:8080/RestAD/menu.jsp'\">\n" +
+"        <br>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"window.location.href='http://localhost:8080/RestAD/logout.jsp'\">\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>";
+        return a;
+    }
     
 }
