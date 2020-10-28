@@ -6,12 +6,18 @@
 package restad;
 
 import basedatos.callsSQL;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -25,6 +31,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 
 /**
  * REST Web Service
@@ -39,6 +47,8 @@ public class GenericResource {
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     private String usuario_sesion;
     private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
+    HttpSession s;
+    String tit;
 
     /**
      * Creates a new instance of GenericResource
@@ -67,46 +77,68 @@ public class GenericResource {
     @Consumes(MediaType.TEXT_HTML)
     public void putHtml(String content) {
     }
+   
+
     
-    /**
-    * POST method to register a new image
-    * @param title
-    * @param description
-    * @param keywords
-    * @param author
-    * @param crea_date
-    * @param fileName
-    * @return
-    */
-    @Path("register")
+    /**POST method to register upload a new image
+     * @param uploadInputStream
+     * @param filename
+     * @param title
+     * @param description
+     * @param keywords
+     * @param author
+     * @param crea_date
+     * @return
+     * 
+     */
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("register")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_HTML)
-    public String registerImage (@FormParam("title") String title,
-        @FormParam("description") String description,
-        @FormParam("keywords") String keywords,
-        @FormParam("author") String author,
-        @FormParam("creation") String crea_date,
-        @FormParam("file") String fn) {
+    public String registerImage(@FormDataParam("file") InputStream uploadInputStream,
+            @FormDataParam("filename") String filename, 
+            @FormDataParam("title") String title,
+            @FormDataParam("description") String description,
+            @FormDataParam("keywords") String keywords,
+            @FormDataParam("author") String author,
+            @FormDataParam("creation") String crea_date) {
+        String nom_amb_extensio = filename + ".jpg";
+        InputStream in = uploadInputStream;
+        File f = new File(path + File.separator + nom_amb_extensio);
+        OutputStream ous = null;
         String t = title;
         String ds = description;
         String key = keywords;
         String aut = author;
         String dc = crea_date;
-        String nom = fn;
-        int id = 0;
-        boolean registrat = false;        
-        
-
+                
+        int read = 0;
+        byte[] aux = new byte[1024];
+        byte[] contingut = new byte[1024];
+        ByteArrayOutputStream buffer = null;
+        boolean registrat = false;
         try {
-            id = db.getID();
-            registrat = db.newImage(id, t, ds, key, aut, dc, nom);
-        } catch (SQLException e) {
+            buffer = new ByteArrayOutputStream();
+            while ((read = in.read(aux)) != -1) {
+                buffer.write(aux, 0, read);
+            }
+            contingut = buffer.toByteArray();
+            ous = new FileOutputStream(f);
+            ous.write(contingut);
+            ous.close();
+            in.close();
+            buffer.close();
+            int id = db.getID();
+            registrat = db.newImage(id,t, ds, key, aut, dc, nom_amb_extensio);
+        } catch(IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getCause());
         }
-        if(registrat) return red_regImg_be();
-        else return "<html>No</html>";       
+        
+        return red_regImg_be();
     }
+    
     
          /**
     * POST method to modify an existing image
@@ -123,7 +155,7 @@ public class GenericResource {
         try {
         entra = db.login(user, password);
         if(!entra) {
-            redireccio = "No";
+            redireccio = error("1");
         }
         else {
             redireccio = red_login_be();
@@ -178,7 +210,24 @@ public class GenericResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public String deleteImage (@FormParam("id") String id) {
-        return null;
+        
+        int num = Integer.parseInt(id);
+        if(num == -1) return "Error";
+        boolean eliminat = false;
+        try {
+            String nom = db.nom_eliminar_imagen(num);
+            eliminat = db.eliminar_imagen(num);
+            if(eliminat) {
+                File f = new File(path + File.separator + nom);
+                f.delete();
+            } 
+            else {
+                return "La imagen no se ha eliminado";
+            }
+        } catch(SQLException e) {
+            System.out.println(e.getCause());
+        }
+        return red_elim_be();
     }
     
     /**
@@ -263,14 +312,14 @@ public class GenericResource {
 "        <h1 class=\"alert alert-primary\">Menú</h1>\n" +
 "        <form>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Registrar Imagen\" class=\"btn btn-primary\" onclick=\"window.location.href='http://localhost:8080/RestAD/registrarImagen.jsp'\">\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Registrar Imagen\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/registrarImagen.jsp'\">\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Listar Imagenes\" class=\"btn btn-secondary\" onclick=\"window.location.href='listImg.jsp'\">\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Listar Imagenes\" class=\"btn btn-secondary\" onclick=\"window.location.href='" + red() + "/listImg.jsp'\">\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Buscar Imagen\" class=\"btn btn-dark\" onclick=\"window.location.href='buscarImagen.jsp'\">\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Buscar Imagen\" class=\"btn btn-dark\" onclick=\"window.location.href='" + red() + "/buscarImagen.jsp'\">\n" +
 "        <br>\n" +
 "        <br>        \n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Logout\" class=\"btn btn-info\" onclick=\"window.location.href='logout.jsp'\">\n" +
+"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Logout\" class=\"btn btn-info\" onclick=\"window.location.href='" + red() + "/logout.jsp'\">\n" +
 "        <br>\n" +
 "        </form>\n" +
 "    </CENTER>\n" +
@@ -293,14 +342,132 @@ public class GenericResource {
 "        <br>\n" +
 "        <h1 class=\"alert alert-success\">La imagen se ha registrado correctamente</h1>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='http://localhost:8080/RestAD/menu.jsp'\">\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/menu.jsp'\">\n" +
 "        <br>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"window.location.href='http://localhost:8080/RestAD/logout.jsp'\">\n" +
+"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"window.location.href='" + red() + "/logout.jsp'\">\n" +
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>";
         return a;
     }
+    
+    private String red_elim_be() {
+        return "<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>Imagen eliminada</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"    <CENTER>\n" +
+"        <br>\n" +
+"        <h1 class=\"alert alert-success\"> La imagen se ha eliminado correctamente </h1>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='menu.jsp'\">\n" +
+"        <br>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Cerrar la sesión\" class=\"btn btn-secondary\" onclick=\"window.location.href='logout.jsp'\">\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>";
+    }
+    
+    private String error(String numero) {
+        String mensaje;
+        String boton;
+        int aux = Integer.parseInt(numero);
+        System.out.println(aux);
+        
+        switch(aux) 
+        {
+            case 1:
+                mensaje = "<p class=\"card-text\">Error de SQL</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 2:
+                mensaje = "<p class=\"card-text\">No se ha encontrado la clase</p>" ;
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 3:
+                mensaje = "<p class=\"card-text\">No hay resultados</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 4:
+                mensaje = "<p class=\"card-text\">Usuario o contraseña incorrectos</p>";
+                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 5:
+                mensaje = "<p class=\"card-text\">Error en el IO</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 6:
+                mensaje = "<p class=\"card-text\">No se ha encontrado el fichero</p>";
+                boton = "<a href=\"" + red() +"/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 7:
+                mensaje = "<p class=\"card-text\">Error del Servlet</p>";
+                boton = "<a href=\"" + red() + "menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 8:
+                mensaje = "<p class=\"card-text\">ID de la imagen NULL</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 9:
+                mensaje = "<p class=\"card-text\">No se ha eliminado la base de datos.</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 10:
+                mensaje = "<p class=\"card-text\">Ha fallado el registro de Imagen</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 11:
+                mensaje = "<p class=\"card-text\">El usuario ya existe</p>";
+                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            case 12:
+                mensaje = "<p class=\"card-text\">Formato de la imagen incorrecto</p>";
+                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+            case 13:
+                mensaje = "<p class=\"card-text\">Parametros nulos</p>";
+                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+            default:
+                mensaje = "<p class=\"card-text\">Error incalsificable</p>";
+                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                break;
+        }
+        String retorn = 
+"<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <title>ERROR</title>\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"    </head>\n" +
+"    <body>" +
+" <CENTER>\n" +
+"         <div class=\"card\" style=\"width: 18rem;\">\n" +
+"            <CENTER>\n" +
+"            <img class=\"card-img-top\" src=\"https://www.wpextremo.com/wp-content/uploads/2019/11/500-internal-server-error-featured-image-1.png\" alt=\"Card image cap\">\n" +
+"            <div class=\"card-body\">\n" +
+"                <h5 class=\"card-title\">ERROR</h5>" + 
+                mensaje + 
+                boton + 
+                "</div>\n" +
+"            </CENTER>\n" +
+"         </div>\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>\n";
+        return retorn;
+    }
+    
+    private String red() {
+        String redireccio = context.getBaseUri().toString();
+        String curt = redireccio.substring(0, redireccio.length() - 1);
+        int tallar = curt.lastIndexOf("/");
+        return redireccio = curt.substring(0, tallar);
+    }
+
     
 }
