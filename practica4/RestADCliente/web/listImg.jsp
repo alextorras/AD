@@ -7,7 +7,6 @@
 <%@page import="java.util.Base64"%>
 <%@page import="java.io.FileNotFoundException"%>
 <%@page import="java.nio.file.Files"%>
-<%@page import="basedatos.callsSQL2"%>
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.io.File"%>
@@ -15,16 +14,7 @@
 <%@page import="java.util.Iterator"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% 
-    callsSQL2 db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-    String user = null;
-    if(session.getAttribute("user") == null){
-                response.sendRedirect("login.jsp");
-    } else user = (String) session.getAttribute("user");
-    
-    
-    
-%>
+
 <!DOCTYPE html>
 <html>
     <head>
