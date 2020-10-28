@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import modelo.Image;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 
@@ -46,7 +48,7 @@ public class GenericResource {
     private UriInfo context;
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     private String usuario_sesion;
-    private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
+    private final String path = "D:\\Documentos\\NetBeansProjects\\practica4\\RestAD\\web\\imagenes";
     HttpSession s;
     String tit;
 
@@ -238,7 +240,43 @@ public class GenericResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String listImages () {
-        return null;
+        String retorno = "<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>JSP Page</title>\n" +
+"    </head>\n" +
+"    <body>    \n" +
+"        <div>\n" +
+"            <CENTER>\n" +
+"            <h1 class=\"alert alert-primary\">Listado imagenes</h1>\n" +
+"            </CENTER>\n" +
+"            <input type=\"BUTTON\" style=\"float: right\" value=\"Menú\" class=\"btn btn-info\" onclick=\"history.go(-1)\">";
+        try {
+            
+            Iterator<Image> it = db.listarImagenes().iterator();
+            while(it.hasNext()) {
+                Image imagen = (Image) it.next();
+                retorno += "<div>          \n" +
+"        </div>\n" +
+"        <div>\n" +
+"            <ul>\n" +
+"            <img src=\"http://localhost:8080/RestAD/webresources/imagenes/" +  imagen.getFilename() + "\" width=\"200\" height=\"200\">\n" +
+"            <li>Titol:" + imagen.getTitol() + " </li>\n" +
+"            <li>Data creacio:" +  imagen.getDatac()+ " </li>\n" +
+"            <li>Descripcio:" + imagen.getDescripcio() + "</li>\n" +
+"            <li>Autor: " + imagen.getAutor() + "</li>\n" +
+"            <li>Keywords:" + imagen.getKeywords() + "</li>\n" +
+"            <li>Id: " + imagen.getId() + "</li>\n" +
+"            \n" +
+"          </ul>";
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return retorno;
     }
     
     /**
