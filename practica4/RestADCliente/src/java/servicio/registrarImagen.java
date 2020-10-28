@@ -55,7 +55,7 @@ public class registrarImagen extends HttpServlet {
         final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
         
         String usuari = (String) s.getAttribute("user");
-        Cliente c = new Cliente();
+
         
         try {
             if(usuari.equals(null)) {
@@ -104,8 +104,7 @@ public class registrarImagen extends HttpServlet {
             String rest = null;
             int auxiliar = registerImage(i);
             if (auxiliar == 1) {
-                //response.sendRedirect(request.getContextPath() + "/" c.);
-                rest = c.registerImage();
+                response.sendRedirect(request.getContextPath() + "/menu.jsp");
             }
             else {
                 s.setAttribute("codigo", "10");

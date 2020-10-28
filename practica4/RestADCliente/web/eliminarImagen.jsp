@@ -8,14 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<%
-        String user = null;
-        if(session.getAttribute("user") == null){
-                response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("user");
-        String id_foto = request.getParameter("id");
-        session.setAttribute("valor", id_foto);
-    %>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -26,12 +19,13 @@
         <CENTER>
         <h1 class="alter alert-primary">Eliminar Imagen</h1>
         <br>
-        <text class="alert alert-warning">Estas seguro que quieres eliminar la imagen <%=request.getParameter("filename")%>?</text>
-        <form action="eliminarImagen" method="POST" enctype="multipart/form-data">
-        <br>
-            <input type="hidden" name="valor" value="<%=id_foto%>">
-            <input type="submit" name="boto_si" class="btn btn-primary" value="Si">
-            <input type="button" name="boto_no" value="No" class="btn btn-secondary" onclick="window.location.href='listImg.jsp'">
+        <text class="alert alert-warning">Inserte el ID de la imagen</text>
+        <form action="webresources/generic/delete" method="POST" enctype="multipart/form-data">
+            <br>
+            <input type="text" name="eliminar" placeholder="ID">
+            <br>
+            <input style="margin-top: 10px" type="submit" name="boto_si" class="btn btn-primary" value="Si">
+            <input style="margin-top: 10px" type="button" name="boto_no" value="No" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
         </form>
     </CENTER>   
     </body>
