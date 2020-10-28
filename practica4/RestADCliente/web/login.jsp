@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%String path = "http://localhost:8080/RestAD/";%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,18 +17,16 @@
     <body>
         <CENTER>
         <h1 class="alert alert-primary">Login</h1>
-        <br>    
-        <form action="login" method="POST">
+        <br>
+        <form action="<%=path%>webresources/generic/login" method="POST">
             <input type="text" placeholder="Usuario" name="usuario" required>
             <br>
             <br>
             <input type="password" placeholder="Contraseña" name="password" required>
             <br>
-            <br>
             <input type="submit" class="btn btn-primary" value="Enviar">
             <button class="btn btn-secondary" onclick="window.location.href='registrarUsuario.jsp'">Registrar</button>            
         </form>
-        
     </CENTER>
     </body>
 </html>

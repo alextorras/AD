@@ -8,10 +8,9 @@
 
 <!DOCTYPE html>
 <%
-    String user = null;
-    if(session.getAttribute("user") == null) {
-        response.sendRedirect("login.jsp");
-    } else user = (String) session.getAttribute("user");
+
+    
+    final String path = "http://localhost:8080/RestAD/";
     %>
 <html>
     <head>
@@ -22,14 +21,22 @@
     <body>
     <CENTER>
         <h1 class="alert alert-primary">Registrar Imagen</h1>
-        <form action="registrarImagen" method="POST" enctype="multipart/form-data">      
-            <input style="margin-top: 10px;" type="file" id="imatge" name="file" required autofocus> <br>
-            <input style="margin-top: 10px;"type="text" name="titol" placeholder="Titulo" required><br>
-            <input style="margin-top: 10px;" type="text" name="descripcio" placeholder="Descripción" required><br>
-            <input style="margin-top: 10px;" type="text" name="keywords" placeholder="Keywords" required><br>
-            <input style="margin-top: 10px;" type="text" name="autor" value=${user} required readonly="readonly"><br>
-            <input style="margin-top: 10px;" type="text" name="datacreation" placeholder="aaaa/mm/dd" required><br>
-            <button style="margin-top: 10px;" class="btn btn-primary" type="submit">Submit</button>
+        <form action="<%=path%>webresources/generic/register"  method="POST" enctype="multipart/form-data">      
+            <input style="margin-top: 10px;" type="file" id="imatge" name="file" required autofocus>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="filename" placeholder="Insertar nombre Imagen" required autofocus>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="title" placeholder="Titulo" required autofocus>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="description" placeholder="Descripción" required>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="keywords" placeholder="Keywords" required>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="author" placeholder="Autor" required>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="creation" placeholder="aaaa/mm/dd" required> 
+            <br>
+            <button style="margin-top: 10px;" class="btn btn-primary" type="submit" onclcik="history.go(-1)">Submit</button>
             <input style="margin-top: 10px;" type="BUTTON" value="Menú" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
         </form>        
     </CENTER>

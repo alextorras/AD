@@ -37,7 +37,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 /**
  * REST Web Service
  *
- * @author admin
+ * @author Dani
  */
 @Path("generic")
 public class GenericResource {
@@ -305,23 +305,12 @@ public class GenericResource {
 "    <head>\n" +
 "        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
 "        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
-"        <title>Menú</title>\n" +
+"        <title>Login correcto</title>\n" +
 "    </head>\n" +
 "    <body>\n" +
 "        <CENTER>\n" +
-"        <h1 class=\"alert alert-primary\">Menú</h1>\n" +
-"        <form>\n" +
-"        <br>\n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Registrar Imagen\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/registrarImagen.jsp'\">\n" +
-"        <br>\n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Listar Imagenes\" class=\"btn btn-secondary\" onclick=\"window.location.href='" + red() + "/listImg.jsp'\">\n" +
-"        <br>\n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Buscar Imagen\" class=\"btn btn-dark\" onclick=\"window.location.href='" + red() + "/buscarImagen.jsp'\">\n" +
-"        <br>\n" +
-"        <br>        \n" +
-"        <input type=\"BUTTON\" style=\"margin-top: 10px\" value=\"Logout\" class=\"btn btn-info\" onclick=\"window.location.href='" + red() + "/logout.jsp'\">\n" +
-"        <br>\n" +
-"        </form>\n" +
+"        <h1 class=\"alert alert-primary\">Login correcto</h1>\n"
+                + "<input type=\"button\" value=\"Pagina anterior\" onClick=\"history.go(-1);\">" +        
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>\n";

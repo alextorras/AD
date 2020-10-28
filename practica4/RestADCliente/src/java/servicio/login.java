@@ -50,42 +50,12 @@ public class login extends HttpServlet {
         HttpSession s = request.getSession();
         PrintWriter out = null;
         try {
-            out = response.getWriter();
-            //database = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet login</title>");        
-            out.println("</head>");
-            out.println("<body>");
-
-            String user = (String) request.getParameter("usuario");
-            String password = (String) request.getParameter("password");
-            if(user.equals(null) || password.equals(null)) {
-                s.setAttribute("codigo", "13");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            }
-            boolean comprova = iniSession(user, password);
-
-            s.setAttribute("user", user);
-                      
-            if(!comprova) {
-                s.setAttribute("codigo", "4");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            }
-            else {
-                response.sendRedirect(request.getContextPath() + "/menu.jsp");
-            }     
-            
-        } catch(IOException e) {
-            try {
-                s.setAttribute("codigo", "5");
-                response.sendRedirect(request.getContextPath() + "/error.jsp");
-            } catch (IOException ex) {
-                out.println("<html>No se ha redireccionado correctamente</html>");
-            }
-            
+            String usuario = request.getParameter("usuario");
+            String password = request.getParameter("password");
+            s.setAttribute("user", usuario);
+            response.sendRedirect("http://localhost:8080/RestAD/webresources/generic/login");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
