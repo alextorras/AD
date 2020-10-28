@@ -8,7 +8,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-
+<%
+    final String path = "http://localhost:8080/RestAD/";
+    %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -20,9 +22,9 @@
         <h1 class="alter alert-primary">Eliminar Imagen</h1>
         <br>
         <text class="alert alert-warning">Inserte el ID de la imagen</text>
-        <form action="webresources/generic/delete" method="POST" enctype="multipart/form-data">
+        <form action="<%=path%>webresources/generic/delete" method="POST" enctype="multipart/form-data">
             <br>
-            <input type="text" name="eliminar" placeholder="ID">
+            <input type="text" name="id" placeholder="ID">
             <br>
             <input style="margin-top: 10px" type="submit" name="boto_si" class="btn btn-primary" value="Si">
             <input style="margin-top: 10px" type="button" name="boto_no" value="No" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
