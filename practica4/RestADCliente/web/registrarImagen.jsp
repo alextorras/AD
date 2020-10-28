@@ -8,8 +8,6 @@
 
 <!DOCTYPE html>
 <%
-
-    
     final String path = "http://localhost:8080/RestAD/";
     %>
 <html>
@@ -36,7 +34,7 @@
             <br>
             <input style="margin-top: 10px;" type="text" name="creation" placeholder="aaaa/mm/dd" required> 
             <br>
-            <button style="margin-top: 10px;" class="btn btn-primary" type="submit" onclcik="history.go(-1)">Submit</button>
+            <button style="margin-top: 10px;" class="btn btn-primary" type="submit">Submit</button>
             <input style="margin-top: 10px;" type="BUTTON" value="Menú" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
         </form>        
     </CENTER>

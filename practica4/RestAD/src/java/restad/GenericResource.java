@@ -207,9 +207,9 @@ public class GenericResource {
     */
     @Path("delete")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_HTML)
-    public String deleteImage (@FormParam("id") String id) {
+    public String deleteImage (@FormDataParam("id") String id) {
         
         int num = Integer.parseInt(id);
         if(num == -1) return "Error";
@@ -331,7 +331,7 @@ public class GenericResource {
 "        <br>\n" +
 "        <h1 class=\"alert alert-success\">La imagen se ha registrado correctamente</h1>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/menu.jsp'\">\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-2)>\n" +
 "        <br>\n" +
 "        <br>\n" +
 "        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"window.location.href='" + red() + "/logout.jsp'\">\n" +
@@ -353,7 +353,7 @@ public class GenericResource {
 "        <br>\n" +
 "        <h1 class=\"alert alert-success\"> La imagen se ha eliminado correctamente </h1>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='menu.jsp'\">\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-2)>\n" +
 "        <br>\n" +
 "        <br>\n" +
 "        <input type=\"BUTTON\" value=\"Cerrar la sesión\" class=\"btn btn-secondary\" onclick=\"window.location.href='logout.jsp'\">\n" +
