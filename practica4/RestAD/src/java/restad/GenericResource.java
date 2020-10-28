@@ -155,7 +155,7 @@ public class GenericResource {
         try {
         entra = db.login(user, password);
         if(!entra) {
-            redireccio = error("1");
+            redireccio = error("4");
         }
         else {
             redireccio = red_login_be();
@@ -334,7 +334,6 @@ public class GenericResource {
 "        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-2)>\n" +
 "        <br>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"window.location.href='" + red() + "/logout.jsp'\">\n" +
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>";
@@ -356,7 +355,6 @@ public class GenericResource {
 "        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-2)>\n" +
 "        <br>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Cerrar la sesión\" class=\"btn btn-secondary\" onclick=\"window.location.href='logout.jsp'\">\n" +
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>";
@@ -380,50 +378,50 @@ public class GenericResource {
                 break;
             case 3:
                 mensaje = "<p class=\"card-text\">No hay resultados</p>";
-                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<a href=\"history.go(-2) class=\"btn btn-primary\">Back</a>";
                 break;
             case 4:
                 mensaje = "<p class=\"card-text\">Usuario o contraseña incorrectos</p>";
-                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 5:
                 mensaje = "<p class=\"card-text\">Error en el IO</p>";
-                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 6:
                 mensaje = "<p class=\"card-text\">No se ha encontrado el fichero</p>";
-                boton = "<a href=\"" + red() +"/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 7:
                 mensaje = "<p class=\"card-text\">Error del Servlet</p>";
-                boton = "<a href=\"" + red() + "menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 8:
                 mensaje = "<p class=\"card-text\">ID de la imagen NULL</p>";
-                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 9:
                 mensaje = "<p class=\"card-text\">No se ha eliminado la base de datos.</p>";
-                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 10:
                 mensaje = "<p class=\"card-text\">Ha fallado el registro de Imagen</p>";
-                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 11:
                 mensaje = "<p class=\"card-text\">El usuario ya existe</p>";
-                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             case 12:
                 mensaje = "<p class=\"card-text\">Formato de la imagen incorrecto</p>";
-                boton = "<a href=\"" + red() + "/menu.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
             case 13:
                 mensaje = "<p class=\"card-text\">Parametros nulos</p>";
-                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
             default:
                 mensaje = "<p class=\"card-text\">Error incalsificable</p>";
-                boton = "<a href=\"" + red() + "/login.jsp\" class=\"btn btn-primary\">Back</a>";
+                boton = "<input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-1)>\n";
                 break;
         }
         String retorn = 
@@ -441,10 +439,10 @@ public class GenericResource {
 "            <div class=\"card-body\">\n" +
 "                <h5 class=\"card-title\">ERROR</h5>" + 
                 mensaje + 
-                boton + 
                 "</div>\n" +
 "            </CENTER>\n" +
 "         </div>\n" +
+                boton +
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>\n";
