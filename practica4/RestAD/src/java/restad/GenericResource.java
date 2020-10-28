@@ -190,14 +190,21 @@ public class GenericResource {
     */
     @Path("modify")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_HTML)
-    public String modifyImage (@FormParam("id") String id, @FormParam("title") String title,
-        @FormParam("description") String description,
-        @FormParam("keywords") String keywords,
-        @FormParam("author") String author,
-        @FormParam("creation") String crea_date) {
-        return null;
+    public String modifyImage (@FormDataParam("id") String id, @FormDataParam("title") String title,
+        @FormDataParam("description") String description,
+        @FormDataParam("keywords") String keywords,
+        @FormDataParam("author") String author,
+        @FormDataParam("creation") String crea_date) {
+        
+        try {
+            db.updateImage(title, description, keywords, author, crea_date, Integer.parseInt(id));
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return red_modImg_be();
     }
     
     /**
@@ -300,7 +307,6 @@ public class GenericResource {
         }
         return retorno;
     }
-    
     /**
     * GET method to search images by id
     * @param id
@@ -377,6 +383,30 @@ public class GenericResource {
         return a;
     }
     
+        private String red_modImg_be() {
+        String a = 
+"<!DOCTYPE html>\n" +
+"<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>JSP Page</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"    <CENTER>\n" +
+"        <br>\n" +
+"        <h1 class=\"alert alert-success\">La imagen se ha modificado correctamente</h1>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/menu.jsp'\">\n" +
+"        <br>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"history.go(-1);\">\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>";
+        return a;
+        }
+        
     private String red_regImg_be() {
         String a = 
 "<!DOCTYPE html>\n" +
