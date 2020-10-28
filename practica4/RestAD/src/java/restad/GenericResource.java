@@ -6,12 +6,18 @@
 package restad;
 
 import basedatos.callsSQL;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -25,6 +31,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 
 /**
  * REST Web Service
@@ -39,6 +47,7 @@ public class GenericResource {
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     private String usuario_sesion;
     private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
+    HttpSession s;
 
     /**
      * Creates a new instance of GenericResource
@@ -67,46 +76,68 @@ public class GenericResource {
     @Consumes(MediaType.TEXT_HTML)
     public void putHtml(String content) {
     }
+   
+
     
-    /**
-    * POST method to register a new image
-    * @param title
-    * @param description
-    * @param keywords
-    * @param author
-    * @param crea_date
-    * @param fileName
-    * @return
-    */
-    @Path("register")
+    /**POST method to register upload a new image
+     * @param uploadInputStream
+     * @param filename
+     * @param title
+     * @param description
+     * @param keywords
+     * @param author
+     * @param crea_date
+     * @return
+     * 
+     */
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("register")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_HTML)
-    public String registerImage (@FormParam("title") String title,
-        @FormParam("description") String description,
-        @FormParam("keywords") String keywords,
-        @FormParam("author") String author,
-        @FormParam("creation") String crea_date,
-        @FormParam("file") String fn) {
+    public String registerImage(@FormDataParam("file") InputStream uploadInputStream,
+            @FormDataParam("filename") String filename, 
+            @FormParam("title") String title,
+            @FormParam("description") String description,
+            @FormParam("keywords") String keywords,
+            @FormParam("author") String author,
+            @FormParam("creation") String crea_date) {
+        
+        System.out.println(filename);        
+        InputStream in = uploadInputStream;
+        File f = new File(path + File.separator + filename);
+        OutputStream ous = null;
+        
         String t = title;
         String ds = description;
         String key = keywords;
         String aut = author;
         String dc = crea_date;
-        String nom = fn;
-        int id = 0;
-        boolean registrat = false;        
-        
-
+                
+        int read = 0;
+        byte[] aux = new byte[1024];
+        byte[] contingut = new byte[1024];
+        ByteArrayOutputStream buffer = null;
+        boolean registrat = false;
         try {
-            id = db.getID();
-            registrat = db.newImage(id, t, ds, key, aut, dc, nom);
-        } catch (SQLException e) {
+            buffer = new ByteArrayOutputStream();
+            while ((read = in.read(aux)) != -1) {
+                buffer.write(aux, 0, read);
+            }
+            contingut = buffer.toByteArray();
+            ous = new FileOutputStream(f);
+            ous.write(contingut);
+            ous.close();
+            int id = db.getID();
+            registrat = db.newImage(id, title, description, keywords, author, dc, filename);
+        } catch(IOException e) {
             e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println(e.getCause());
         }
-        if(registrat) return red_regImg_be();
-        else return "<html>No</html>";       
+        
+        return red_regImg_be();
     }
+    
     
          /**
     * POST method to modify an existing image
@@ -178,7 +209,17 @@ public class GenericResource {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public String deleteImage (@FormParam("id") String id) {
-        return null;
+        
+        int num = Integer.parseInt(id);
+        if(num == -1) return "Error";
+        boolean eliminat = false;
+        try {
+            eliminat = db.eliminar_imagen(num);
+        } catch(SQLException e) {
+            System.out.println(e.getCause());
+        }
+        return red_elim_be();
+        
     }
     
     /**
@@ -302,5 +343,28 @@ public class GenericResource {
 "</html>";
         return a;
     }
+    
+    private String red_elim_be() {
+        return "<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>Imagen eliminada</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"    <CENTER>\n" +
+"        <br>\n" +
+"        <h1 class=\"alert alert-success\"> La imagen se ha eliminado correctamente </h1>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='menu.jsp'\">\n" +
+"        <br>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Cerrar la sesión\" class=\"btn btn-secondary\" onclick=\"window.location.href='logout.jsp'\">\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>"
+    }
+    
+
     
 }
