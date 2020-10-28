@@ -8,12 +8,14 @@ package restad;
 import basedatos.callsSQL;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,7 +50,7 @@ public class GenericResource {
     private UriInfo context;
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     private String usuario_sesion;
-    private final String path = "D:\\Documentos\\NetBeansProjects\\practica4\\RestAD\\web\\imagenes";
+    private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
     HttpSession s;
     String tit;
 
@@ -255,13 +257,31 @@ public class GenericResource {
         try {
             
             Iterator<Image> it = db.listarImagenes().iterator();
+            InputStream filecontent = null;
+            ByteArrayOutputStream buffer = null;
+            byte[] envio = new byte[1024];
+            File f = null;
             while(it.hasNext()) {
                 Image imagen = (Image) it.next();
+                String nom_aux = imagen.getFilename();
+                f = new File(path + File.separator + nom_aux);
+                filecontent = new FileInputStream(f);
+                int read = 0;
+                byte[] aux = new byte[1024];
+                buffer = new ByteArrayOutputStream();
+                while ((read = filecontent.read(aux)) != -1) {
+                    buffer.write(aux, 0, read);
+                }
+                filecontent.close();
+                envio = buffer.toByteArray();
+                byte[] encodedBase64 = Base64.getEncoder().encode(envio);
+                String encoded = new String(encodedBase64, "UTF-8");
+                encoded = "data:image/png;base64," + encoded;
                 retorno += "<div>          \n" +
 "        </div>\n" +
 "        <div>\n" +
 "            <ul>\n" +
-"            <img src=\"http://localhost:8080/RestAD/webresources/imagenes/" +  imagen.getFilename() + "\" width=\"200\" height=\"200\">\n" +
+"            <img id=\"imatge reg\" src=\"" + encoded + "\" width=\"200\" height=\"200\">" +
 "            <li>Titol:" + imagen.getTitol() + " </li>\n" +
 "            <li>Data creacio:" +  imagen.getDatac()+ " </li>\n" +
 "            <li>Descripcio:" + imagen.getDescripcio() + "</li>\n" +
@@ -274,6 +294,8 @@ public class GenericResource {
                 
             }
         } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retorno;
