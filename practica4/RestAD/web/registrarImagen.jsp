@@ -22,8 +22,10 @@
     <body>
     <CENTER>
         <h1 class="alert alert-primary">Registrar Imagen</h1>
-        <form action="webresources\generic\register" method="POST">      
+        <form action="webresources\generic\upload" method="POST" enctype="multipart/form-data">      
             <input style="margin-top: 10px;" type="file" id="imatge" name="file" required autofocus>
+            <br>
+            <input style="margin-top: 10px;" type="text" name="filename" placeholder="Insertar nombre Imagen" required autofocus>
             <br>
             <input style="margin-top: 10px;"type="text" name="title" placeholder="Titulo" required>
             <br>
@@ -33,10 +35,11 @@
             <br>
             <input style="margin-top: 10px;" type="text" name="author" placeholder="Autor" required>
             <br>
-            <input style="margin-top: 10px;" type="text" name="creation" placeholder="aaaa/mm/dd" required><br>
+            <input style="margin-top: 10px;" type="text" name="creation" placeholder="aaaa/mm/dd" required>
+            <br>
             <button style="margin-top: 10px;" class="btn btn-primary" type="submit">Submit</button>
             <input style="margin-top: 10px;" type="BUTTON" value="Menú" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">
-        </form>        
+        </form>
     </CENTER>
     </body>
 </html>
