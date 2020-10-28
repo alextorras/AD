@@ -8,12 +8,14 @@ package restad;
 import basedatos.callsSQL;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -188,14 +190,21 @@ public class GenericResource {
     */
     @Path("modify")
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_HTML)
-    public String modifyImage (@FormParam("id") String id, @FormParam("title") String title,
-        @FormParam("description") String description,
-        @FormParam("keywords") String keywords,
-        @FormParam("author") String author,
-        @FormParam("creation") String crea_date) {
-        return null;
+    public String modifyImage (@FormDataParam("id") String id, @FormDataParam("title") String title,
+        @FormDataParam("description") String description,
+        @FormDataParam("keywords") String keywords,
+        @FormDataParam("author") String author,
+        @FormDataParam("creation") String crea_date) {
+        
+        try {
+            db.updateImage(title, description, keywords, author, crea_date, Integer.parseInt(id));
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return red_modImg_be();
     }
     
     /**
@@ -255,13 +264,31 @@ public class GenericResource {
         try {
             
             Iterator<Image> it = db.listarImagenes().iterator();
+            InputStream filecontent = null;
+            ByteArrayOutputStream buffer = null;
+            byte[] envio = new byte[1024];
+            File f = null;
             while(it.hasNext()) {
                 Image imagen = (Image) it.next();
+                String nom_aux = imagen.getFilename();
+                f = new File(path + File.separator + nom_aux);
+                filecontent = new FileInputStream(f);
+                int read = 0;
+                byte[] aux = new byte[1024];
+                buffer = new ByteArrayOutputStream();
+                while ((read = filecontent.read(aux)) != -1) {
+                    buffer.write(aux, 0, read);
+                }
+                filecontent.close();
+                envio = buffer.toByteArray();
+                byte[] encodedBase64 = Base64.getEncoder().encode(envio);
+                String encoded = new String(encodedBase64, "UTF-8");
+                encoded = "data:image/png;base64," + encoded;
                 retorno += "<div>          \n" +
 "        </div>\n" +
 "        <div>\n" +
 "            <ul>\n" +
-"            <img src=\"http://localhost:8080/RestAD/webresources/imagenes/" +  imagen.getFilename() + "\" width=\"200\" height=\"200\">\n" +
+"            <img id=\"imatge reg\" src=\"" + encoded + "\" width=\"200\" height=\"200\">" +
 "            <li>Titol:" + imagen.getTitol() + " </li>\n" +
 "            <li>Data creacio:" +  imagen.getDatac()+ " </li>\n" +
 "            <li>Descripcio:" + imagen.getDescripcio() + "</li>\n" +
@@ -275,10 +302,11 @@ public class GenericResource {
             }
         } catch (SQLException ex) {
             Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
         }
         return retorno;
     }
-    
     /**
     * GET method to search images by id
     * @param id
@@ -355,6 +383,30 @@ public class GenericResource {
         return a;
     }
     
+        private String red_modImg_be() {
+        String a = 
+"<!DOCTYPE html>\n" +
+"<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>JSP Page</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"    <CENTER>\n" +
+"        <br>\n" +
+"        <h1 class=\"alert alert-success\">La imagen se ha modificado correctamente</h1>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/menu.jsp'\">\n" +
+"        <br>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"history.go(-1);\">\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>";
+        return a;
+        }
+        
     private String red_regImg_be() {
         String a = 
 "<!DOCTYPE html>\n" +
