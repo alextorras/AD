@@ -141,7 +141,7 @@ public class callsSQL {
                     + " OR (storage_date like '%'||?||'%')"
                     + " OR (filename like '%'||?||'%')";
 
-           statement = cn.prepareStatement(consulta);
+            statement = cn.prepareStatement(consulta);
             statement.setString(1,titol);
             statement.setString(2, descripcio);
             statement.setString(3,keywords);
@@ -150,6 +150,7 @@ public class callsSQL {
             statement.setString(6,datas);
             statement.setString(7,filename);
             rs = statement.executeQuery();
+            
             while (rs.next()) {
                 Image biler = new Image();
                 biler.setId(rs.getInt("id"));

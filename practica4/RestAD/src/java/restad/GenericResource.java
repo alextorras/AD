@@ -50,7 +50,7 @@ public class GenericResource {
     private UriInfo context;
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     private String usuario_sesion;
-    private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
+    private final String path = "D:\\Documentos\\NetBeansProjects\\practica4\\RestAD\\web\\imagenes";
     HttpSession s;
     String tit;
 
@@ -628,25 +628,24 @@ public class GenericResource {
 
     /**
      * POST method to search images by keyword
-     * @param title
-     * @param description
+     * @param titol
+     * @param descripcio
      * @param keywords
-     * @param author
-     * @param crea_date
-     * @param sub_date
+     * @param autor
+     * @param datac
+     * @param datas
      * @param filename
      * 
      * @return
      */
-    @Path("MultiSearch}")
+    @Path("MultiSearch")
     @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.TEXT_HTML)
-    public String MultiSearch(@FormParam("titol") String titol, @FormParam("descripcio") String descripcio, @FormParam("keywords") String keywords, @FormParam("autor") String autor, @FormParam("datacreation") String datac, @FormParam("dataSubida") String datas, @FormParam("filename") String filename) {
+    public String MultiSearch(@FormDataParam("titol") String titol, @FormDataParam("descripcio") String descripcio, @FormDataParam("keywords") String keywords, @FormDataParam("autor") String autor, @FormDataParam("datacreation") String datac, @FormDataParam("dataSubida") String datas, @FormDataParam("filename") String filename) {
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
         List<Image> resultados = null;
-        String a = null;
-        String b = null;
-        String c = null;
+        String a = null;        
         try {
             resultados = db.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
             if (resultados != null) {
@@ -657,8 +656,8 @@ public class GenericResource {
                         + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
                         + "</head>\n"
                         + "<body>\n"
-                        + "<H1>Resultado de la búsqueda</H1></br>\n"
-                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<H1>Resultado de la busqueda</H1></br>\n"
+                        + "<td><a style=\"float: right\" class=\"btn btn-primary btn-lg active\" onClick=\"history.go(-2);\" role=\"button\" aria-pressed=\"true\">Menu</a>\n" + "</td>\n"
                         + "<table>\n"
                         + "<thead>\n"
                         + "<tr>\n"
@@ -674,16 +673,16 @@ public class GenericResource {
                         + "</thead>\n"
                         + "<tbody>\n";
                 for (Image i : resultados) {
-                    b = "<tr>\n"
+                    a += "<tr>\n"
                             + PrintImageData(i)
                             + "</tr>\n";
                 }
-                c = "</tbody>\n"
+                a += "</tbody>\n"
                         + "</table>\n"
                         + "</body>\n"
                         + "</html>\n";
-                a.concat(b);
-                a.concat(c);
+                
+                
             } else {
                 a = error("3");
             }
