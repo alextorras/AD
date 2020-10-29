@@ -25,6 +25,7 @@
             <input type="password" placeholder="Contraseña" name="password" required>
             <br>
             <input style="margin-top: 10px" type="submit" class="btn btn-primary" value="Enviar">
+            <button style="margin-top: 10px" class="btn btn-secondary" onclick="window.location.href='registrarUsuario.jsp'">Registrar</button>
         </form>
     </CENTER>
     </body>

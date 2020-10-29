@@ -6,6 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%String path = "http://localhost:8080/RestAD/"; %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,7 +19,7 @@
         <br>
         <text class="alert alert-warning" style="margin-top: 10px;">Introduce los valores para registrarte</text>
         <br>
-        <form action="registrarUsuario" method="POST">
+        <form action="<%=path%>webresources/generic/registrarUsuario" method="POST">
             <br>
             <input style="margin-top: 10px;" type="text" placeholder="Usuario" name="newUser" required>
             <br>
