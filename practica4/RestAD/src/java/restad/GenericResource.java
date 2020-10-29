@@ -17,6 +17,7 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
@@ -50,7 +51,7 @@ public class GenericResource {
     private UriInfo context;
     private callsSQL db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     private String usuario_sesion;
-    private final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica4\\RestAD\\web\\imagenes";
+    private final String path = "D:\\Documentos\\NetBeansProjects\\git\\AD\\practica4\\RestAD\\web\\imagenes";
     HttpSession s;
     String tit;
 
@@ -347,6 +348,88 @@ public class GenericResource {
         }
         return retorno;
     }
+
+     /**
+     * POST method to search images by keyword
+     * @param titol
+     * @param descripcio
+     * @param keywords
+     * @param autor
+     * @param datac
+     * @param datas
+     * @param filename
+     * 
+     * @return
+     */
+    @Path("MultiSearch")
+    @POST
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.TEXT_HTML)
+    public String MultiSearch(@FormDataParam("titol") String titol, @FormDataParam("descripcio") String descripcio, @FormDataParam("keywords") String keywords, @FormDataParam("autor") String autor, @FormDataParam("datacreation") String datac, @FormDataParam("dataSubida") String datas, @FormDataParam("filename") String filename) {
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        List<Image> resultados = null;
+        String a = null;        
+        try {
+            resultados = db.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la busqueda</H1></br>\n"
+                        + "<td><a style=\"float: right\" class=\"btn btn-primary btn-lg active\" onClick=\"history.go(-2);\" role=\"button\" aria-pressed=\"true\">Menu</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                for (Image i : resultados) {
+                    a += "<tr>\n"
+                            + PrintImageData(i)
+                            + "</tr>\n";
+                }
+                a += "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                
+                
+            } else {
+                a = error("3");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
+    }
+
+    private String PrintImageData(Image im) {
+        String a
+                = "<th scope=\"row\" value=\"" + im.getId() + "\"> " + im.getId() + " </th>\n"
+                + "<td name=\"titol\" value=\"" + im.getTitol() + "\">" + im.getTitol() + "</td>\n"
+                + "<td name=\"descripcio\" value=\"" + im.getDescripcio() + "\"> " + im.getDescripcio() + " </td>\n"
+                + "<td name=\"keywords\" value=\"" + im.getKeywords() + "\">" + im.getKeywords() + "</td>\n"
+                + "<td name=\"autor\" value=\"" + im.getAutor() + "\">" + im.getAutor() + "</td>\n"
+                + "<td name=\"datac\" value=\"" + im.getDatac() + "\"> " + im.getDatac() + "</td>\n"
+                + "<td name=\"datas\" value=\"" + im.getDatas() + "\"> " + im.getDatas() + "</td>\n"
+                + "<td name=\"nom\" value=\"" + im.getFilename() + "\"> " + im.getFilename() + "</td>\n";
+        return a;
+    }
+
     /**
     * GET method to search images by id
     * @param id
@@ -437,10 +520,9 @@ public class GenericResource {
 "        <br>\n" +
 "        <h1 class=\"alert alert-success\">La imagen se ha modificado correctamente</h1>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"window.location.href='" + red() + "/menu.jsp'\">\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=\"history.go(-2);\">\n" +
 "        <br>\n" +
 "        <br>\n" +
-"        <input type=\"BUTTON\" value=\"Cerrar la sessión\" class=\"btn btn-secondary\" onclick=\"history.go(-1);\">\n" +
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>";

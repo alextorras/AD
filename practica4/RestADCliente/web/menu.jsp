@@ -27,9 +27,6 @@
         <br>        
         <input type="BUTTON" style="margin-top: 10px" value="Modificar Imagen" class="btn-dark" onclick="window.location.href='modificarImagen.jsp'">
         <br>
-        <br>
-        <input type="BUTTON" style="margin-top: 10px" value="Logout" class="btn btn-info" onclick="window.location.href='logout.jsp'">
-        <br>
         </form>
     </CENTER>
     </body>
