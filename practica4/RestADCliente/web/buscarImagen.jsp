@@ -4,7 +4,7 @@
     Author     : Alejandro Capella
 --%>
 
-<%@page import="basedatos.callsSQL2"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,14 +15,15 @@
     </head>
     <body>
     <%
-        String user = null;
+        /*String user = null;
         if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("user");        
+        }else user = (String) session.getAttribute("user"); 
+*/
+        final String path = "http://localhost:8080/RestAD/";
     %>  
     
-        <form action="buscarImagen" method="GET">
-
+<form action="<%=path%>webresources/generic/MultiSearch"  method="POST" enctype="multipart/form-data">    
         <div class="container p-5">
             <div class="row">
                 <div class="col-md-4 offset-md-4">
