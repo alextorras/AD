@@ -21,7 +21,7 @@
 */
     %>  
     
-        <form document.getElementById("id").action = "http://localhost:8080/RestAD-L4/webresources/generic/searchID/" + document.getElementById("id").value;" method="GET">
+        <form document.getElementById("$id").action = "http://localhost:8080/RestAD/webresources/generic/searchID/" + document.getElementById("id").value;" method="GET">
 
         <div class="container p-5">
             <div class="row">
@@ -34,7 +34,7 @@
 
                         <div class="form-group">
                             <label for="titol">ID</label>
-                            <input type="text" class="form-control" class ="form-control" id="titol" name="id"  placeholder="Introduce el título">
+                            <input type="text" class="form-control" class ="form-control" id="id" name="id"  placeholder="Introduce el título">
 
                         </div>
                          
