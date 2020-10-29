@@ -15,10 +15,11 @@
     </head>
     <body>
     <%
-        String user = null;
+        /*String user = null;
         if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
-        }else user = (String) session.getAttribute("user");        
+        }else user = (String) session.getAttribute("user"); 
+*/
     %>  
     
         <form action="webresources\generic\MultiSearch" method="POST">

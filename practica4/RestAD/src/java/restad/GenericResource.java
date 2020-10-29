@@ -321,7 +321,57 @@ public class GenericResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String searchByID(@PathParam("id") int id) {
-        return null;
+   db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        Image resultados = null;
+        String a = null;
+        String b = null;
+        String c = null;
+        try {
+            resultados = db.buscarImagenId(id);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la búsqueda</H1></br>\n"
+                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                
+                    b = "<tr>\n"
+                            + PrintImageData(resultados)
+                            + "</tr>\n";
+                
+                c = "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                a.concat(b);
+                a.concat(c);
+            } else {
+                a = error("3");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
     }
 
     /**
@@ -334,7 +384,57 @@ public class GenericResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String searchByTitle(@PathParam("title") String title) {
-        return null;
+   db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        List<Image> resultados = null;
+        String a = null;
+        String b = null;
+        String c = null;
+        try {
+            resultados = db.buscarImagen(title, null, null, null, null, null, null);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la búsqueda</H1></br>\n"
+                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                for (Image i : resultados) {
+                    b = "<tr>\n"
+                            + PrintImageData(i)
+                            + "</tr>\n";
+                }
+                c = "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                a.concat(b);
+                a.concat(c);
+            } else {
+                a = error("3");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
     }
 
     /**
@@ -347,7 +447,57 @@ public class GenericResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String searchByCreationDate(@PathParam("date") String date) {
-        return null;
+   db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        List<Image> resultados = null;
+        String a = null;
+        String b = null;
+        String c = null;
+        try {
+            resultados = db.buscarImagen(null, null, null, null, date, null, null);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la búsqueda</H1></br>\n"
+                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                for (Image i : resultados) {
+                    b = "<tr>\n"
+                            + PrintImageData(i)
+                            + "</tr>\n";
+                }
+                c = "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                a.concat(b);
+                a.concat(c);
+            } else {
+                a = error("3");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
     }
 
     /**
@@ -360,9 +510,58 @@ public class GenericResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String searchByAuthor(@PathParam("author") String author) {
-        return null;
-    }
+   db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        List<Image> resultados = null;
+        String a = null;
+        String b = null;
+        String c = null;
+        try {
+            resultados = db.buscarImagen(null, null, null, author, null, null, null);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la búsqueda</H1></br>\n"
+                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                for (Image i : resultados) {
+                    b = "<tr>\n"
+                            + PrintImageData(i)
+                            + "</tr>\n";
+                }
+                c = "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                a.concat(b);
+                a.concat(c);
+            } else {
+                a = error("3");
+            }
 
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
+    }
     /**
      * GET method to search images by keyword
      *
@@ -373,16 +572,73 @@ public class GenericResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public String searchByKeywords(@PathParam("keywords") String keywords) {
-        return null;
+  db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        List<Image> resultados = null;
+        String a = null;
+        String b = null;
+        String c = null;
+        
+        try {
+            resultados = db.buscarImagen(null, null, keywords, null, null, null, null);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la búsqueda</H1></br>\n"
+                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                for (Image i : resultados) {
+                    b = "<tr>\n"
+                            + PrintImageData(i)
+                            + "</tr>\n";
+                }
+                c = "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                a.concat(b);
+                a.concat(c);
+            } else {
+                a = error("3");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
     }
 
     /**
-     * GET method to search images by keyword
-     *
+     * POST method to search images by keyword
+     * @param title
+     * @param description
      * @param keywords
+     * @param author
+     * @param crea_date
+     * @param sub_date
+     * @param filename
+     * 
      * @return
      */
-    @Path("MultiSearch/{keywords}")
+    @Path("MultiSearch}")
     @POST
     @Produces(MediaType.TEXT_HTML)
     public String MultiSearch(@FormParam("titol") String titol, @FormParam("descripcio") String descripcio, @FormParam("keywords") String keywords, @FormParam("autor") String autor, @FormParam("datacreation") String datac, @FormParam("dataSubida") String datas, @FormParam("filename") String filename) {

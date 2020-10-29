@@ -94,6 +94,36 @@ public class callsSQL {
         }
         return aux;
     }
+    public Image buscarImagenId(int id) throws SQLException {
+        
+        
+        ResultSet rs = null;
+        PreparedStatement statement = null;
+         Image biler = new Image();
+        //try {
+            boolean ok;
+            String consulta = "SELECT * from IMAGE where id = ?";
+
+           statement = cn.prepareStatement(consulta);
+            statement.setInt(1,id);
+            
+            rs = statement.executeQuery();
+            if (rs.next()) {
+               
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                
+                //
+            }
+            return biler;
+        }
+
     
     public List<Image> buscarImagen(String titol, String descripcio, String keywords, String autor, String datac, String datas, String filename) throws SQLException {
         List<Image> bilers;
