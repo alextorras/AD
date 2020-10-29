@@ -179,6 +179,46 @@ public class GenericResource {
     }
     
     
+    /**POST method to register new User
+     * @param user
+     * @param password
+     * @return
+     */
+    @Path("registrarUsuario")
+    @POST
+    @Produces(MediaType.TEXT_HTML)
+    public String registerUser(@FormParam("newUser") String user, @FormParam("newPassword") String password) {
+        String u = user;
+        String p = password;
+        boolean existeix = false;
+        boolean registrat = false;
+        String retorn = null;
+        
+        try {
+            existeix = db.existeix(u);
+            if(!existeix) {
+                registrat = db.newUser(u, p);
+            }
+            else {
+                retorn = error("11");
+            }
+            
+        } catch (SQLException e) {
+            retorn = error("1");
+        } finally {
+            try {
+                db.cerrarConexion();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if(registrat) {
+            retorn = red_reg_be();
+        }
+        return retorn;        
+    }
+    
+    
     /**
     * POST method to modify an existing image
     * @param title
@@ -383,7 +423,7 @@ public class GenericResource {
         return a;
     }
     
-        private String red_modImg_be() {
+    private String red_modImg_be() {
         String a = 
 "<!DOCTYPE html>\n" +
 "<html>\n" +
@@ -448,6 +488,28 @@ public class GenericResource {
 "    </CENTER>\n" +
 "    </body>\n" +
 "</html>";
+    }
+    
+    private String red_reg_be() {
+        String a = 
+                "<html>\n" +
+"    <head>\n" +
+"        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+"        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n" +
+"        <title>JSP Page</title>\n" +
+"    </head>\n" +
+"    <body>\n" +
+"    <CENTER>\n" +
+"        <h1 class=\"alert alert-primary\">Usuario Registrado</h1>\n" +
+"        <br>\n" +
+"        <text class=\"alert alert-success\">El usuario se ha registrado con exito</text>\n" +
+"        <br>\n" +
+"        <br>\n" +
+"        <input type=\"BUTTON\" value=\"Volver al menú\" class=\"btn btn-primary\" onclick=history.go(-2)>\n" +
+"    </CENTER>\n" +
+"    </body>\n" +
+"</html>";
+        return a;
     }
     
     private String error(String numero) {
