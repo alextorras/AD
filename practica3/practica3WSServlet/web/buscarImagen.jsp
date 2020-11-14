@@ -4,7 +4,7 @@
     Author     : Alejandro Capella
 --%>
 
-<%@page import="basedatos.callsSQL2"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

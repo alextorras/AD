@@ -7,7 +7,6 @@
 <%@page import="java.util.Base64"%>
 <%@page import="java.io.FileNotFoundException"%>
 <%@page import="java.nio.file.Files"%>
-<%@page import="basedatos.callsSQL2"%>
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.io.File"%>
@@ -16,7 +15,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
-    callsSQL2 db = new callsSQL2("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
     String user = null;
     if(session.getAttribute("user") == null){
                 response.sendRedirect("login.jsp");
@@ -68,6 +66,7 @@
 
             byte[] encodedBase64 = Base64.getEncoder().encode(contingut);
             String encoded = new String(encodedBase64, "UTF-8");
+            String descargar = Base64.getEncoder().encodeToString(contingut);
             encoded = "data:image/png;base64," + encoded;
             
             
@@ -120,6 +119,17 @@
                 <p>
                     <button type="submit" class="btn btn-secondary">Eliminar</button>
                 </p>  
+            </form>
+            <form action="descargarImagen.jsp" method="POST">
+                <input type="hidden" name="content" value="<%=descargar%>">
+                <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
+                <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
+                <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
+                <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
+                <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
+                <input type="hidden" name="id" value="<%= imagen.getId()%>">
+                <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
+                <input type="submit" value="Descargar" class="btn btn-info">
             </form>
                 <%
                     }

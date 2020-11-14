@@ -66,7 +66,7 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
     public int DeleteImage(@WebParam(name = "image") Image image) {
         //TODO write your implementation code here:
         boolean salt = false;
-        final String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
+        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
         try {
             db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
             int aux = image.getId();
@@ -96,7 +96,7 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
      */
     @WebMethod(operationName = "ListImage")
     public List ListImage() {
-        String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
+        String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
         List<Image> lista = null;
         List<Image> data = new ArrayList<Image>();
         try {
@@ -194,7 +194,7 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
         
         boolean salt = false;
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-        final String path = "D:\\Documentos\\NetBeansProjects\\AplicacionesDist\\practica3Server\\web\\imagenes";
+        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
 
         FileOutputStream ous = null;
         String nom = image.getFilename();
