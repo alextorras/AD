@@ -102,13 +102,13 @@ public class callsSQL {
         
         //try {
             boolean ok;
-            String consulta = "SELECT * from IMAGE where (title like '%'||?||'%')"
-                    + " OR (description like '%'||?||'%')"
-                    + " OR (keywords like '%'||?||'%')"
-                    + " OR (author like '%'||?||'%')"
-                    + " OR (creation_date like '%'||?||'%')"
-                    + " OR (storage_date like '%'||?||'%')"
-                    + " OR (filename like '%'||?||'%')";
+            String consulta = "SELECT * from IMAGE where (title like '%?%')"
+                    + " OR (description like '%?%')"
+                    + " OR (keywords like '%?%')"
+                    + " OR (author like '%?%')"
+                    + " OR (creation_date like '%?%')"
+                    + " OR (storage_date like '%?%')"
+                    + " OR (filename like '%?%')";
 
            statement = cn.prepareStatement(consulta);
             statement.setString(1,titol);

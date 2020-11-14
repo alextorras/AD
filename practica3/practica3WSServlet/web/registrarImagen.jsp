@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="basedatos.callsSQL2"%>
+
 <!DOCTYPE html>
 <%
     String user = null;
