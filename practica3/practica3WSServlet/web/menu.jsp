@@ -23,7 +23,9 @@
         <br>
         <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen" class="btn btn-dark" onclick="window.location.href='buscarImagen.jsp'">
         <br>
-        <br>        
+        <input type="BUTTON" style="margin-top: 10px" value="Buscar por ID" class="btn btn-dark" onclick="window.location.href='SearchbyId.jsp'">
+        <br>
+        <br>
         <input type="BUTTON" style="margin-top: 10px" value="Logout" class="btn btn-info" onclick="window.location.href='logout.jsp'">
         <br>
         <% /*<input type="BUTTON" style="margin-top: 10px" value="Eliminar Imagen" class="btn btn-info" onclick="window.location.href='eliminarImagen.jsp'"> */ %>

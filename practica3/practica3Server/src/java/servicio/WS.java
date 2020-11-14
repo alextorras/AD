@@ -155,8 +155,32 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
      */
     @WebMethod(operationName = "SearchbyId")
     public Image SearchbyId(@WebParam(name = "id") int id) {
-        //TODO write your implementation code here:
-        return null;
+      Image resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagenporId(id);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
     }
 
     /**
