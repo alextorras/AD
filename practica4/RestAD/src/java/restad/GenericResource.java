@@ -435,11 +435,61 @@ public class GenericResource {
     * @param id
     * @return
     */
-    @Path("searchID/{id}")
-    @GET
+    @Path("searchID")
+    @POST
     @Produces(MediaType.TEXT_HTML)
-    public String searchByID (@PathParam("id") int id) {
-        return null;
+    public String searchByID (@FormDataParam("id") int id) {
+   db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        Image resultados = null;
+        String a = null;
+        String b = null;
+        String c = null;
+        try {
+            resultados = db.buscarImagenporId(id);
+            if (resultados != null) {
+                a = "<!DOCTYPE html>\n"
+                        + "<html>\n"
+                        + "<head>\n"
+                        + "<title> Resultat </title>\n"
+                        + "<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\" integrity=\"sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z\" crossorigin=\"anonymous\">\n"
+                        + "</head>\n"
+                        + "<body>\n"
+                        + "<H1>Resultado de la búsqueda</H1></br>\n"
+                        + "<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>\n"
+                        + "<table>\n"
+                        + "<thead>\n"
+                        + "<tr>\n"
+                        + "<th scope=\"col\">id</th>\n"
+                        + "<th scope=\"col\">title</th>\n"
+                        + "<th scope=\"col\">description</th>\n"
+                        + "<th scope=\"col\">keywords</th>\n"
+                        + "<th scope=\"col\">author</th>\n"
+                        + "<th scope=\"col\">creation_date</th>\n"
+                        + "<th scope=\"col\">storage_date</th>\n"
+                        + "<th scope=\"col\">filename</th>\n"
+                        + "</tr>\n"
+                        + "</thead>\n"
+                        + "<tbody>\n";
+                
+                    b = "<tr>\n"
+                            + PrintImageData(resultados)
+                            + "</tr>\n";
+                
+                c = "</tbody>\n"
+                        + "</table>\n"
+                        + "</body>\n"
+                        + "</html>\n";
+                a.concat(b);
+                a.concat(c);
+            } else {
+                a = error("3");
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(GenericResource.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+        return a;
     }
     
     /**

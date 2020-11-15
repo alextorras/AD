@@ -23,6 +23,8 @@
         <br>
         <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen" class="btn btn-dark" onclick="window.location.href='buscarImagen.jsp'">
         <br>
+        <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen por Id" class="btn btn-dark" onclick="window.location.href='buscarImagenporId.jsp'">
+        <br>
         <input type="BUTTON" style="margin-top: 10px" value="Eliminar Imagen" class="btn-dark" onclick="window.location.href='eliminarImagen.jsp'">
         <br>        
         <input type="BUTTON" style="margin-top: 10px" value="Modificar Imagen" class="btn-dark" onclick="window.location.href='modificarImagen.jsp'">
