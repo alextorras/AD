@@ -7,23 +7,26 @@ package servicio;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.WebServiceRef;
 
 /**
  *
  * @author tuxis
  */
-@WebServlet(name = "SearchbyId", urlPatterns = {"/SearchbyId"})
-public class SearchbyId extends HttpServlet {
-private WS_Service service;
+@WebServlet(name = "buscarImagenporId", urlPatterns = {"/buscarImagenporId"})
+public class buscarImagenporId extends HttpServlet {
+
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/practica3Server/WS.wsdl")
+    private WS_Service service;
      private HttpSession lasesion;
      String user_aux;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

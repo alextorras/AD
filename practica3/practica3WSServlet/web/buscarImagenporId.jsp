@@ -1,6 +1,6 @@
 <%-- 
-    Document   : SearchbyId
-    Created on : 14-nov-2020, 19:39:40
+    Document   : buscarImagenporId
+    Created on : 14-nov-2020, 21:21:06
     Author     : tuxis
 --%>
 
@@ -20,7 +20,7 @@
         }else user = (String) session.getAttribute("user");        
     %>  
     
-        <form action="SearchbyId" method="GET">
+        <form action="buscarImagenporId" method="GET">
 
         <div class="container p-5">
             <div class="row">
@@ -32,8 +32,8 @@
                     <div class ="card-body" > 
 
                         <div class="form-group">
-                            <label for="titol">Id</label>
-                            <input type="text" class="form-control" class ="form-control" id="id" name="id"  placeholder="Introduce el Id">
+                            <label for="id">Id</label>
+                            <input type="text" class="form-control" class ="form-control" id = "id" name="id"  placeholder="Introduce el Id">
 
                         </div>
                        
