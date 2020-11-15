@@ -218,7 +218,7 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
         
         boolean salt = false;
         db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-        final String path = "C:\\Users\\admin\\Desktop\\Dani\\UPC\\AD\\practiques\\AD\\practica3\\practica3Server\\web\\imagenes";
+        final String path = "C:\\Users\\tuxis\\Documents\\ad\\AD\\practica3\\practica3Server\\web\\imagenes";
 
         FileOutputStream ous = null;
         String nom = image.getFilename();
