@@ -153,17 +153,33 @@ public class callsSQL {
             for (Boolean i : listParam) {
                 if (i == true) {
                     consulta = consulta + "(" + paramName.get(j) + " like '%?%')\n";
-
+                    if (j < tope)
+                        consulta = consulta + "OR ";
                 }
-                if (j < tope) {//si es igual a tope no coloca or
-                    consulta = consulta + "OR ";
-                }
+              
 
                 j++;
             }
         }
         return consulta;
     }
+ private boolean HayParam(List<Boolean>listParam){
+     int tope = 8;
+     int topetemporal = 0;
+     boolean res;
+     for (Boolean i : listParam) {
+            if (i == true) {
+                tope = topetemporal;
+            }
+            topetemporal++;
+        }
+   if (tope < 8)//hay parametros
+       res = true;
+        else res = false;
+        return res ;
+        
+            
+ }
  private String BuildQueryNumber(List<Boolean> listParam, List<String> paramName) {
         String consulta;
         int j = 0;
@@ -229,7 +245,7 @@ public class callsSQL {
 
         //try {
         boolean ok;
-        String consulta2;
+        //String consulta2;
         List<Boolean> listParam = null;
         List<String> paramName = null;
         List<String> paramValue = null;
@@ -237,7 +253,7 @@ public class callsSQL {
         paramName = buildParamString();
         paramValue = getListParamValue(titol, descripcio, keywords, autor, datac, datas, filename);
         String consulta = BuildQuery(listParam, paramName);
-        consulta2 = BuildQueryNumber(listParam,paramName);
+        //consulta2 = BuildQueryNumber(listParam,paramName);
         /*"SELECT * from IMAGE where (title like '%?%')"
                 + " OR (description like '%?%')"
                 + " OR (keywords like '%?%')"
@@ -246,7 +262,7 @@ public class callsSQL {
                 + " OR (storage_date like '%?%')"
                 + " OR (filename like '%?%')";
          */
-        statement2 = cn.prepareStatement(consulta2);
+        //statement2 = cn.prepareStatement(consulta2);
         statement = cn.prepareStatement(consulta);
         int j = 1;
         for (int i = 0; i < 7; i++) {
@@ -266,9 +282,9 @@ public class callsSQL {
         statement.setString(7, filename);
 */
         rs = statement.executeQuery();
-        rs2= statement2.executeQuery();
-        if(rs2.next()){
-        if(rs2.getInt("filas") == 0)
+        //rs2= statement2.executeQuery();
+        if(!HayParam(listParam))
+       
         {
         bilers = null;
         }
@@ -288,7 +304,7 @@ public class callsSQL {
             //
         }
         }
-        }
+        
         return bilers;
     
                 }
