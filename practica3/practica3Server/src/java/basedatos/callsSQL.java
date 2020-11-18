@@ -152,7 +152,7 @@ public class callsSQL {
             consulta = consulta + "where ";
             for (Boolean i : listParam) {
                 if (i == true) {
-                    consulta = consulta + "(" + paramName.get(j) + " like '%?%')\n";
+                    consulta = consulta + "(" + paramName.get(j) + " like '%'||?||'%')\n";
                     if (j < tope)
                         consulta = consulta + "OR ";
                 }
@@ -198,7 +198,7 @@ public class callsSQL {
             consulta = consulta + "where ";
             for (Boolean i : listParam) {
                 if (i == true) {
-                    consulta = consulta + "(" + paramName.get(j) + " like '%?%')\n";
+                    consulta = consulta + "(" + paramName.get(j) + " like '%'||'?'||'%')\n";
 
                 }
                 if (j < tope) {//no es el último parametro lleno
@@ -240,7 +240,7 @@ public class callsSQL {
         ResultSet rs = null;
         ResultSet rs2 = null;
         PreparedStatement statement = null;
-        PreparedStatement statement2 = null;
+        //PreparedStatement statement2 = null;
         
 
         //try {
@@ -268,7 +268,7 @@ public class callsSQL {
         for (int i = 0; i < 7; i++) {
             if (listParam.get(i) == true) {//parámetros activos
                 statement.setString(j,paramValue.get(i));
-                statement2.setString(j, paramValue.get(i));
+                //statement2.setString(j, paramValue.get(i));
                 j ++;
             }
         }

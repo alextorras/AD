@@ -25,6 +25,14 @@
         <br>
         <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen por Id" class="btn btn-dark" onclick="window.location.href='buscarImagenporId.jsp'">
         <br>
+         <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen por titulo" class="btn btn-dark" onclick="window.location.href='buscarImagenporTitulo.jsp'">
+        <br>
+        <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen por autor" class="btn btn-dark" onclick="window.location.href='buscarImagenporAutor.jsp'">
+        <br>
+        <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen por fecha creación" class="btn btn-dark" onclick="window.location.href='buscarImagenporDatac.jsp'">
+        <br>
+                 <input type="BUTTON" style="margin-top: 10px" value="Buscar Imagen por keywords" class="btn btn-dark" onclick="window.location.href='buscarImagenporTitulo.jsp'">
+        <br>
         <input type="BUTTON" style="margin-top: 10px" value="Eliminar Imagen" class="btn-dark" onclick="window.location.href='eliminarImagen.jsp'">
         <br>        
         <input type="BUTTON" style="margin-top: 10px" value="Modificar Imagen" class="btn-dark" onclick="window.location.href='modificarImagen.jsp'">

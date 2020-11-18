@@ -23,7 +23,7 @@
         final String path = "http://localhost:8080/RestAD/";
     %>  
     
-<form action="<%=path%>webresources/generic/MultiSearch"  method="POST" enctype="multipart/form-data">    
+<form action="<%=path%>webresources/generic/MultiSearch"  method="GET" enctype="multipart/form-data">    
         <div class="container p-5">
             <div class="row">
                 <div class="col-md-4 offset-md-4">

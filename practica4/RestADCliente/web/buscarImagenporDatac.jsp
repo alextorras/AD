@@ -1,6 +1,6 @@
 <%-- 
-    Document   : buscarImagenporId
-    Created on : 15-nov-2020, 13:45:21
+    Document   : buscarImagenporDatac
+    Created on : 18-nov-2020, 20:24:44
     Author     : tuxis
 --%>
 
@@ -31,20 +31,20 @@
             <div class="row">
                 <div class="col-md-4 offset-md-4">
                     <div class="card-header bg-dark text-white text-center">
-                        <h3>Buscar Imagen</h3>
+                        <h3>Buscar Imagen por fecha creación</h3>
                     </div>
 
                     <div class ="card-body" > 
 
                         <div class="form-group">
-                            <label for="id">Id</label>
-                            <input type="text" class="form-control" class ="form-control" id = "id" name="id"  placeholder="Introduce el Id">
+                            <label for="id">Data creación</label>
+                            <input type="date" class="form-control" class ="form-control" id = "datac" name="datac"  placeholder="Introduce la data de creación">
 
                         </div>
                                        <script>
         function getInputValue(){
             // Selecting the input element and get its value 
-            var inputVal = document.getElementById("id").value;
+            var inputVal = document.getElementById("datac").value;
             return inputVal;
             
             // Displaying the value
@@ -52,7 +52,7 @@
         }
         </script>
        
-                        <button type="button" class="btn btn-primary"onclick="window.location.href = 'http://localhost:8080/RestAD/webresources/generic/searchID/'+getInputValue()">Submit</button>
+                        <button type="button" class="btn btn-primary"onclick="window.location.href = 'http://localhost:8080/RestAD/webresources/generic/searchCreationDate/'+getInputValue()">Submit</button>
                         <button type="button" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">Menú</button>
                     </div>
                 </div>
