@@ -310,33 +310,35 @@ public class callsSQL {
                 }
 
     public Image buscarImagenporId(int id) throws SQLException {
-
+     
+     
         ResultSet rs = null;
         PreparedStatement statement = null;
-
+        
         //try {
-        boolean ok;
-        String consulta = "SELECT * from IMAGE where id = ?";
-        Image biler = new Image();
-        statement = cn.prepareStatement(consulta);
-        statement.setInt(1, id);
-
-        rs = statement.executeQuery();
-        if (rs.next()) {
-
-            biler.setId(rs.getInt("id"));
-            biler.setTitol(rs.getString("title"));
-            biler.setDescripcio(rs.getString("description"));
-            biler.setKeywords(rs.getString("keywords"));
-            biler.setAutor(rs.getString("author"));
-            biler.setDatac(rs.getString("creation_date"));
-            biler.setDatas(rs.getString("storage_date"));
-            biler.setFilename(rs.getString("filename"));
-
-            //
+            boolean ok;
+            String consulta = "SELECT * from IMAGE where id = ?";
+           List<Image> data = new ArrayList<>();
+           statement = cn.prepareStatement(consulta);
+            statement.setInt(1,id);
+            Image biler = new Image();
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                
+               
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                data.add(biler);
+                //
+            }
+            return biler;
         }
-        return biler;
-    }
 
     public List<Image> listarImagenes() throws SQLException {
         List<Image> data = new ArrayList<Image>();
