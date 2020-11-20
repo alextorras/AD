@@ -24,7 +24,7 @@
         
     %>  
     
-        <form method="GET" action="<%=path%>webresources/generic/searchID/id" id ="form1" enctype = "multipart/form-data">
+        <form  method="GET" action="buscarImagenporAutor" id ="form1" >
             
 
         <div class="container p-5">
@@ -41,18 +41,9 @@
                             <input type="text" class="form-control" class ="form-control" id = "autor" name="autor"  placeholder="Introduce el autor">
 
                         </div>
-                                       <script>
-        function getInputValue(){
-            // Selecting the input element and get its value 
-            var inputVal = document.getElementById("autor").value;
-            return inputVal;
-            
-            // Displaying the value
-           
-        }
-        </script>
+                       
        
-                        <button type="button" class="btn btn-primary"onclick="window.location.href = 'http://localhost:8080/RestAD/webresources/generic/searchAuthor/'+getInputValue()">Submit</button>
+                         <button type="submit" class="btn btn-primary">Submit</button>
                         <button type="button" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">Menú</button>
                     </div>
                 </div>

@@ -52,6 +52,11 @@ public class Practica3WS_Client_Application
                 + "2 - Listar imagen \n"
                 + "3 - Buscar imagen \n"
                 + "4 - Eliminar imagen \n"
+                + "6 - buscar imagen por ID \n"
+                    + "7 - buscar imagen por titulo \n"
+                   + "8 -  buscar imagen por keyword \n"
+                    + "9 - buscar imagen por autor \n"
+                     + "10 - buscar imagen por fecha creación\n"
                 + "5 - Salir de la sessión");
         String num = null;
         while(!sortir) {
@@ -72,6 +77,27 @@ public class Practica3WS_Client_Application
                 eliminarImagen();
                 primer_cop = false;
             }
+            else if (num.equals("6")) {
+                buscarImagenporId();
+                primer_cop = false;
+            }
+            else if (num.equals("7")) {
+                buscarImagenporTitulo();
+                primer_cop = false;
+            }
+            else if (num.equals("8")) {
+                buscarImagenporKeywords();
+                primer_cop = false;
+            }
+            else if (num.equals("9")) {
+               buscarImagenporAutor();
+                primer_cop = false;
+            }
+            else if (num.equals("10")) {
+               buscarImagenporDatac();
+                primer_cop = false;
+            }
+            
             else if(num.equals("5")) {
                 sortir = true;
             }
@@ -84,6 +110,11 @@ public class Practica3WS_Client_Application
                     + "2 - Listar imagen \n"
                     + "3 - Buscar imagen \n"
                     + "4 - Eliminar imagen \n"
+                    + "6 - buscar imagen por ID \n"
+                    + "7 - buscar imagen por titulo \n"
+                   + "8 -  buscar imagen por keyword \n"
+                    + "9 - buscar imagen por autor \n"
+                     + "10 - buscar imagen por fecha creación\n"
                     + "5 - Salir de la sessión");
         }
         if(sortir) System.out.println("La ejecución del programa ha finalizado");
@@ -195,7 +226,6 @@ public class Practica3WS_Client_Application
                 PrintImageData(i);
         }
     }
-    
     public static void buscarImagen() {
         System.out.println("Has escogido buscar Imagen");
         System.out.println("Ve introduciendo campo por campo los campos por los que quieres buscar, si no quiere introducir algún campo simplemente pulse enter");
@@ -243,7 +273,189 @@ public class Practica3WS_Client_Application
             }
         }
     }
+    public static void buscarImagenporAutor() {
+        System.out.println("Has escogido buscar Imagen por Autor");
+        System.out.println("Ve introduciendo el Autor, primero pulse enter");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        List<Image> resultados = null;
+       
+         System.out.println("Que autor tiene tu imagen");
+        String autor = sc.nextLine();
+        
+        resultados = (List<Image>)(Object)searchbyAuthor(autor);
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
+        
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+    }
+    public static void buscarImagenporId() {
+        System.out.println("Has escogido buscar Imagen por Id");
+        System.out.println("Ve introduciendo el id");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        Image resultados = null;
+        System.out.println("¿Que id tiene su imagen?");
+        int id = Integer.parseInt(sc.nextLine());
+        
+        resultados = searchbyId(id);
+              
+                PrintImageData(resultados);
+        
+        
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+    }
+    public static void buscarImagenporDatac() {
+        System.out.println("Has escogido buscar Imagen");
+        System.out.println("Ve introducciendo la fecha de creación,primero pulsa enter");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        List<Image> resultados = null;
+      
+         System.out.println("Que data de creación tiene tu imagen ");
+        String datacreation = sc.nextLine();
+         
+        resultados = (List<Image>)(Object)searchbyCreaDate(datacreation);
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
+        
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+    }
+    public static void buscarImagenporKeywords() {
+        System.out.println("Has escogido buscar Imagen por Keywords");
+        System.out.println("Ve introduciendo las keywords, pulse enter primro");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        List<Image> resultados = null;
+        System.out.println("¿Que keywords tiene su imagen");
+        String keywords = sc.nextLine();
     
+        resultados = (List<Image>)(Object)searchbyKeyword(keywords);
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
+        
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+    }
+    public static void buscarImagenporTitulo() {
+        System.out.println("Has escogido buscar Imagen por titulo");
+        System.out.println("Ve introduciendo el titulo,pulsa enter");
+        Scanner sc = new Scanner(System.in);
+        String nombre_fichero = sc.nextLine();
+        List<Image> resultados = null;
+        System.out.println("¿Que título tiene tu imagen?");
+        String titol = sc.nextLine();
+        
+ 
+        resultados = (List<Image>)(Object)searchbyTitle(titol);
+        for (Image i : resultados) {        
+                PrintImageData(i);
+        }
+        
+       
+
+        System.out.println("Quieres salir de la session? \n"
+                + "1 - Si \n"
+                + "2 - No");
+        boolean entrat = false;
+        String s = null;
+        while(!entrat) {
+            s = sc.nextLine();
+            if(s.equals("1")) {
+                sortir = true;
+                entrat = true;
+            }
+            else if(s.equals("2")){
+                sortir = false;
+                entrat = true;
+            }
+            if(!s.equals("1") || !s.equals("2")) {
+                System.out.println("Introduzca valor correcto");
+            }
+        }
+    }
     private static void PrintImageData(Image i)
     {
         System.out.println("ID: " + i.getId()+"\t Titulo: "+i.getTitol()+"\t Descripcion: "+i.getDescripcio()+"\t Keywords: "+i.getKeywords()+"\t Autor: "
@@ -327,6 +539,36 @@ public class Practica3WS_Client_Application
         servicio.WS_Service service = new servicio.WS_Service();
         servicio.WS port = service.getWSPort();
         return port.comprobaUser(user);
+    }
+
+    private static java.util.List<java.lang.Object> searchbyAuthor(java.lang.String author) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.searchbyAuthor(author);
+    }
+
+    private static java.util.List<java.lang.Object> searchbyCreaDate(java.lang.String creaDate) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.searchbyCreaDate(creaDate);
+    }
+
+    private static java.util.List<java.lang.Object> searchbyTitle(java.lang.String title) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.searchbyTitle(title);
+    }
+
+    private static java.util.List<java.lang.Object> searchbyKeyword(java.lang.String keyword) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.searchbyKeyword(keyword);
+    }
+
+    private static Image searchbyId(int id) {
+        servicio.WS_Service service = new servicio.WS_Service();
+        servicio.WS port = service.getWSPort();
+        return port.searchbyId(id);
     }
 
 }

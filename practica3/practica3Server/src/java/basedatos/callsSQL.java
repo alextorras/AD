@@ -339,7 +339,126 @@ public class callsSQL {
             }
             return biler;
         }
-
+public List<Image> buscarImagenporTitulo(String titulo) throws SQLException {
+     
+     
+        ResultSet rs = null;
+        PreparedStatement statement = null;
+        
+        //try {
+            boolean ok;
+            String consulta = "SELECT * from IMAGE where title like '%'||?||'%'";
+           List<Image> data = new ArrayList<>();
+           statement = cn.prepareStatement(consulta);
+            statement.setString(1,titulo);
+     
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Image biler = new Image();
+               
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                data.add(biler);
+                //
+            }
+            return data;
+        }
+     public List<Image> buscarImagenporAutor(String autor) throws SQLException {
+     
+     
+        ResultSet rs = null;
+        PreparedStatement statement = null;
+        
+        //try {
+            boolean ok;
+            String consulta = "SELECT * from IMAGE where author like '%'||?||'%'";
+           List<Image> data = new ArrayList<>();
+           statement = cn.prepareStatement(consulta);
+            statement.setString(1,autor);
+     
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Image biler = new Image();
+               
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                data.add(biler);
+                //
+            }
+            return data;
+        }
+      public List<Image> buscarImagenporDatac(String datac) throws SQLException {
+     
+     
+        ResultSet rs = null;
+        PreparedStatement statement = null;
+        
+        //try {
+            boolean ok;
+            String consulta = "SELECT * from IMAGE where creation_date like '%'||?||'%'";
+           List<Image> data = new ArrayList<>();
+           statement = cn.prepareStatement(consulta);
+            statement.setString(1,datac);
+     
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Image biler = new Image();
+               
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                data.add(biler);
+                //
+            }
+            return data;
+        }
+     public List<Image> buscarImagenporKeywords(String keywords) throws SQLException {
+     
+     
+        ResultSet rs = null;
+        PreparedStatement statement = null;
+        
+        //try {
+            boolean ok;
+            String consulta = "SELECT * from IMAGE where keywords like '%'||?||'%'";
+           List<Image> data = new ArrayList<>();
+           statement = cn.prepareStatement(consulta);
+            statement.setString(1,keywords);
+     
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                Image biler = new Image();
+               
+                biler.setId(rs.getInt("id"));
+                biler.setTitol(rs.getString("title"));
+                biler.setDescripcio(rs.getString("description"));
+                biler.setKeywords(rs.getString("keywords"));
+                biler.setAutor(rs.getString("author"));
+                biler.setDatac(rs.getString("creation_date"));
+                biler.setDatas(rs.getString("storage_date"));
+                biler.setFilename(rs.getString("filename"));
+                data.add(biler);
+                //
+            }
+            return data;
+        }
     public List<Image> listarImagenes() throws SQLException {
         List<Image> data = new ArrayList<Image>();
         PreparedStatement getImages = cn.prepareStatement("SELECT * FROM image ORDER BY creation_date DESC");

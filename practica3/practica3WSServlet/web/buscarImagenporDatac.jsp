@@ -24,7 +24,7 @@
         
     %>  
     
-        <form method="GET" action="<%=path%>webresources/generic/searchID/id" id ="form1" enctype = "multipart/form-data">
+        <form method="GET" action="buscarImagenporDatac" id ="form1" >
             
 
         <div class="container p-5">
@@ -41,19 +41,10 @@
                             <input type="date" class="form-control" class ="form-control" id = "datac" name="datac"  placeholder="Introduce la data de creación">
 
                         </div>
-                                       <script>
-        function getInputValue(){
-            // Selecting the input element and get its value 
-            var inputVal = document.getElementById("datac").value;
-            return inputVal;
-            
-            // Displaying the value
-           
-        }
-        </script>
+                                   
        
-                        <button type="button" class="btn btn-primary"onclick="window.location.href = 'http://localhost:8080/RestAD/webresources/generic/searchCreationDate/'+getInputValue()">Submit</button>
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">Menú</button>
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <button type="button" class="btn btn-secondary" onclick="window.location.href='menu.jsp'">Menú</button>
                     </div>
                 </div>
             </div>
