@@ -57,7 +57,7 @@ public class buscarImagen extends HttpServlet {
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
-            String datas = request.getParameter("datasubida");
+            String datas = request.getParameter("dataSubida");
             String filename = request.getParameter("filename");
             
             resultados = (List<Image>)(Object)multiSearch(titol, descripcio, keywords, autor, datac, datas, filename);

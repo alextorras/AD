@@ -67,7 +67,7 @@ public class buscarImagen extends HttpServlet {
             String keywords = request.getParameter("keywords");
             String autor = request.getParameter("autor");
             String datac = request.getParameter("datacreation");
-            String datas = request.getParameter("datasubida");
+            String datas = request.getParameter("dataSubida");
             String filename = request.getParameter("filename");
             resultados = database.buscarImagen(titol, descripcio, keywords, autor, datac, datas, filename);
             out.println("<td><a href=\"menu.jsp\" style=\"float: right\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Menú</a>\n" + "</td>");

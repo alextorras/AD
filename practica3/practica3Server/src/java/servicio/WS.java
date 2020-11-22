@@ -155,8 +155,32 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
      */
     @WebMethod(operationName = "SearchbyId")
     public Image SearchbyId(@WebParam(name = "id") int id) {
-        //TODO write your implementation code here:
-        return null;
+      Image resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagenporId(id);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
     }
 
     /**
@@ -165,7 +189,32 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
     @WebMethod(operationName = "SearchbyTitle")
     public List SearchbyTitle(@WebParam(name = "title") String title) {
         //TODO write your implementation code here:
-        return null;
+   List<Image> resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagenporTitulo(title);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
     }
 
     /**
@@ -174,7 +223,32 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
     @WebMethod(operationName = "SearchbyCreaDate")
     public List SearchbyCreaDate(@WebParam(name = "creaDate") String creaDate) {
         //TODO write your implementation code here:
-        return null;
+    List<Image> resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagenporDatac(creaDate);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
     }
 
     /**
@@ -183,7 +257,32 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
     @WebMethod(operationName = "SearchbyAuthor")
     public List SearchbyAuthor(@WebParam(name = "author") String author) {
         //TODO write your implementation code here:
-        return null;
+     List<Image> resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagenporAutor(author);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
     }
 
     /**
@@ -337,6 +436,39 @@ public int ModifyImage(@WebParam(name = "image") Image image) {
             }
         }
         return entra;
+    }
+
+    /**
+     * Web service operation
+     */
+    @WebMethod(operationName = "SearchbyKeyword")
+    public List SearchbyKeyword(@WebParam(name = "keyword") String keyword) {
+   List<Image> resultados = null;
+        try{
+        
+        db = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
+        resultados = db.buscarImagenporKeywords(keyword);
+        
+         } catch (SQLException e) {
+             codi_error = 1;
+             System.out.println("La causa del error es: " + e.getCause());
+            //e.printStackTrace();
+            
+            // lasesion.setAttribute("codigo", "1");
+            
+        } 
+        
+        finally
+        {
+            try {
+                db.cerrarConexion();
+                
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+           
+        }
+     return resultados;
     }
 
 
