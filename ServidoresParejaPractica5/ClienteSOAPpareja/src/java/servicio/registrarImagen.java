@@ -56,7 +56,7 @@ public class registrarImagen extends HttpServlet {
         PrintWriter out = null;
         Imagen i = null;
         HttpSession s = request.getSession();
-        final String path = "C:\\Users\\tuxis\\Documents\\ad\\AD\\practica3\\practica3Server\\web\\imagenes";
+        final String path = "C:\\Users\\tuxis\\Documents\\ad\\AD\\ServidoresParejaPractica5\\AD-LAB3-WebService-master\\web\\images";
         
         String usuari = (String) s.getAttribute("user");
         
