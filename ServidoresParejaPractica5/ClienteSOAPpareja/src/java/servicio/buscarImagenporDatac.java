@@ -55,7 +55,7 @@ public class buscarImagenporDatac extends HttpServlet {
             }
 
             //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            List<imagen> resultados = null;
+            List<Imagen> resultados = null;
             //resultados = null;
             String datac = request.getParameter("datac");
             

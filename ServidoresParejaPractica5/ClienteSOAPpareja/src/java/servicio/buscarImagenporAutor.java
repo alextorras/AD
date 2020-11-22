@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceRef;
+import pr3.Imagen;
 import pr3.Pr3_Service;
 
 /**
@@ -55,7 +56,7 @@ public class buscarImagenporAutor extends HttpServlet {
             }
 
             //database = new callsSQL("jdbc:derby://localhost:1527/pr2;user=pr2;password=pr2");
-            List<imagen> resultados = null;
+            List<Imagen> resultados = null;
             //resultados = null;
             String autor = request.getParameter("autor");
             
@@ -128,62 +129,7 @@ public class buscarImagenporAutor extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    private void PrintImageData(imagen im, PrintWriter out) {
-        lasesion.setAttribute("idImage", im.getId());
-        lasesion.setAttribute("name", im.getFilename());
-        out.println("<th scope=\"row\" value=\"" + im.getId() + "\"> " + im.getId() + " </th>");
-        out.println("<td name=\"titol\" value=\"" + im.getTitol() + "\">" + im.getTitol() + "</td>");
-        out.println("<td name=\"descripcio\" value=\"" + im.getDescripcio() + "\"> " + im.getDescripcio() + " </td>");
-        out.println("<td name=\"keywords\" value=\"" + im.getKeywords() + "\">" + im.getKeywords() + "</td>");
-        out.println("<td name=\"autor\" value=\"" + im.getAutor() + "\">" + im.getAutor() + "</td>");
-        out.println("<td name=\"datac\" value=\"" + im.getDatac() + "\"> " + im.getDatac() + "</td>");
-        out.println("<td name=\"datas\" value=\"" + im.getDatas() + "\"> " + im.getDatas() + "</td>");
-        out.println("<td name=\"nom\" value=\"" + im.getFilename() +"\"> " + im.getFilename() +"</td>");
-        out.println("<form action=\"modificarImagen.jsp\" method=\"POST\">");
-         
-                            
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getTitol()+"\">");
-        out.println("<input type=\"hidden\" name=\"descripcio\" value =\""+im.getDescripcio()+"\">");
-        out.println("<input type=\"hidden\" name=\"datac\" value =\""+im.getDatac()+"\">");
-        out.println("<input type=\"hidden\" name=\"keywords\" value =\""+im.getKeywords()+"\">");
-        out.println("<input type=\"hidden\" name=\"autor\" value =\""+im.getAutor()+"\">");
-        out.println("<input type=\"hidden\" name=\"id\" value =\""+im.getId()+"\">");
-        out.println("<input type=\"hidden\" name=\"filename\" value =\""+im.getFilename()+"\">");
-                           
-                
-                      
-        
-        if(im.getAutor().equals(user_aux)) {
-        out.println("<td><button type=\"submit\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
-        }
-        else {
-          out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
-        }                  
-        out.println("</form>");        
-        out.println("<form action=\"eliminarImagen.jsp\" method=\"POST\">"); 
-                            
-        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getTitol()+"\">");
-        out.println("<input type=\"hidden\" name=\"descripcio\" value =\""+im.getDescripcio()+"\">");
-        out.println("<input type=\"hidden\" name=\"datac\" value =\""+im.getDatac()+"\">");
-        out.println("<input type=\"hidden\" name=\"keywords\" value =\""+im.getKeywords()+"\">");
-        out.println("<input type=\"hidden\" name=\"autor\" value =\""+im.getAutor()+"\">");
-        out.println("<input type=\"hidden\" name=\"id\" value =\""+im.getId()+"\">");
-        out.println("<input type=\"hidden\" name=\"filename\" value =\""+im.getFilename()+"\">");
-        
-        if(im.getAutor().equals(user_aux))
-        {
-            out.println("<td><button type=\"submit\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
-        }
-        else 
-        {
-
-          out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
-        }      
-        out.println("</form>");
-        }
-
-    
-    private void sendResponse(List<imagen> resultados,PrintWriter out)
+       private void sendResponse(List<Imagen> resultados,PrintWriter out)
     {    
          out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -212,7 +158,7 @@ public class buscarImagenporAutor extends HttpServlet {
             out.println("</tr>");
             out.println("</thead>");
             out.println("<tbody>");
-            for (imagen i : resultados) {
+            for (Imagen i : resultados) {
                 out.println("<tr>");
                 PrintImageData(i,out);
                 out.println("</tr>");
@@ -222,6 +168,61 @@ public class buscarImagenporAutor extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
     }
+ private void PrintImageData(Imagen im, PrintWriter out) {
+        lasesion.setAttribute("idImage", im.getId());
+        lasesion.setAttribute("name", im.getFilename());
+        out.println("<th scope=\"row\" value=\"" + im.getId() + "\"> " + im.getId() + " </th>");
+        out.println("<td name=\"titol\" value=\"" + im.getTitle() + "\">" + im.getTitle() + "</td>");
+        out.println("<td name=\"descripcio\" value=\"" + im.getDescription() + "\"> " + im.getDescription() + " </td>");
+        out.println("<td name=\"keywords\" value=\"" + im.getKeywords() + "\">" + im.getKeywords() + "</td>");
+        out.println("<td name=\"autor\" value=\"" + im.getAuthor() + "\">" + im.getAuthor() + "</td>");
+        out.println("<td name=\"datac\" value=\"" + im.getCreationDate() + "\"> " + im.getCreationDate() + "</td>");
+        out.println("<td name=\"datas\" value=\"" + im.getStorageDate() + "\"> " + im.getStorageDate() + "</td>");
+        out.println("<td name=\"nom\" value=\"" + im.getFilename() +"\"> " + im.getFilename() +"</td>");
+        out.println("<form action=\"modificarImagen.jsp\" method=\"POST\">");
+         
+                            
+        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getTitle()+"\">");
+        out.println("<input type=\"hidden\" name=\"descripcio\" value =\""+im.getDescription()+"\">");
+        out.println("<input type=\"hidden\" name=\"datac\" value =\""+im.getCreationDate()+"\">");
+        out.println("<input type=\"hidden\" name=\"keywords\" value =\""+im.getKeywords()+"\">");
+        out.println("<input type=\"hidden\" name=\"autor\" value =\""+im.getAuthor()+"\">");
+        out.println("<input type=\"hidden\" name=\"id\" value =\""+im.getId()+"\">");
+        out.println("<input type=\"hidden\" name=\"filename\" value =\""+im.getFilename()+"\">");
+                           
+                
+                      
+        
+        if(im.getAuthor().equals(user_aux)) {
+        out.println("<td><button type=\"submit\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
+        }
+        else {
+          out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Modificar Imagen</a>\n" + "</td>");
+        }                  
+        out.println("</form>");        
+        out.println("<form action=\"eliminarImagen.jsp\" method=\"POST\">"); 
+                            
+        out.println("<input type=\"hidden\" name=\"titol\" value =\""+im.getTitle()+"\">");
+        out.println("<input type=\"hidden\" name=\"descripcio\" value =\""+im.getDescription()+"\">");
+        out.println("<input type=\"hidden\" name=\"datac\" value =\""+im.getCreationDate()+"\">");
+        out.println("<input type=\"hidden\" name=\"keywords\" value =\""+im.getKeywords()+"\">");
+        out.println("<input type=\"hidden\" name=\"autor\" value =\""+im.getAuthor()+"\">");
+        out.println("<input type=\"hidden\" name=\"id\" value =\""+im.getId()+"\">");
+        out.println("<input type=\"hidden\" name=\"filename\" value =\""+im.getFilename()+"\">");
+        
+        if(im.getAuthor().equals(user_aux))
+        {
+            out.println("<td><button type=\"submit\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+        }
+        else 
+        {
+
+          out.println("<td><a class=\"btn btn-primary btn-lg disabled\" role=\"button\" aria-pressed=\"true\">Eliminar Imagen</a>\n" + "</td>");
+        }      
+        out.println("</form>");
+        }
+
+ 
 
     private java.util.List<pr3.Imagen> searchbyAuthor(java.lang.String autor) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
