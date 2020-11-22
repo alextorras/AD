@@ -39,8 +39,7 @@ public class registrarImagen extends HttpServlet {
     @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/pr3/pr3.wsdl")
     private Pr3_Service service_1;
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/pr3WebService/WS.wsdl")
-    private WS_Service service;
+   
      
 
     /**

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.WebServiceRef;
 import pr3.Imagen;
+import pr3.Pr3_Service;
 
 /**
  *
@@ -24,8 +25,10 @@ import pr3.Imagen;
 @WebServlet(name = "buscarImagenporDatac", urlPatterns = {"/buscarImagenporDatac"})
 public class buscarImagenporDatac extends HttpServlet {
 
-    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/practica3Server/WS.wsdl")
-    private WS_Service service;
+    @WebServiceRef(wsdlLocation = "WEB-INF/wsdl/localhost_8080/pr3/pr3.wsdl")
+    private Pr3_Service service;
+
+   
 
     
      private HttpSession lasesion;
@@ -221,13 +224,15 @@ public class buscarImagenporDatac extends HttpServlet {
         out.println("</form>");
         }
 
- 
-    private java.util.List<java.lang.Object> searchbyCreaDate(java.lang.String creaDate) {
+    private java.util.List<pr3.Imagen> searchbyCreaDate(java.lang.String date) {
         // Note that the injected javax.xml.ws.Service reference as well as port objects are not thread safe.
         // If the calling of port operations may lead to race condition some synchronization is required.
-        servicio.WS port = service.getWSPort();
-        return port.searchbyCreaDate(creaDate);
+        pr3.Pr3 port = service.getPr3Port();
+        return port.searchbyCreaDate(date);
     }
+
+ 
+   
 
   
    
