@@ -1,0 +1,10 @@
+classes\callsSQL.class
+classes\imagenData.class
+classes\registrarUsuario.class
+classes\buscarImagen.class
+classes\ConsultaBase.class
+classes\eliminarImagen.class
+classes\logout.class
+classes\login.class
+classes\registrarImagen.class
+classes\modificarImagen.class
