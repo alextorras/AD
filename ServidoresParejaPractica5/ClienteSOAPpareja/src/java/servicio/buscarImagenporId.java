@@ -28,6 +28,8 @@ public class buscarImagenporId extends HttpServlet {
     private Pr3_Service service;
 
    
+
+   
      private HttpSession lasesion;
      String user_aux;
 
@@ -226,6 +228,8 @@ public class buscarImagenporId extends HttpServlet {
         pr3.Pr3 port = service.getPr3Port();
         return port.searchbyId(id);
     }
+
+   
 
    
 

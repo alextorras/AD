@@ -4,13 +4,14 @@
     Author     : Àlex
 --%>
 
+<%@page import="pr3.Pr3_Service"%>
 <%@page import="java.util.Base64"%>
 <%@page import="java.io.FileNotFoundException"%>
 <%@page import="java.nio.file.Files"%>
 <%@page import="java.io.FileOutputStream"%>
 <%@page import="java.io.OutputStream"%>
 <%@page import="java.io.File"%>
-<%@page import="servicio.Image"%>
+<%@page import="pr3.Imagen"%>
 <%@page import="java.util.Iterator"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -38,11 +39,12 @@
         <%-- start web service invocation --%><hr/>
     <%
     try {
-	servicio.WS_Service service = new servicio.WS_Service();
-	servicio.WS port = service.getWSPort();
+         Pr3_Service service = new Pr3_Service();
+	pr3.Pr3 port = service.getPr3Port();
+               
         
-	java.util.List<java.lang.Object> result = port.listImage();
-        Iterator<Object> it = result.iterator();
+	java.util.List<pr3.Imagen>result = port.listImages();
+        Iterator<pr3.Imagen> it = result.iterator();
         
         if (!it.hasNext()) { %>
         <center>
@@ -57,12 +59,12 @@
         byte[] contingut = null;
         
         String aux = System.getProperty("user.dir"); 
-        Image imagen = null;
+        Imagen imagen = null;
         String actual = null;
         while(it.hasNext()) {
             contingut = new byte[1024];
-            imagen = (Image) it.next();
-            contingut = imagen.getContenido();
+            imagen = (Imagen) it.next();
+            contingut = imagen.getEncodedData().getBytes();
 
             byte[] encodedBase64 = Base64.getEncoder().encode(contingut);
             String encoded = new String(encodedBase64, "UTF-8");
@@ -79,13 +81,13 @@
                 <img id="imatge reg" src="<%=encoded%>" width="200" height="200">
                     </th>
                     <th style="text-align: left" style="width: 20px;">
-                        Titulo: <text style="font-weight: lighter"><%=imagen.getTitol()%></text>
+                        Titulo: <text style="font-weight: lighter"><%=imagen.getTitle()%></text>
                         <br>
-                        Fecha creación: <text style="font-weight: lighter"><%=imagen.getDatac()%></text>
+                        Fecha creación: <text style="font-weight: lighter"><%=imagen.getCreationDate()%></text>
                         <br>
-                        Descripcion: <text style="font-weight: lighter"><%=imagen.getDescripcio()%></text>
+                        Descripcion: <text style="font-weight: lighter"><%=imagen.getDescription()%></text>
                         <br>
-                        Autor: <text style="font-weight: lighter"><%=imagen.getAutor()%></text>
+                        Autor: <text style="font-weight: lighter"><%=imagen.getAuthor()%></text>
                         <br>
                         Keywords: <text style="font-weight: lighter"><%=imagen.getKeywords()%></text>
                     </th>
@@ -94,14 +96,14 @@
             </table>
             </ul>
             <% 
-                if(imagen.getAutor().equals(user)) {
+                if(imagen.getAuthor().equals(user)) {
             %>
             <form action="modificarImagen.jsp" method="POST">               
-                <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
-                <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
-                <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
+                <input type="hidden" name="titol" value ="<%=imagen.getTitle()%>">
+                <input type="hidden" name="descripcio" value ="<%=imagen.getDescription()%>">
+                <input type="hidden" name="datac" value ="<%=imagen.getCreationDate()%>">
                 <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
-                <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
+                <input type="hidden" name="autor" value ="<%=imagen.getAuthor() %>">
                 <input type="hidden" name="id" value="<%= imagen.getId()%>">
                 <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                 <p>
@@ -109,11 +111,11 @@
                 </p>
             </form>
                 <form action="eliminarImagen.jsp" method="POST">
-                <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
-                <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
-                <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
+                <input type="hidden" name="titol" value ="<%=imagen.getTitle()%>">
+                <input type="hidden" name="descripcio" value ="<%=imagen.getDescription()%>">
+                <input type="hidden" name="datac" value ="<%=imagen.getCreationDate()%>">
                 <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
-                <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
+                <input type="hidden" name="autor" value ="<%=imagen.getAuthor() %>">
                 <input type="hidden" name="id" value="<%= imagen.getId()%>">
                 <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                 <p>
@@ -122,11 +124,11 @@
             </form>
             <form action="descargarImagen.jsp" method="POST">
                 <input type="hidden" name="content" value="<%=descargar%>">
-                <input type="hidden" name="titol" value ="<%=imagen.getTitol()%>">
-                <input type="hidden" name="descripcio" value ="<%=imagen.getDescripcio()%>">
-                <input type="hidden" name="datac" value ="<%=imagen.getDatac() %>">
+                <input type="hidden" name="titol" value ="<%=imagen.getTitle()%>">
+                <input type="hidden" name="descripcio" value ="<%=imagen.getDescription()%>">
+                <input type="hidden" name="datac" value ="<%=imagen.getCreationDate()%>">
                 <input type="hidden" name="keywords" value ="<%=imagen.getKeywords()%>">
-                <input type="hidden" name="autor" value ="<%=imagen.getAutor() %>">
+                <input type="hidden" name="autor" value ="<%=imagen.getAuthor() %>">
                 <input type="hidden" name="id" value="<%= imagen.getId()%>">
                 <input type="hidden" name="filename" value="<%=imagen.getFilename()%>">
                 <input type="submit" value="Descargar" class="btn btn-info">
